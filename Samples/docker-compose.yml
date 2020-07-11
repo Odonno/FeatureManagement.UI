@@ -1,0 +1,40 @@
+version: "3.8"
+services:
+  web:
+    build:
+      context: Front
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=development
+    ports:
+      - 3000:3000
+    volumes:
+      - ./Front:/usr/app
+      - /usr/app/node_modules
+      - /usr/app/.next
+    depends_on:
+      - api
+  api:
+    build: 
+      context: Back
+      dockerfile: Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://*:5001
+    ports:
+      - 5001:5001
+    volumes:
+      - ./Back:/usr/app
+    depends_on:
+      - db
+  db:
+    build: 
+      context: Data
+      dockerfile: Dockerfile
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "sampl3-db"
+    ports:
+      - 1433:1433
+    volumes:
+      - ./Data:/usr/config
