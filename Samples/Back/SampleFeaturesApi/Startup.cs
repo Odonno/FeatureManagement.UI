@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SampleFeaturesApi.FeatureManagement;
+using SampleFeaturesApi.FeatureManagement.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace SampleFeaturesApi
 {
@@ -17,6 +20,13 @@ namespace SampleFeaturesApi
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddFeatures(c =>
+            {
+                c.AddSqlServerStorage(Configuration.GetConnectionString("DefaultConnection"))
+                    .Feature("Beta", true)
+                    .Feature("DarkTheme");
+            });
+
             services.AddControllers();
         }
 
@@ -32,6 +42,8 @@ namespace SampleFeaturesApi
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseFeatures();
 
             app.UseEndpoints(endpoints =>
             {
