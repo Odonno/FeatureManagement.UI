@@ -1,15 +1,21 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using SampleFeaturesApi.FeatureManagement.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SampleFeaturesApi.FeatureManagement
 {
     public static class SettingsExtensions
     {
+        public static Settings AddInMemoryStorage(this Settings settings)
+        {
+            settings.Services.AddDbContext<FeatureManagementDb>(options =>
+            {
+                options.UseInMemoryDatabase("FeatureManagement");
+            });
+
+            return settings;
+        }
+
         public static Settings AddSqlServerStorage(this Settings settings, string connectionString)
         {
             settings.Services.AddDbContext<FeatureManagementDb>(options =>

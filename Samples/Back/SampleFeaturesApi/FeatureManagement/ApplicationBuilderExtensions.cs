@@ -19,8 +19,9 @@ namespace SampleFeaturesApi.FeatureManagement
                 var logger = scope.ServiceProvider.GetRequiredService<ILogger<FeatureManagementDb>>();
 
                 // Apply migrations
-                bool hasPendingMigrations = context.Database.GetPendingMigrations().Any();
-                bool shouldMigrate = hasPendingMigrations;
+                bool isInMemory = context.Database.IsInMemory();
+                bool hasPendingMigrations = !isInMemory && context.Database.GetPendingMigrations().Any();
+                bool shouldMigrate = !isInMemory && hasPendingMigrations;
 
                 if (shouldMigrate)
                 {
