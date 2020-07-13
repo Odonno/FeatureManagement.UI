@@ -12,9 +12,11 @@ namespace SampleFeaturesApi.FeatureManagement
     {
         public static IApplicationBuilder UseFeatures(this IApplicationBuilder app)
         {
-            using (var scope = app.ApplicationServices.GetRequiredService<IServiceProvider>().CreateScope())
+            var serviceProvider = app.ApplicationServices.GetRequiredService<IServiceProvider>();
+
+            using (var scope = serviceProvider.CreateScope())
+            using (var context = scope.ServiceProvider.GetRequiredService<FeatureManagementDb>())
             {
-                var context = scope.ServiceProvider.GetRequiredService<FeatureManagementDb>();
                 var settings = scope.ServiceProvider.GetRequiredService<Settings>();
                 var logger = scope.ServiceProvider.GetRequiredService<ILogger<FeatureManagementDb>>();
 

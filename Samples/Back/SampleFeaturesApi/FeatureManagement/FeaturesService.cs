@@ -1,13 +1,14 @@
-﻿using SampleFeaturesApi.FeatureManagement.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using SampleFeaturesApi.FeatureManagement.Data;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 
 namespace SampleFeaturesApi.FeatureManagement
 {
     public interface IFeaturesService
     {
-        IEnumerable<Feature> GetAll();
-        bool IsEnabled(string featureName);
+        Task<List<Feature>> GetAll();
+        Task<bool> IsEnabled(string featureName);
     }
 
     public class FeaturesService : IFeaturesService
@@ -19,15 +20,15 @@ namespace SampleFeaturesApi.FeatureManagement
             _featureManagementDb = featureManagementDb;
         }
 
-        public IEnumerable<Feature> GetAll()
+        public Task<List<Feature>> GetAll()
         {
-            return _featureManagementDb.Features;
+            return _featureManagementDb.Features.ToListAsync();
         }
 
-        public bool IsEnabled(string featureName)
+        public Task<bool> IsEnabled(string featureName)
         {
             return _featureManagementDb.Features
-                .Any(f => f.Name == featureName && f.Enabled);
+                .AnyAsync(f => f.Name == featureName && f.Enabled);
         }
     }
 }

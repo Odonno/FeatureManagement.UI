@@ -4,8 +4,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SampleFeaturesApi.FeatureManagement;
-using SampleFeaturesApi.FeatureManagement.Data;
-using Microsoft.EntityFrameworkCore;
 
 namespace SampleFeaturesApi
 {
@@ -47,7 +45,7 @@ namespace SampleFeaturesApi
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapFeaturesUI();
             });
         }
     }

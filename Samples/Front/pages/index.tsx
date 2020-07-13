@@ -6,7 +6,7 @@ import { Feature } from '../models';
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 export const getStaticProps: GetStaticProps = async () => {
-  const res = await fetch('https://api:5001/api/features');
+  const res = await fetch('https://api:5001/features');
   const features: Feature[] = await res.json();
 
   return {
