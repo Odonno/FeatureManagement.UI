@@ -9,6 +9,7 @@ namespace SampleFeaturesApi.FeatureManagement
     {
         Task<List<Feature>> GetAll();
         Task<bool> IsEnabled(string featureName);
+        Task<Feature> Set(string featureName, bool value);
     }
 
     public class FeaturesService : IFeaturesService
@@ -29,6 +30,18 @@ namespace SampleFeaturesApi.FeatureManagement
         {
             return _featureManagementDb.Features
                 .AnyAsync(f => f.Name == featureName && f.Enabled);
+        }
+
+        public async Task<Feature> Set(string featureName, bool value)
+        {
+            var existingFeature = await _featureManagementDb.Features
+                .SingleOrDefaultAsync(f => f.Name == featureName);
+
+            existingFeature.Enabled = value;
+
+            await _featureManagementDb.SaveChangesAsync();
+
+            return existingFeature;
         }
     }
 }

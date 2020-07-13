@@ -6,18 +6,25 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using SampleFeaturesApi.FeatureManagement;
 using System;
+using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace AspNetCore.FeatureManagement.UI.Middleware
 {
-    internal class FeaturesApiEndpointMiddleware
+    internal class SetFeatureValuePayload
+    {
+        public bool Value { get; set; }
+    }
+
+    internal class SetFeatureApiEndpointMiddleware
     {
         private readonly RequestDelegate _next;
         private readonly JsonSerializerSettings _jsonSerializationSettings;
         private readonly IServiceScopeFactory _serviceScopeFactory;
         private readonly Settings _settings;
 
-        public FeaturesApiEndpointMiddleware(RequestDelegate next, IServiceScopeFactory serviceScopeFactory, IOptions<Settings> settings)
+        public SetFeatureApiEndpointMiddleware(RequestDelegate next, IServiceScopeFactory serviceScopeFactory, IOptions<Settings> settings)
         {
             _next = next;
             _serviceScopeFactory = serviceScopeFactory;
@@ -29,16 +36,22 @@ namespace AspNetCore.FeatureManagement.UI.Middleware
                 DateTimeZoneHandling = DateTimeZoneHandling.Local
             };
         }
-        
+
         public async Task InvokeAsync(HttpContext context)
         {
             using (var scope = _serviceScopeFactory.CreateScope())
+            using (var streamReader = new StreamReader(context.Request.Body, Encoding.UTF8))
             {
                 var featuresServices = scope.ServiceProvider.GetService<IFeaturesService>();
 
-                var features = await featuresServices.GetAll();
+                string featureName = context.Request.RouteValues["featureName"] as string;
 
-                var responseContent = JsonConvert.SerializeObject(features, _jsonSerializationSettings);
+                string jsonBody = await streamReader.ReadToEndAsync();
+                var payload = JsonConvert.DeserializeObject<SetFeatureValuePayload>(jsonBody);
+
+                var updatedFeature = await featuresServices.Set(featureName, payload.Value);
+
+                var responseContent = JsonConvert.SerializeObject(updatedFeature, _jsonSerializationSettings);
                 context.Response.ContentType = "application/json";
 
                 await context.Response.WriteAsync(responseContent);
