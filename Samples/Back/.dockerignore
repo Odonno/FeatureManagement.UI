@@ -2,3 +2,4 @@
 Dockerfile
 [b|B]in
 [O|o]bj
+./SampleFeaturesApi/FeatureManagement/UI/features-ui/node_modules
