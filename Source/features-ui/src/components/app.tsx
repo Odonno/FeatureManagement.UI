@@ -27,13 +27,15 @@ const App: FunctionalComponent = () => {
     const history: CustomHistory = createHashHistory() as any;
 
     return (
-        <Fabric id="app">
-            <Header />
-            <Router history={history} onChange={handleRoute}>
-                <Route path="/" component={Home} />
-                <NotFoundPage default />
-            </Router>
-        </Fabric>
+        <div id="app">
+            <Fabric>
+                <Header />
+                <Router history={history} onChange={handleRoute}>
+                    <Route path="/" component={Home} />
+                    <NotFoundPage default />
+                </Router>
+            </Fabric>
+        </div>
     );
 };
 

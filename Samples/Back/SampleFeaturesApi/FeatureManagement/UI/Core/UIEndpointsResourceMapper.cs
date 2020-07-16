@@ -40,10 +40,6 @@ namespace AspNetCore.FeatureManagement.UI.Core
                     new Folder
                     {
                         Name = "route-notfound"
-                    },
-                    new Folder
-                    {
-                        Name = "route-profile"
                     }
                 }
             };
@@ -138,7 +134,7 @@ namespace AspNetCore.FeatureManagement.UI.Core
                 var relativeFolder = orderedFlattenedFolders
                     .FirstOrDefault(f =>
                     {
-                        return fileWithoutBaseFolderPrefix.StartsWith(f.Path.Replace("/", ".").Replace("-", "."));
+                        return fileWithoutBaseFolderPrefix.StartsWith(f.Path.Replace("/", ".").Replace("-", "_"));
                     });
 
                 string fileWithoutFolderPrefix = relativeFolder == null
