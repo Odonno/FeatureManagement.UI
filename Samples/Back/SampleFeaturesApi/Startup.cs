@@ -20,8 +20,7 @@ namespace SampleFeaturesApi
         {
             services.AddFeatures(c =>
             {
-                //c.AddSqlServerStorage(Configuration.GetConnectionString("DefaultConnection"))
-                c.AddInMemoryStorage()
+                c.AddSqlServerStorage(Configuration.GetConnectionString("DefaultConnection"))
                     .Feature("Beta", true)
                     .Feature("DarkTheme");
             });
