@@ -16,6 +16,28 @@ const Home: FunctionalComponent = () => {
             });
     }, []);
 
+    const handleFeatureChange = (feature: Feature) => {
+        const payload = {
+            value: !feature.enabled
+        };
+
+        fetch(`${env.apiEndpoint}/${feature.name}/set`, {
+            method: 'POST',
+            body: JSON.stringify(payload)
+        })
+            .then<Feature>(res => res.json())
+            .then(feature => {
+                setFeatures(features => {
+                    return features.map(f => {
+                        if (f.name === feature.name) {
+                            return feature;
+                        }
+                        return f;
+                    });
+                });
+            });
+    };
+
     return (
         <div class={style.home}>
             {features.map(f => {
@@ -25,7 +47,10 @@ const Home: FunctionalComponent = () => {
                         {f.description &&
                             <p>{f.description}</p>
                         }
-                        <Toggle checked={f.enabled} />
+                        <Toggle
+                            checked={f.enabled}
+                            onChange={() => handleFeatureChange(f)}
+                        />
                     </div>
                 );
             })}
