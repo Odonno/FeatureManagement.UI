@@ -6,9 +6,9 @@ import {
     CustomHistory
 } from "preact-router";
 import { createHashHistory } from "history";
+import { Fabric } from '@fluentui/react';
 
 import Home from "../routes/home";
-import Profile from "../routes/profile";
 import NotFoundPage from "../routes/notfound";
 import Header from "./header";
 
@@ -27,15 +27,13 @@ const App: FunctionalComponent = () => {
     const history: CustomHistory = createHashHistory() as any;
 
     return (
-        <div id="app">
+        <Fabric id="app">
             <Header />
             <Router history={history} onChange={handleRoute}>
                 <Route path="/" component={Home} />
-                <Route path="/profile/" component={Profile} user="me" />
-                <Route path="/profile/:user" component={Profile} />
                 <NotFoundPage default />
             </Router>
-        </div>
+        </Fabric>
     );
 };
 
