@@ -4,12 +4,12 @@ WORKDIR /usr/app
 
 ENV PATH /node_modules/.bin:$PATH
 
-COPY package.json package-lock.json ./
+COPY package.json yarn.lock ./
 
-RUN npm install --silent
+RUN yarn install --silent
 
 COPY . ./
 
 EXPOSE 8080
 
-CMD npm run dev
+CMD yarn dev
