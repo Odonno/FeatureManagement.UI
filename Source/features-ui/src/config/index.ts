@@ -2,7 +2,7 @@ const isProduction = process.env.NODE_ENV === "production";
 
 const baseApiUrl = isProduction
     ? window.location.origin
-    : "https://samples-api";
+    : "https://localhost:5001";
 const apiEndpoint = "/features";
 
 export const env = {

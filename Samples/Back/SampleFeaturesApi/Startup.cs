@@ -22,7 +22,7 @@ namespace SampleFeaturesApi
             {
                 c.AddSqlServerStorage(Configuration.GetConnectionString("DefaultConnection"))
                     .Feature("Beta", true)
-                    .Feature("DarkTheme");
+                    .Feature("DarkTheme", description: "Enable dark theme in the frontend");
             });
 
             services.AddControllers();
@@ -34,6 +34,14 @@ namespace SampleFeaturesApi
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors(c => 
+            {
+                c.SetIsOriginAllowed(_ => true)
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials();
+            });
 
             app.UseHttpsRedirection();
 

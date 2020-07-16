@@ -3,6 +3,7 @@ import * as style from "./style.css";
 import { useState, useEffect } from "preact/hooks";
 import { Feature } from '../../models';
 import { env } from '../../config';
+import { Toggle } from '@fluentui/react/lib/Toggle';
 
 const Home: FunctionalComponent = () => {
     const [features, setFeatures] = useState<Feature[]>([]);
@@ -24,6 +25,7 @@ const Home: FunctionalComponent = () => {
                         {f.description &&
                             <p>{f.description}</p>
                         }
+                        <Toggle checked={f.enabled} />
                     </div>
                 );
             })}

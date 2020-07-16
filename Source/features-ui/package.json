@@ -23,6 +23,7 @@
     "build/*"
   ],
   "dependencies": {
+    "@fluentui/react": "^7.123.0",
     "history": "^5.0.0",
     "preact": "^10.3.1",
     "preact-jsx-chai": "^3.0.0",
