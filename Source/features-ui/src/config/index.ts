@@ -1,5 +1,11 @@
-const uiEndpoint = '/features';
+const isProduction = process.env.NODE_ENV === "production";
+
+const baseApiUrl = isProduction
+    ? window.location.origin
+    : "https://samples-api";
+const apiEndpoint = "/features";
 
 export const env = {
-    apiEndpoint: `${window.location.origin}${uiEndpoint}`
+    isProduction,
+    apiEndpoint: `${baseApiUrl}${apiEndpoint}`
 };
