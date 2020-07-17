@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30223.230
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCore.FeatureManagement.UI", "Source\AspNetCore.FeatureManagement.UI\AspNetCore.FeatureManagement.UI\AspNetCore.FeatureManagement.UI.csproj", "{C189427B-18B8-41E5-8818-F2BABD6FDEFA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCore.FeatureManagement.UI.Configuration", "Source\AspNetCore.FeatureManagement.UI\AspNetCore.FeatureManagement.UI.Configuration\AspNetCore.FeatureManagement.UI.Configuration.csproj", "{89252AE8-8BC2-4744-948B-33B0DBE0D7D9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCore.FeatureManagement.UI.Core", "Source\AspNetCore.FeatureManagement.UI\AspNetCore.FeatureManagement.UI.Core\AspNetCore.FeatureManagement.UI.Core.csproj", "{6B52CC5A-F07E-4875-AD83-404BD11F564E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCore.FeatureManagement.UI.InMemory.Storage", "Source\AspNetCore.FeatureManagement.UI\AspNetCore.FeatureManagement.UI.InMemory.Storage\AspNetCore.FeatureManagement.UI.InMemory.Storage.csproj", "{B9138DC9-8867-4C7E-80F7-FF32E524C2D1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCore.FeatureManagement.UI.SqlServer.Storage", "Source\AspNetCore.FeatureManagement.UI\AspNetCore.FeatureManagement.UI.SqlServer.Storage\AspNetCore.FeatureManagement.UI.SqlServer.Storage.csproj", "{189A6A88-2C92-485F-B118-0FF3512D90A2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleFeaturesApi", "Samples\Back\SampleFeaturesApi\SampleFeaturesApi.csproj", "{97027AB5-EBF2-4346-BA3E-EB25009DFE54}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C189427B-18B8-41E5-8818-F2BABD6FDEFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C189427B-18B8-41E5-8818-F2BABD6FDEFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C189427B-18B8-41E5-8818-F2BABD6FDEFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C189427B-18B8-41E5-8818-F2BABD6FDEFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89252AE8-8BC2-4744-948B-33B0DBE0D7D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89252AE8-8BC2-4744-948B-33B0DBE0D7D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89252AE8-8BC2-4744-948B-33B0DBE0D7D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89252AE8-8BC2-4744-948B-33B0DBE0D7D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B52CC5A-F07E-4875-AD83-404BD11F564E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B52CC5A-F07E-4875-AD83-404BD11F564E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B52CC5A-F07E-4875-AD83-404BD11F564E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B52CC5A-F07E-4875-AD83-404BD11F564E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9138DC9-8867-4C7E-80F7-FF32E524C2D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9138DC9-8867-4C7E-80F7-FF32E524C2D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9138DC9-8867-4C7E-80F7-FF32E524C2D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9138DC9-8867-4C7E-80F7-FF32E524C2D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{189A6A88-2C92-485F-B118-0FF3512D90A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{189A6A88-2C92-485F-B118-0FF3512D90A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{189A6A88-2C92-485F-B118-0FF3512D90A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{189A6A88-2C92-485F-B118-0FF3512D90A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97027AB5-EBF2-4346-BA3E-EB25009DFE54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97027AB5-EBF2-4346-BA3E-EB25009DFE54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97027AB5-EBF2-4346-BA3E-EB25009DFE54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97027AB5-EBF2-4346-BA3E-EB25009DFE54}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {14DEA3D0-8B01-4CCC-BA38-4A3B4E4EAD68}
+	EndGlobalSection
+EndGlobal

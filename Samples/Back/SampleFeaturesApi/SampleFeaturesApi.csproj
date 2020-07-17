@@ -5,18 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.5" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.5">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="3.1.5" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.5" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="ui/**" />
+    <ProjectReference Include="..\..\..\Source\AspNetCore.FeatureManagement.UI\AspNetCore.FeatureManagement.UI.SqlServer.Storage\AspNetCore.FeatureManagement.UI.SqlServer.Storage.csproj" />
+    <ProjectReference Include="..\..\..\Source\AspNetCore.FeatureManagement.UI\AspNetCore.FeatureManagement.UI\AspNetCore.FeatureManagement.UI.csproj" />
   </ItemGroup>
 
 </Project>

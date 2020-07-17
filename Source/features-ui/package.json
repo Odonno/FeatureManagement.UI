@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "build": "preact build --no-prerender --no-sw --dest ../../Samples/Back/SampleFeaturesApi/ui",
+    "build": "preact build --no-prerender --no-sw --dest ../AspNetCore.FeatureManagement.UI/AspNetCore.FeatureManagement.UI/ui",
     "serve": "sirv build --port 8080 --cors --single",
     "dev": "preact watch --config preact.dev.config.js",
     "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
