@@ -15,4 +15,8 @@
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Include="ui/**" />
+  </ItemGroup>
+
 </Project>

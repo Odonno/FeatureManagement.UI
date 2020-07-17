@@ -1,4 +1,7 @@
 using System.Collections.Generic;
+using System.Linq;
+using AspNetCore.FeatureManagement.UI.Configuration;
+using AspNetCore.FeatureManagement.UI.Core;
 using AspNetCore.FeatureManagement.UI.Middleware;
 using Microsoft.AspNetCore.Routing;
 using SampleFeaturesApi.FeatureManagement;
@@ -23,8 +26,11 @@ namespace Microsoft.AspNetCore.Builder
             var setFeatureApiEndpoint = builder.MapPost("/features/{featureName}/set", setFeatureApiDelegate)
                                 .WithDisplayName("Set Feature value - UI Api");
 
+            var resourcesEndpoints = new UIEndpointsResourceMapper()
+                .Map(builder, new Options());
+                
             var endpointConventionBuilders = new List<IEndpointConventionBuilder>(
-                new[] { getAllfeaturesApiEndpoint, setFeatureApiEndpoint }
+                new[] { getAllfeaturesApiEndpoint, setFeatureApiEndpoint }.Union(resourcesEndpoints)
             );
             
             return new FeaturesUIConventionBuilder(endpointConventionBuilders);

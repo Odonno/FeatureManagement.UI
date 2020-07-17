@@ -7,9 +7,10 @@ ENV ASPNETCORE_Kestrel__Certificates__Default__Path="/usr/app/profile/.aspnet/ht
 
 ENV PATH="${PATH}:/root/.dotnet/tools"
 
+RUN dotnet tool install --global dotnet-ef
+
 COPY . ./
 
-RUN dotnet tool install --global dotnet-ef
 RUN dotnet restore
 
 EXPOSE 5001
