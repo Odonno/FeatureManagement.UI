@@ -466,4 +466,4 @@ MigrationBackup/
 
 # End of https://www.toptal.com/developers/gitignore/api/node,visualstudio
 
-Samples/Back/SampleFeaturesApi/ui/
+Source/AspNetCore.FeatureManagement.UI/AspNetCore.FeatureManagement.UI/ui/

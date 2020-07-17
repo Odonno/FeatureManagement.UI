@@ -11,8 +11,6 @@ RUN dotnet tool install --global dotnet-ef
 
 COPY . ./
 
-RUN dotnet restore
-
 EXPOSE 5001
 
-CMD dotnet watch --project SampleFeaturesApi run --no-launch-profile
+CMD dotnet watch --project SampleFeaturesApi/SampleFeaturesApi.csproj run --no-launch-profile

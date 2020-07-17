@@ -39,6 +39,7 @@ services:
       - 5001:5001
     volumes:
       - ./Samples/Back:/usr/app
+      - ./Source/AspNetCore.FeatureManagement.UI:/Source/AspNetCore.FeatureManagement.UI
     depends_on:
       - samples-db
   samples-db:
