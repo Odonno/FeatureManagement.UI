@@ -22,9 +22,13 @@ type HomeProps = {
 
 export default function Home({ features }: HomeProps) {
   const betaEnabled = features.some(f => f.name === 'Beta' && f.enabled);
+  const darkThemeEnabled = features.some(f => f.name === 'DarkTheme' && f.enabled);
+
+  const containerClassName = 
+    ["container", darkThemeEnabled ? "dark" : "light"].join(' ');
 
   return (
-    <div className="container">
+    <div className={containerClassName}>
       <Head>
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
@@ -80,6 +84,14 @@ export default function Home({ features }: HomeProps) {
           align-items: center;
         }
 
+        .light {
+
+        }
+        .dark {
+          color: white;
+          background-color: #123;
+        }
+
         main {
           padding: 5rem 0;
           flex: 1;
@@ -128,6 +140,9 @@ export default function Home({ features }: HomeProps) {
           font-size: 1.1rem;
           font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
             DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
+        }
+        .dark code {
+          color: black;
         }
 
         .grid {
