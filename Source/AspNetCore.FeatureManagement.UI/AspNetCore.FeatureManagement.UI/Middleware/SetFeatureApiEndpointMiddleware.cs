@@ -1,4 +1,6 @@
 using AspNetCore.FeatureManagement.UI.Configuration;
+using AspNetCore.FeatureManagement.UI.Core.Data;
+using AspNetCore.FeatureManagement.UI.Middleware.Extensions;
 using AspNetCore.FeatureManagement.UI.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,9 +15,9 @@ using System.Threading.Tasks;
 
 namespace AspNetCore.FeatureManagement.UI.Middleware
 {
-    internal class SetFeatureValuePayload
+    internal class SetFeatureValuePayload<T>
     {
-        public bool Value { get; set; }
+        public T Value { get; set; }
     }
 
     internal class SetFeatureApiEndpointMiddleware
@@ -47,12 +49,36 @@ namespace AspNetCore.FeatureManagement.UI.Middleware
 
                 string featureName = context.Request.RouteValues["featureName"] as string;
 
+                var feature = await featuresServices.Get(featureName);
+
                 string jsonBody = await streamReader.ReadToEndAsync();
-                var payload = JsonConvert.DeserializeObject<SetFeatureValuePayload>(jsonBody);
 
-                var updatedFeature = await featuresServices.Set(featureName, payload.Value);
+                Feature updatedFeature = null;
 
-                var responseContent = JsonConvert.SerializeObject(updatedFeature, _jsonSerializationSettings);
+                if (feature.Type == FeatureTypes.Boolean)
+                {
+                    var payload = JsonConvert.DeserializeObject<SetFeatureValuePayload<bool>>(jsonBody);
+                    updatedFeature = await featuresServices.Set(featureName, payload.Value);
+                }
+                if (feature.Type == FeatureTypes.Integer)
+                {
+                    var payload = JsonConvert.DeserializeObject<SetFeatureValuePayload<int>>(jsonBody);
+                    updatedFeature = await featuresServices.Set(featureName, payload.Value);
+                }
+                if (feature.Type == FeatureTypes.Decimal)
+                {
+                    var payload = JsonConvert.DeserializeObject<SetFeatureValuePayload<decimal>>(jsonBody);
+                    updatedFeature = await featuresServices.Set(featureName, payload.Value);
+                }
+                if (feature.Type == FeatureTypes.String)
+                {
+                    var payload = JsonConvert.DeserializeObject<SetFeatureValuePayload<string>>(jsonBody);
+                    updatedFeature = await featuresServices.Set(featureName, payload.Value);
+                }
+
+                var output = updatedFeature.ToOutput();
+
+                var responseContent = JsonConvert.SerializeObject(output, _jsonSerializationSettings);
                 context.Response.ContentType = "application/json";
 
                 await context.Response.WriteAsync(responseContent);

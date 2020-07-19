@@ -21,7 +21,8 @@ namespace SampleFeaturesApi
             {
                 c.AddSqlServerStorage(Configuration.GetConnectionString("DefaultConnection"))
                     .Feature("Beta", true)
-                    .Feature("DarkTheme", description: "Enable dark theme in the frontend");
+                    .Feature("DarkTheme", false, "Enable dark theme in the frontend")
+                    .Feature("WelcomeMessage", "Welcome to my Blog");
             });
 
             services.AddControllers();

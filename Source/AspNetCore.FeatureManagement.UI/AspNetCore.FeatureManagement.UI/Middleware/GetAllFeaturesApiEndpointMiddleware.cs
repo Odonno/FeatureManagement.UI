@@ -1,4 +1,5 @@
 using AspNetCore.FeatureManagement.UI.Configuration;
+using AspNetCore.FeatureManagement.UI.Middleware.Extensions;
 using AspNetCore.FeatureManagement.UI.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,6 +8,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace AspNetCore.FeatureManagement.UI.Middleware
@@ -39,7 +41,9 @@ namespace AspNetCore.FeatureManagement.UI.Middleware
 
                 var features = await featuresServices.GetAll();
 
-                var responseContent = JsonConvert.SerializeObject(features, _jsonSerializationSettings);
+                var output = features.Select(f => f.ToOutput());
+
+                var responseContent = JsonConvert.SerializeObject(output, _jsonSerializationSettings);
                 context.Response.ContentType = "application/json";
 
                 await context.Response.WriteAsync(responseContent);

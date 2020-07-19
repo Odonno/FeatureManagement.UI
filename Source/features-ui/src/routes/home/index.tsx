@@ -3,7 +3,10 @@ import * as style from "./style.css";
 import { useState, useEffect } from "preact/hooks";
 import { Feature } from '../../models';
 import { env } from '../../config';
-import { Spinner, SpinnerSize , Text, Toggle } from '@fluentui/react';
+import { Spinner, SpinnerSize } from '@fluentui/react';
+import FeatureToggle from '../../components/featureToggle';
+import FeatureTextInput from '../../components/featureTextInput';
+import FeatureNumberInput from '../../components/featureNumberInput';
 
 const Home: FunctionalComponent = () => {
     const [loading, setLoading] = useState(false);
@@ -20,9 +23,9 @@ const Home: FunctionalComponent = () => {
             });
     }, []);
 
-    const handleFeatureChange = (feature: Feature) => {
+    const handleFeatureChange = (feature: Feature, newValue: Featuretype) => {
         const payload = {
-            value: !feature.enabled
+            value: newValue
         };
 
         fetch(`${env.apiEndpoint}/${feature.name}/set`, {
@@ -44,13 +47,13 @@ const Home: FunctionalComponent = () => {
 
     if (loading) {
         return (
-            <div 
+            <div
                 class={style.home}
                 style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
             >
-                <Spinner 
+                <Spinner
                     size={SpinnerSize.large}
-                    label="The best features are yet to come..." 
+                    label="The best features are yet to come..."
                 />
             </div>
         );
@@ -59,24 +62,31 @@ const Home: FunctionalComponent = () => {
     return (
         <div class={style.home}>
             {features.map(f => {
-                return (
-                    <div>
-                        <p>
-                            <Text block variant="large">
-                                {f.name}
-                            </Text>
-                            {f.description &&
-                                <Text block variant="small">
-                                    {f.description}
-                                </Text>
-                            }
-                        </p>
-                        <Toggle
-                            checked={f.enabled}
-                            onChange={() => handleFeatureChange(f)}
-                        />
-                    </div>
-                );
+                if (typeof f.value === 'boolean') {
+                    const checked = f.value;
+
+                    return <FeatureToggle
+                        feature={f}
+                        checked={checked}
+                        handleFeatureChange={handleFeatureChange}
+                    />;
+                }
+
+                if (typeof f.value === 'string') {
+                    return <FeatureTextInput
+                        feature={f}
+                        value={f.value}
+                        handleFeatureChange={handleFeatureChange}
+                    />;
+                }
+
+                if (typeof f.value === 'number') {
+                    return <FeatureNumberInput
+                        feature={f}
+                        value={f.value}
+                        handleFeatureChange={handleFeatureChange}
+                    />;
+                }
             })}
         </div>
     );

@@ -32,34 +32,73 @@ namespace Microsoft.Extensions.DependencyInjection
                 }
 
                 // Update Features table
-                var savedFeatures = context.Features;
-                var savedFeatureNames = context.Features.Select(f => f.Name);
+                var featuresSet = context.Features;
+
+                var existingFeatures = featuresSet.ToList();
 
                 var newFeatures = settings.Features
-                    .Select(f => new Feature
+                    .Select(f =>
                     {
-                        Name = f.Name,
-                        Enabled = f.Enabled,
-                        Description = f.Description
+                        if (f is IFeatureWithValueSettings<bool> fBool)
+                        {
+                            return new Feature
+                            {
+                                Name = f.Name,
+                                Description = f.Description,
+                                Type = FeatureTypes.Boolean,
+                                BooleanValue = fBool.Value
+                            };
+                        }
+                        if (f is IFeatureWithValueSettings<int> fInt)
+                        {
+                            return new Feature
+                            {
+                                Name = f.Name,
+                                Description = f.Description,
+                                Type = FeatureTypes.Integer,
+                                IntValue = fInt.Value
+                            };
+                        }
+                        if (f is IFeatureWithValueSettings<decimal> fDecimal)
+                        {
+                            return new Feature
+                            {
+                                Name = f.Name,
+                                Description = f.Description,
+                                Type = FeatureTypes.Decimal,
+                                DecimalValue = fDecimal.Value
+                            };
+                        }
+                        if (f is IFeatureWithValueSettings<string> fString)
+                        {
+                            return new Feature
+                            {
+                                Name = f.Name,
+                                Description = f.Description,
+                                Type = FeatureTypes.String,
+                                StringValue = fString.Value
+                            };
+                        }
+
+                        return null;
                     });
-                var newFeatureNames = context.Features.Select(f => f.Name);
 
                 var featuresToAdd = newFeatures
-                    .Where(f => !savedFeatureNames.Contains(f.Name));
+                    .Where(f => !featuresSet.Any(sf => sf.Name == f.Name && sf.Type == f.Type));
                 var featuresToUpdate = newFeatures
-                    .Where(f => savedFeatureNames.Contains(f.Name));
-                var featuresToDelete = savedFeatures
-                    .Where(f => !newFeatureNames.Contains(f.Name));
+                    .Where(f => featuresSet.Any(sf => sf.Name == f.Name && sf.Type == f.Type));
+                var featuresToDelete = existingFeatures
+                    .Where(f => !newFeatures.Any(sf => sf.Name == f.Name && sf.Type == f.Type));
 
-                savedFeatures.AddRange(featuresToAdd);
+                featuresSet.AddRange(featuresToAdd);
 
                 foreach (var feature in featuresToUpdate)
                 {
-                    var savedFeature = savedFeatures.Single(f => f.Name == feature.Name);
+                    var savedFeature = existingFeatures.Single(f => f.Name == feature.Name);
                     savedFeature.Description = feature.Description;
                 }
 
-                savedFeatures.RemoveRange(featuresToDelete);
+                featuresSet.RemoveRange(featuresToDelete);
 
                 context.SaveChanges();
             }

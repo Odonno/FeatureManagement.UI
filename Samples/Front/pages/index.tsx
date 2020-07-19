@@ -21,10 +21,10 @@ type HomeProps = {
 };
 
 export default function Home({ features }: HomeProps) {
-  const betaEnabled = features.some(f => f.name === 'Beta' && f.enabled);
-  const darkThemeEnabled = features.some(f => f.name === 'DarkTheme' && f.enabled);
+  const darkThemeEnabled = features.some(f => f.name === 'DarkTheme' && f.value === true);
+  const welcomeMessageFeature = features.find(f => f.name === 'WelcomeMessage');
 
-  const containerClassName = 
+  const containerClassName =
     ["container", darkThemeEnabled ? "dark" : "light"].join(' ');
 
   return (
@@ -36,7 +36,7 @@ export default function Home({ features }: HomeProps) {
 
       <main>
         <h1 className="title">
-          Welcome to Blog {betaEnabled ? "beta" : "v1.0"}
+          {welcomeMessageFeature && welcomeMessageFeature.value}
         </h1>
 
         <p className="description">

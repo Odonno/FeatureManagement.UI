@@ -12,7 +12,7 @@ namespace Microsoft.Extensions.DependencyInjection
             {
                 options.UseSqlServer(
                     connectionString,
-                    s => s.MigrationsAssembly(typeof(FeatureManagementDb).Assembly.FullName)
+                    s => s.MigrationsAssembly(typeof(SettingsExtensions).Assembly.FullName)
                         .MigrationsHistoryTable("__EFMigrationsHistory", "FeatureManagement")
                 );
             });

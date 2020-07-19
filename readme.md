@@ -19,7 +19,7 @@ This library has for only purpose to let you create, use and provide Feature Fla
 
 * ✅ create features that can be manually deactivated at any time
 * ✅ create a light/dark theme feature
-* ✅ temporarily store a welcome message (coming soon)
+* ✅ temporarily store a welcome message
 * ❌ store a list of blog articles
 * ❌ store chat messages
 * ❌ store sensitive data (credentials, connection strings, etc...)
@@ -37,10 +37,12 @@ public void ConfigureServices(IServiceCollection services)
     {
         // Storage provider
         c.AddInMemoryStorage()
-            // Beta feature enabled by default
-            .Feature("Beta", true) 
-            // Dark theme disabled by default
-            .Feature("DarkTheme");
+            // Beta feature, enabled by default
+            .Feature("Beta", true)
+            // Dark theme, disabled by default
+            .Feature("DarkTheme", false, "Enable dark theme in the frontend")
+            // Welcome message
+            .Feature("WelcomeMessage", "Welcome to my Blog");
     });
 
     // ...
@@ -114,8 +116,11 @@ Inside your ASP.NET Core Web API, you can inject the `IFeaturesService`.
 public interface IFeaturesService
 {
     Task<List<Feature>> GetAll();
-    Task<bool> IsEnabled(string featureName);
+    Task<Feature> Get(string featureName);
     Task<Feature> Set(string featureName, bool value);
+    Task<Feature> Set(string featureName, int value);
+    Task<Feature> Set(string featureName, decimal value);
+    Task<Feature> Set(string featureName, string value);
 }
 ```
 
@@ -137,5 +142,5 @@ GET - /features
 Set feature value
 
 POST - /features/{featureName}/set
-Payload: { value: boolean }
+Payload: { value: boolean | number | string }
 ```
