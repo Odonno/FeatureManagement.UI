@@ -1,4 +1,6 @@
-﻿namespace AspNetCore.FeatureManagement.UI.Middleware.Models
+﻿using System.Collections.Generic;
+
+namespace AspNetCore.FeatureManagement.UI.Middleware.Models
 {
     internal interface IFeatureOutput
     {
@@ -22,17 +24,20 @@
         public string Name { get; set; }
         public string Description { get; set; }
         public int? Value { get; set; }
+        public List<int> Choices { get; set; }
     }
     internal class DecimalFeature : IFeatureWithValueOutput<decimal?>
     {
         public string Name { get; set; }
         public string Description { get; set; }
         public decimal? Value { get; set; }
+        public List<decimal> Choices { get; set; }
     }
     internal class StringFeature : IFeatureWithValueOutput<string>
     {
         public string Name { get; set; }
         public string Description { get; set; }
         public string Value { get; set; }
+        public List<string> Choices { get; set; }
     }
 }

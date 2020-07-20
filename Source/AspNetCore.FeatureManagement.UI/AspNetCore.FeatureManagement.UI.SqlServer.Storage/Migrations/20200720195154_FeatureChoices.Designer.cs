@@ -4,14 +4,16 @@ using AspNetCore.FeatureManagement.UI.Core.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AspNetCore.FeatureManagement.UI.SqlServer.Storage.Migrations
 {
     [DbContext(typeof(FeatureManagementDb))]
-    partial class FeatureManagementDbModelSnapshot : ModelSnapshot
+    [Migration("20200720195154_FeatureChoices")]
+    partial class FeatureChoices
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,12 +31,14 @@ namespace AspNetCore.FeatureManagement.UI.SqlServer.Storage.Migrations
                     b.Property<decimal>("Choice")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("FeatureId")
-                        .HasColumnType("int");
+                    b.Property<string>("FeatureName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(150)")
+                        .HasMaxLength(150);
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FeatureId", "Choice")
+                    b.HasIndex("FeatureName", "Choice")
                         .IsUnique();
 
                     b.ToTable("DecimalFeatureChoice","FeatureManagement");
@@ -42,10 +46,9 @@ namespace AspNetCore.FeatureManagement.UI.SqlServer.Storage.Migrations
 
             modelBuilder.Entity("AspNetCore.FeatureManagement.UI.Core.Data.Feature", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(150)")
+                        .HasMaxLength(150);
 
                     b.Property<bool?>("BooleanValue")
                         .HasColumnType("bit");
@@ -60,11 +63,6 @@ namespace AspNetCore.FeatureManagement.UI.SqlServer.Storage.Migrations
                     b.Property<int?>("IntValue")
                         .HasColumnType("int");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(150)")
-                        .HasMaxLength(150);
-
                     b.Property<string>("StringValue")
                         .HasColumnType("NVARCHAR(MAX)");
 
@@ -73,10 +71,7 @@ namespace AspNetCore.FeatureManagement.UI.SqlServer.Storage.Migrations
                         .HasColumnType("nvarchar(10)")
                         .HasMaxLength(10);
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
+                    b.HasKey("Name");
 
                     b.ToTable("Feature","FeatureManagement");
                 });
@@ -91,12 +86,14 @@ namespace AspNetCore.FeatureManagement.UI.SqlServer.Storage.Migrations
                     b.Property<int>("Choice")
                         .HasColumnType("int");
 
-                    b.Property<int>("FeatureId")
-                        .HasColumnType("int");
+                    b.Property<string>("FeatureName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(150)")
+                        .HasMaxLength(150);
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FeatureId", "Choice")
+                    b.HasIndex("FeatureName", "Choice")
                         .IsUnique();
 
                     b.ToTable("IntFeatureChoice","FeatureManagement");
@@ -113,12 +110,14 @@ namespace AspNetCore.FeatureManagement.UI.SqlServer.Storage.Migrations
                         .IsRequired()
                         .HasColumnType("NVARCHAR(450)");
 
-                    b.Property<int>("FeatureId")
-                        .HasColumnType("int");
+                    b.Property<string>("FeatureName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(150)")
+                        .HasMaxLength(150);
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FeatureId", "Choice")
+                    b.HasIndex("FeatureName", "Choice")
                         .IsUnique();
 
                     b.ToTable("StringFeatureChoice","FeatureManagement");
@@ -128,7 +127,7 @@ namespace AspNetCore.FeatureManagement.UI.SqlServer.Storage.Migrations
                 {
                     b.HasOne("AspNetCore.FeatureManagement.UI.Core.Data.Feature", "Feature")
                         .WithMany("DecimalFeatureChoices")
-                        .HasForeignKey("FeatureId")
+                        .HasForeignKey("FeatureName")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -137,7 +136,7 @@ namespace AspNetCore.FeatureManagement.UI.SqlServer.Storage.Migrations
                 {
                     b.HasOne("AspNetCore.FeatureManagement.UI.Core.Data.Feature", "Feature")
                         .WithMany("IntFeatureChoices")
-                        .HasForeignKey("FeatureId")
+                        .HasForeignKey("FeatureName")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -146,7 +145,7 @@ namespace AspNetCore.FeatureManagement.UI.SqlServer.Storage.Migrations
                 {
                     b.HasOne("AspNetCore.FeatureManagement.UI.Core.Data.Feature", "Feature")
                         .WithMany("StringFeatureChoices")
-                        .HasForeignKey("FeatureId")
+                        .HasForeignKey("FeatureName")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

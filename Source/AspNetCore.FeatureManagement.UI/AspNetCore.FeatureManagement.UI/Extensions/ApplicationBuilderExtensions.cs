@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -33,8 +34,15 @@ namespace Microsoft.Extensions.DependencyInjection
 
                 // Update Features table
                 var featuresSet = context.Features;
+                var intFeatureChoicesSet = context.IntFeatureChoices;
+                var decimalFeatureChoicesSet = context.DecimalFeatureChoices;
+                var stringFeatureChoicesSet = context.StringFeatureChoices;
 
-                var existingFeatures = featuresSet.ToList();
+                var existingFeatures = featuresSet
+                    .Include(f => f.IntFeatureChoices)
+                    .Include(f => f.DecimalFeatureChoices)
+                    .Include(f => f.StringFeatureChoices)
+                    .ToList();
 
                 var newFeatures = settings.Features
                     .Select(f =>
@@ -49,6 +57,19 @@ namespace Microsoft.Extensions.DependencyInjection
                                 BooleanValue = fBool.Value
                             };
                         }
+                        if (f is IFeatureWithChoicesSettings<int> fIntWithChoices)
+                        {
+                            return new Feature
+                            {
+                                Name = f.Name,
+                                Description = f.Description,
+                                Type = FeatureTypes.Integer,
+                                IntValue = fIntWithChoices.Value,
+                                IntFeatureChoices = fIntWithChoices.Choices
+                                    .Select(c => new IntFeatureChoice { Choice = c })
+                                    .ToList()
+                            };
+                        }
                         if (f is IFeatureWithValueSettings<int> fInt)
                         {
                             return new Feature
@@ -56,7 +77,21 @@ namespace Microsoft.Extensions.DependencyInjection
                                 Name = f.Name,
                                 Description = f.Description,
                                 Type = FeatureTypes.Integer,
-                                IntValue = fInt.Value
+                                IntValue = fInt.Value,
+                                IntFeatureChoices = new List<IntFeatureChoice>()
+                            };
+                        }
+                        if (f is IFeatureWithChoicesSettings<decimal> fDecimalWithChoices)
+                        {
+                            return new Feature
+                            {
+                                Name = f.Name,
+                                Description = f.Description,
+                                Type = FeatureTypes.Decimal,
+                                DecimalValue = fDecimalWithChoices.Value,
+                                DecimalFeatureChoices = fDecimalWithChoices.Choices
+                                    .Select(c => new DecimalFeatureChoice { Choice = c })
+                                    .ToList()
                             };
                         }
                         if (f is IFeatureWithValueSettings<decimal> fDecimal)
@@ -66,7 +101,21 @@ namespace Microsoft.Extensions.DependencyInjection
                                 Name = f.Name,
                                 Description = f.Description,
                                 Type = FeatureTypes.Decimal,
-                                DecimalValue = fDecimal.Value
+                                DecimalValue = fDecimal.Value,
+                                DecimalFeatureChoices = new List<DecimalFeatureChoice>()
+                            };
+                        }
+                        if (f is IFeatureWithChoicesSettings<string> fStringWithChoices)
+                        {
+                            return new Feature
+                            {
+                                Name = f.Name,
+                                Description = f.Description,
+                                Type = FeatureTypes.String,
+                                StringValue = fStringWithChoices.Value,
+                                StringFeatureChoices = fStringWithChoices.Choices
+                                    .Select(c => new StringFeatureChoice { Choice = c })
+                                    .ToList()
                             };
                         }
                         if (f is IFeatureWithValueSettings<string> fString)
@@ -76,7 +125,8 @@ namespace Microsoft.Extensions.DependencyInjection
                                 Name = f.Name,
                                 Description = f.Description,
                                 Type = FeatureTypes.String,
-                                StringValue = fString.Value
+                                StringValue = fString.Value,
+                                StringFeatureChoices = new List<StringFeatureChoice>()
                             };
                         }
 
@@ -96,6 +146,43 @@ namespace Microsoft.Extensions.DependencyInjection
                 {
                     var savedFeature = existingFeatures.Single(f => f.Name == feature.Name);
                     savedFeature.Description = feature.Description;
+
+                    if (feature.Type == FeatureTypes.Integer)
+                    {
+                        var existingChoices = savedFeature.IntFeatureChoices;
+
+                        var choicesToAdd = feature.IntFeatureChoices
+                            .Where(c => !existingChoices.Any(ec => ec.Choice == c.Choice));
+                        var choicesToDelete = existingChoices
+                            .Where(c => !feature.IntFeatureChoices.Any(ec => ec.Choice == c.Choice));
+
+                        savedFeature.IntFeatureChoices.AddRange(choicesToAdd);
+                        intFeatureChoicesSet.RemoveRange(choicesToDelete);
+                    }
+                    if (feature.Type == FeatureTypes.Decimal)
+                    {
+                        var existingChoices = savedFeature.DecimalFeatureChoices;
+
+                        var choicesToAdd = feature.DecimalFeatureChoices
+                            .Where(c => !existingChoices.Any(ec => ec.Choice == c.Choice));
+                        var choicesToDelete = existingChoices
+                            .Where(c => !feature.DecimalFeatureChoices.Any(ec => ec.Choice == c.Choice));
+
+                        savedFeature.DecimalFeatureChoices.AddRange(choicesToAdd);
+                        decimalFeatureChoicesSet.RemoveRange(choicesToDelete);
+                    }
+                    if (feature.Type == FeatureTypes.String)
+                    {
+                        var existingChoices = savedFeature.StringFeatureChoices;
+
+                        var choicesToAdd = feature.StringFeatureChoices
+                            .Where(c => !existingChoices.Any(ec => ec.Choice == c.Choice));
+                        var choicesToDelete = existingChoices
+                            .Where(c => !feature.StringFeatureChoices.Any(ec => ec.Choice == c.Choice));
+
+                        savedFeature.StringFeatureChoices.AddRange(choicesToAdd);
+                        stringFeatureChoicesSet.RemoveRange(choicesToDelete);
+                    }
                 }
 
                 featuresSet.RemoveRange(featuresToDelete);

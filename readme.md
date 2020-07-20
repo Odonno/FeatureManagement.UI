@@ -35,12 +35,18 @@ public void ConfigureServices(IServiceCollection services)
 {
     services.AddFeatures(c =>
     {
+        var themes = new List<string>
+        {
+            "light",
+            "dark"
+        };
+
         // Storage provider
         c.AddInMemoryStorage()
             // Beta feature, enabled by default
             .Feature("Beta", true)
-            // Dark theme, disabled by default
-            .Feature("DarkTheme", false, "Enable dark theme in the frontend")
+            // Theme feature, "light" by default
+            .Feature("Theme", themes[0], "Choose a theme for the frontend", themes)
             // Welcome message
             .Feature("WelcomeMessage", "Welcome to my Blog");
     });

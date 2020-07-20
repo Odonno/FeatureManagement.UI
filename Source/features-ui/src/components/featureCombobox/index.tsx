@@ -1,32 +1,33 @@
 import { FunctionalComponent, h } from "preact";
-import { Feature, FeatureType } from '../../models';
-import { Text, TextField, PrimaryButton, DefaultButton } from '@fluentui/react';
+import { Feature, FeatureType, FeatureChoicesType } from '../../models';
+import { Text, Dropdown, PrimaryButton, DefaultButton, IDropdownOption } from '@fluentui/react';
 import { useState } from "preact/hooks";
 
 type Props = {
     feature: Feature,
-    value: string,
+    value: FeatureChoicesType,
+    choices: FeatureChoicesType[],
     handleFeatureChange: (feature: Feature, newValue: FeatureType) => void
 };
 
-const FeatureTextInput: FunctionalComponent<Props> = (props) => {
+const FeatureCombobox: FunctionalComponent<Props> = (props) => {
     const {
         feature,
         value,
+        choices,
         handleFeatureChange
     } = props;
 
     const [newValue, setNewValue] = useState(value);
 
     const hasChanged = value !== newValue;
-    
+
     const canSave = hasChanged;
     const canCancel = hasChanged;
 
-    const onTextChanged = (e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const target = e.target as HTMLInputElement;
-        setNewValue(target.value || '');
-    }
+    const onChange = (event: React.FormEvent<HTMLDivElement>, item: IDropdownOption): void => {
+        setNewValue(item.key);
+    };
 
     const onValidateButtonClicked = () => {
         handleFeatureChange(feature, newValue);
@@ -35,6 +36,14 @@ const FeatureTextInput: FunctionalComponent<Props> = (props) => {
     const onCancelButtonClicked = () => {
         setNewValue(value);
     }
+
+    const options: IDropdownOption[] = choices
+        .map(c => {
+            return {
+                key: c,
+                text: typeof c === 'string' ? c : c.toString()
+            } as IDropdownOption;
+        });
 
     return (
         <div>
@@ -48,22 +57,24 @@ const FeatureTextInput: FunctionalComponent<Props> = (props) => {
                     </Text>
                 }
             </p>
-            <TextField
-                defaultValue={newValue}
-                onKeyUp={onTextChanged}
+            <Dropdown
+                placeholder="Select an option"
+                defaultSelectedKey={newValue}
+                options={options}
+                onChange={onChange}
             />
             <p>
                 {canSave && (
-                    <PrimaryButton 
-                        text="Save" 
-                        onClick={() => onValidateButtonClicked()} 
+                    <PrimaryButton
+                        text="Save"
+                        onClick={() => onValidateButtonClicked()}
                         allowDisabledFocus
                     />
                 )}
                 {canCancel && (
-                    <DefaultButton 
-                        text="Cancel" 
-                        onClick={() => onCancelButtonClicked()} 
+                    <DefaultButton
+                        text="Cancel"
+                        onClick={() => onCancelButtonClicked()}
                         allowDisabledFocus
                         style={{ marginLeft: 12 }}
                     />
@@ -73,4 +84,4 @@ const FeatureTextInput: FunctionalComponent<Props> = (props) => {
     );
 };
 
-export default FeatureTextInput;
+export default FeatureCombobox;

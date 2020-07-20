@@ -16,7 +16,10 @@ namespace AspNetCore.FeatureManagement.UI.Core.Data.Configuration
         {
             builder.ToTable(nameof(Feature), _dbSchema);
 
-            builder.HasKey(f => f.Name);
+            builder.HasKey(f => f.Id);
+
+            builder.HasIndex(f => f.Name)
+                .IsUnique();
 
             builder.Property(f => f.Name)
                 .IsRequired(true)
@@ -38,7 +41,7 @@ namespace AspNetCore.FeatureManagement.UI.Core.Data.Configuration
                 .IsRequired(false);
             builder.Property(f => f.StringValue)
                 .IsRequired(false)
-                .HasColumnType("TEXT");
+                .HasColumnType("NVARCHAR(MAX)");
         }
     }
 }

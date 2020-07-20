@@ -1,7 +1,14 @@
-export type Featuretype = boolean | number | string;
+export type FeatureType = boolean | number | string;
+export type FeatureChoicesType = number | string;
 
-export type Feature = {
+type FeatureBase<T> = {
     name: string;
     description: string;
-    value: Featuretype;
+    value: T;
+    choices?: T[];
 };
+
+export type Feature = 
+    | FeatureBase<boolean>
+    | FeatureBase<number>
+    | FeatureBase<string>;

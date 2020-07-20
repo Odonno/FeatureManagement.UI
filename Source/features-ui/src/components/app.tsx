@@ -7,6 +7,7 @@ import {
 } from "preact-router";
 import { createHashHistory } from "history";
 import { Fabric } from '@fluentui/react';
+import { initializeIcons } from 'office-ui-fabric-react/lib/Icons';
 
 import Home from "../routes/home";
 import NotFoundPage from "../routes/notfound";
@@ -17,6 +18,8 @@ if ((module as any).hot) {
     // tslint:disable-next-line:no-var-requires
     require("preact/debug");
 }
+
+initializeIcons();
 
 const App: FunctionalComponent = () => {
     let currentUrl: string;

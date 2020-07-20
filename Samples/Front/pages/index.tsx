@@ -21,11 +21,11 @@ type HomeProps = {
 };
 
 export default function Home({ features }: HomeProps) {
-  const darkThemeEnabled = features.some(f => f.name === 'DarkTheme' && f.value === true);
+  const themeFeature = features.find(f => f.name === 'Theme');
   const welcomeMessageFeature = features.find(f => f.name === 'WelcomeMessage');
 
   const containerClassName =
-    ["container", darkThemeEnabled ? "dark" : "light"].join(' ');
+    ["container", themeFeature ? themeFeature.value : "light"].join(' ');
 
   return (
     <div className={containerClassName}>

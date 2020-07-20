@@ -36,7 +36,8 @@ namespace AspNetCore.FeatureManagement.UI.Middleware
             {
                 ContractResolver = new CamelCasePropertyNamesContractResolver(),
                 Converters = new[] { new StringEnumConverter() },
-                DateTimeZoneHandling = DateTimeZoneHandling.Local
+                DateTimeZoneHandling = DateTimeZoneHandling.Local,
+                NullValueHandling = NullValueHandling.Ignore
             };
         }
 

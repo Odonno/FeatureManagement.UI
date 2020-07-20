@@ -1,12 +1,12 @@
 import { FunctionalComponent, h } from "preact";
-import { Feature, Featuretype } from '../../models';
+import { Feature, FeatureType } from '../../models';
 import { Text, TextField, PrimaryButton, DefaultButton } from '@fluentui/react';
 import { useState } from "preact/hooks";
 
 type Props = {
     feature: Feature,
     value: number,
-    handleFeatureChange: (feature: Feature, newValue: Featuretype) => void
+    handleFeatureChange: (feature: Feature, newValue: FeatureType) => void
 };
 
 const FeatureNumberInput: FunctionalComponent<Props> = (props) => {

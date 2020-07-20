@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -19,9 +20,15 @@ namespace SampleFeaturesApi
         {
             services.AddFeatures(c =>
             {
+                var themes = new List<string>
+                {
+                    "light",
+                    "dark"
+                };
+
                 c.AddSqlServerStorage(Configuration.GetConnectionString("DefaultConnection"))
                     .Feature("Beta", true)
-                    .Feature("DarkTheme", false, "Enable dark theme in the frontend")
+                    .Feature("Theme", themes[0], "Choose a theme for the frontend", themes)
                     .Feature("WelcomeMessage", "Welcome to my Blog");
             });
 

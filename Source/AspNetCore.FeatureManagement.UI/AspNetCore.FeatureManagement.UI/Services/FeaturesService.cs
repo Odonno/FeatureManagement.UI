@@ -27,12 +27,19 @@ namespace AspNetCore.FeatureManagement.UI.Services
 
         public Task<List<Feature>> GetAll()
         {
-            return _featureManagementDb.Features.ToListAsync();
+            return _featureManagementDb.Features
+                .Include(f => f.IntFeatureChoices)
+                .Include(f => f.DecimalFeatureChoices)
+                .Include(f => f.StringFeatureChoices)
+                .ToListAsync();
         }
 
         public Task<Feature> Get(string featureName)
         {
             return _featureManagementDb.Features
+                .Include(f => f.IntFeatureChoices)
+                .Include(f => f.DecimalFeatureChoices)
+                .Include(f => f.StringFeatureChoices)
                 .SingleOrDefaultAsync(f => f.Name == featureName);
         }
 
@@ -69,6 +76,8 @@ namespace AspNetCore.FeatureManagement.UI.Services
                 throw new Exception($"The feature {featureName} is not an integer feature...");
             }
 
+            // TODO : Check if value is inside Choices list (if possible)
+
             existingFeature.IntValue = value;
 
             await _featureManagementDb.SaveChangesAsync();
@@ -89,6 +98,8 @@ namespace AspNetCore.FeatureManagement.UI.Services
                 throw new Exception($"The feature {featureName} is not a decimal feature...");
             }
 
+            // TODO : Check if value is inside Choices list (if possible)
+
             existingFeature.DecimalValue = value;
 
             await _featureManagementDb.SaveChangesAsync();
@@ -108,6 +119,8 @@ namespace AspNetCore.FeatureManagement.UI.Services
             {
                 throw new Exception($"The feature {featureName} is not a string feature...");
             }
+
+            // TODO : Check if value is inside Choices list (if possible)
 
             existingFeature.StringValue = value;
 

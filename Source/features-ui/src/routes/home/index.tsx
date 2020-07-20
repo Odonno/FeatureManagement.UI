@@ -7,6 +7,7 @@ import { Spinner, SpinnerSize } from '@fluentui/react';
 import FeatureToggle from '../../components/featureToggle';
 import FeatureTextInput from '../../components/featureTextInput';
 import FeatureNumberInput from '../../components/featureNumberInput';
+import FeatureCombobox from '../../components/featureCombobox';
 
 const Home: FunctionalComponent = () => {
     const [loading, setLoading] = useState(false);
@@ -62,6 +63,15 @@ const Home: FunctionalComponent = () => {
     return (
         <div class={style.home}>
             {features.map(f => {
+                if (f.choices) {
+                    return <FeatureCombobox
+                        feature={f}
+                        value={f.value}
+                        choices={f.choices}
+                        handleFeatureChange={handleFeatureChange}
+                    />;
+                }
+
                 if (typeof f.value === 'boolean') {
                     const checked = f.value;
 
