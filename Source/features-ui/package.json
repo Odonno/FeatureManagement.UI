@@ -10,11 +10,6 @@
     "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
     "test": "jest ./tests"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
   "lint-staged": {
     "*.{css,md,scss}": "prettier --write",
     "*.{js,jsx,ts,tsx}": "eslint --fix"
@@ -47,7 +42,6 @@
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-hooks": "^3.0.0",
-    "husky": "^4.2.1",
     "jest": "^25.1.0",
     "jest-preset-preact": "^1.0.0",
     "lint-staged": "^10.0.7",

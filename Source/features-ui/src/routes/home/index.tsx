@@ -1,7 +1,8 @@
+// @ts-nocheck
 import { FunctionalComponent, h } from "preact";
 import * as style from "./style.css";
 import { useState, useEffect } from "preact/hooks";
-import { Feature } from '../../models';
+import { Feature, FeatureType } from '../../models';
 import { env } from '../../config';
 import { Spinner, SpinnerSize } from '@fluentui/react';
 import FeatureToggle from '../../components/featureToggle';
@@ -24,7 +25,7 @@ const Home: FunctionalComponent = () => {
             });
     }, []);
 
-    const handleFeatureChange = (feature: Feature, newValue: Featuretype) => {
+    const handleFeatureChange = (feature: Feature, newValue: FeatureType) => {
         const payload = {
             value: newValue
         };
@@ -63,21 +64,21 @@ const Home: FunctionalComponent = () => {
     return (
         <div class={style.home}>
             {features.map(f => {
-                if (f.choices) {
-                    return <FeatureCombobox
-                        feature={f}
-                        value={f.value}
-                        choices={f.choices}
-                        handleFeatureChange={handleFeatureChange}
-                    />;
-                }
-
                 if (typeof f.value === 'boolean') {
                     const checked = f.value;
 
                     return <FeatureToggle
                         feature={f}
                         checked={checked}
+                        handleFeatureChange={handleFeatureChange}
+                    />;
+                }
+
+                if (f.choices) {
+                    return <FeatureCombobox
+                        feature={f}
+                        value={f.value}
+                        choices={f.choices}
                         handleFeatureChange={handleFeatureChange}
                     />;
                 }

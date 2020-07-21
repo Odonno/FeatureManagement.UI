@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { FunctionalComponent, h } from "preact";
 import { Feature, FeatureType } from '../../models';
 import { Text, TextField, PrimaryButton, DefaultButton } from '@fluentui/react';
