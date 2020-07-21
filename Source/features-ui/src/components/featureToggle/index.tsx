@@ -1,11 +1,12 @@
+// @ts-nocheck
 import { FunctionalComponent, h } from "preact";
-import { Feature } from '../../models';
+import { Feature, FeatureType } from '../../models';
 import { Text, Toggle } from '@fluentui/react';
 
 type Props = {
     feature: Feature,
     checked: boolean,
-    handleFeatureChange: (feature: Feature, newValue: Featuretype) => void
+    handleFeatureChange: (feature: Feature, newValue: FeatureType) => void
 };
 
 const FeatureToggle: FunctionalComponent<Props> = (props) => {

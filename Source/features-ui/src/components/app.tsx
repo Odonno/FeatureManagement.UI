@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { FunctionalComponent, h } from "preact";
 import {
     Route,

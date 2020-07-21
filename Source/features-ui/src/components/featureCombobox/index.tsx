@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { FunctionalComponent, h } from "preact";
 import { Feature, FeatureType, FeatureChoicesType } from '../../models';
 import { Text, Dropdown, PrimaryButton, DefaultButton, IDropdownOption } from '@fluentui/react';
@@ -6,7 +7,7 @@ import { useState } from "preact/hooks";
 type Props = {
     feature: Feature,
     value: FeatureChoicesType,
-    choices: FeatureChoicesType[],
+    choices: FeatureType[],
     handleFeatureChange: (feature: Feature, newValue: FeatureType) => void
 };
 
