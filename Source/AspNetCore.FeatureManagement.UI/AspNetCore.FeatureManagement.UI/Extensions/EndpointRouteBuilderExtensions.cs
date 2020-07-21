@@ -10,6 +10,11 @@ namespace Microsoft.AspNetCore.Builder
 {
     public static class EndpointRouteBuilderExtensions
     {
+        /// <summary>
+        /// Adds endpoints for Features actions to the <see cref="IEndpointRouteBuilder"/>. And also display the UI.
+        /// </summary>
+        /// <param name="builder">The <see cref="IEndpointRouteBuilder"/>.</param>
+        /// <returns>An <see cref="IEndpointConventionBuilder"/> for endpoints associated with controller actions.</returns>
         public static IEndpointConventionBuilder MapFeaturesUI(this IEndpointRouteBuilder builder)
         {
             var getAllFeaturesApiDelegate = builder.CreateApplicationBuilder()

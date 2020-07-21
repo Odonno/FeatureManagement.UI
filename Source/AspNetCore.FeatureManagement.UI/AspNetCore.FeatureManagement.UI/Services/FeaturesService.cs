@@ -8,11 +8,49 @@ namespace AspNetCore.FeatureManagement.UI.Services
 {
     public interface IFeaturesService
     {
+        /// <summary>
+        /// Retrieve the list of every feature.
+        /// </summary>
+        /// <returns></returns>
         Task<List<Feature>> GetAll();
+
+        /// <summary>
+        /// Retrieve a single feature by its name.
+        /// </summary>
+        /// <param name="featureName">The name of the feature to get.</param>
+        /// <returns></returns>
         Task<Feature> Get(string featureName);
+
+        /// <summary>
+        /// Update the value of a boolean feature.
+        /// </summary>
+        /// <param name="featureName">The name of the feature.</param>
+        /// <param name="value">The new value of the feature.</param>
+        /// <returns></returns>
         Task<Feature> Set(string featureName, bool value);
+
+        /// <summary>
+        /// Update the value of an integer feature.
+        /// </summary>
+        /// <param name="featureName">The name of the feature.</param>
+        /// <param name="value">The new value of the feature.</param>
+        /// <returns></returns>
         Task<Feature> Set(string featureName, int value);
+
+        /// <summary>
+        /// Update the value of a decimal feature.
+        /// </summary>
+        /// <param name="featureName">The name of the feature.</param>
+        /// <param name="value">The new value of the feature.</param>
+        /// <returns></returns>
         Task<Feature> Set(string featureName, decimal value);
+
+        /// <summary>
+        /// Update the value of a string feature.
+        /// </summary>
+        /// <param name="featureName">The name of the feature.</param>
+        /// <param name="value">The new value of the feature.</param>
+        /// <returns></returns>
         Task<Feature> Set(string featureName, string value);
     }
 

@@ -11,6 +11,11 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class ApplicationBuilderExtensions
     {
+        /// <summary>
+        /// Apply features in the ASP.NET core application. Apply data migrations.
+        /// </summary>
+        /// <param name="app">The <see cref="IApplicationBuilder"/> to add the middleware to.</param>
+        /// <returns>The <see cref="IApplicationBuilder"/> now configured to use features.</returns>
         public static IApplicationBuilder UseFeatures(this IApplicationBuilder app)
         {
             var serviceProvider = app.ApplicationServices.GetRequiredService<IServiceProvider>();
