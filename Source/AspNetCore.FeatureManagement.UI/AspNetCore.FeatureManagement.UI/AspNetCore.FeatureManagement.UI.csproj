@@ -2,6 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Authors>David Bottiau</Authors>
+    <Company />
+    <Product />
+    <Description>Perfectly designed UI for Feature Flags in ASP.NET Core Web API</Description>
+    <PackageProjectUrl>https://github.com/Odonno/AspNetCore.FeatureManagement.UI</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Odonno/AspNetCore.FeatureManagement.UI</RepositoryUrl>
+    <PackageTags>dotnet-core feature feature-flags feature-toggle api</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
