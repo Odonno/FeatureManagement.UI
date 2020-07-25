@@ -1,5 +1,7 @@
 # AspNetCore.FeatureManagement.UI
 
+[![CodeFactor](https://www.codefactor.io/repository/github/odonno/aspnetcore.featuremanagement.ui/badge?s=721e064ae93fbd78d8c9ab4304aa513a07889e98)](https://www.codefactor.io/repository/github/odonno/aspnetcore.featuremanagement.ui)
+
 Perfectly designed UI for Feature Flags in ASP.NET Core Web API
 
 **ASP.NET Core** versions supported: 3.1
