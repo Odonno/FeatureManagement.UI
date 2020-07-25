@@ -2,6 +2,12 @@
 
 [![CodeFactor](https://www.codefactor.io/repository/github/odonno/aspnetcore.featuremanagement.ui/badge?s=721e064ae93fbd78d8c9ab4304aa513a07889e98)](https://www.codefactor.io/repository/github/odonno/aspnetcore.featuremanagement.ui)
 
+| Package | Versions |
+| ------- | -------- |
+| AspNetCore.FeatureManagement.UI | [![NuGet](https://img.shields.io/nuget/v/AspNetCore.FeatureManagement.UI.svg)](https://www.nuget.org/packages/AspNetCore.FeatureManagement.UI/) |
+| AspNetCore.FeatureManagement.UI.InMemory.Storage | [![NuGet](https://img.shields.io/nuget/v/AspNetCore.FeatureManagement.UI.InMemory.Storage.svg)](https://www.nuget.org/packages/AspNetCore.FeatureManagement.UI.InMemory.Storage/) |
+| AspNetCore.FeatureManagement.UI.SqlServer.Storage | [![NuGet](https://img.shields.io/nuget/v/AspNetCore.FeatureManagement.UI.SqlServer.Storage.svg)](https://www.nuget.org/packages/AspNetCore.FeatureManagement.UI.SqlServer.Storage/) |
+
 Perfectly designed UI for Feature Flags in ASP.NET Core Web API
 
 **ASP.NET Core** versions supported: 3.1
