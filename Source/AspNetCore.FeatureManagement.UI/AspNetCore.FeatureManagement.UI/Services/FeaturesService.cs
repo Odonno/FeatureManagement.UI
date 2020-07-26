@@ -22,6 +22,14 @@ namespace AspNetCore.FeatureManagement.UI.Services
         Task<Feature> Get(string featureName);
 
         /// <summary>
+        /// Retrieve the value of a feature.
+        /// </summary>
+        /// <typeparam name="T">Value type of the feature. Only <see cref="bool"/>, <see cref="int"/>, <see cref="decimal"/> and <see cref="string"/> are allowed.</typeparam>
+        /// <param name="featureName">The name of the feature.</param>
+        /// <returns>The value of the feature.</returns>
+        Task<T> GetValue<T>(string featureName);
+
+        /// <summary>
         /// Update the value of a feature.
         /// </summary>
         /// <typeparam name="T">Value type of the feature. Only <see cref="bool"/>, <see cref="int"/>, <see cref="decimal"/> and <see cref="string"/> are allowed.</typeparam>
@@ -58,6 +66,61 @@ namespace AspNetCore.FeatureManagement.UI.Services
                 .SingleOrDefaultAsync(f => f.Name == featureName);
         }
 
+        public async Task<T> GetValue<T>(string featureName)
+        {
+            var existingFeature = await Get(featureName);
+
+            if (existingFeature.Type == FeatureTypes.Boolean)
+            {
+                if (typeof(T) == typeof(bool))
+                {
+                    return (T)(object)existingFeature.BooleanValue.Value;
+                }
+                else
+                {
+                    throw new Exception($"The feature {featureName} is a boolean feature...");
+                }
+            }
+
+            if (existingFeature.Type == FeatureTypes.Integer)
+            {
+                if (typeof(T) == typeof(int))
+                {
+                    return (T)(object)existingFeature.IntValue;
+                }
+                else
+                {
+                    throw new Exception($"The feature {featureName} is not an integer feature...");
+                }
+            }
+
+            if (existingFeature.Type == FeatureTypes.Decimal)
+            {
+                if (typeof(T) == typeof(decimal))
+                {
+                    return (T)(object)existingFeature.DecimalValue;
+                }
+                else
+                {
+                    throw new Exception($"The feature {featureName} is not a decimal feature...");
+                }
+            }
+
+            if (existingFeature.Type == FeatureTypes.String)
+            {
+                if (typeof(T) == typeof(string))
+                {
+                    return (T)(object)existingFeature.StringValue;
+                }
+                else
+                {
+                    throw new Exception($"The feature {featureName} is not a string feature...");
+                }
+            }
+
+            throw new Exception("Only value of types bool, int, decimal and string are allowed...");
+        }
+
         public async Task<Feature> SetValue<T>(string featureName, T value)
         {
             var existingFeature = await Get(featureName);
@@ -73,7 +136,7 @@ namespace AspNetCore.FeatureManagement.UI.Services
             }
             else
             {
-                throw new Exception($"The feature {featureName} is not a boolean feature...");
+                throw new Exception($"The feature {featureName} is a boolean feature...");
             }
 
             if (existingFeature.Type == FeatureTypes.Integer && value is int intValue)
@@ -83,7 +146,7 @@ namespace AspNetCore.FeatureManagement.UI.Services
             }
             else
             {
-                throw new Exception($"The feature {featureName} is not an integer feature...");
+                throw new Exception($"The feature {featureName} is an integer feature...");
             }
 
             if (existingFeature.Type == FeatureTypes.Decimal && value is decimal decimalValue)
@@ -93,7 +156,7 @@ namespace AspNetCore.FeatureManagement.UI.Services
             }
             else
             {
-                throw new Exception($"The feature {featureName} is not a decimal feature...");
+                throw new Exception($"The feature {featureName} is a decimal feature...");
             }
 
             if (existingFeature.Type == FeatureTypes.String && value is string stringValue)
@@ -103,7 +166,7 @@ namespace AspNetCore.FeatureManagement.UI.Services
             }
             else
             {
-                throw new Exception($"The feature {featureName} is not a string feature...");
+                throw new Exception($"The feature {featureName} is a string feature...");
             }
 
             await _featureManagementDb.SaveChangesAsync();
