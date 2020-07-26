@@ -59,22 +59,22 @@ namespace AspNetCore.FeatureManagement.UI.Middleware
                 if (feature.Type == FeatureTypes.Boolean)
                 {
                     var payload = JsonConvert.DeserializeObject<SetFeatureValuePayload<bool>>(jsonBody);
-                    updatedFeature = await featuresServices.Set(featureName, payload.Value);
+                    updatedFeature = await featuresServices.SetValue(featureName, payload.Value);
                 }
                 if (feature.Type == FeatureTypes.Integer)
                 {
                     var payload = JsonConvert.DeserializeObject<SetFeatureValuePayload<int>>(jsonBody);
-                    updatedFeature = await featuresServices.Set(featureName, payload.Value);
+                    updatedFeature = await featuresServices.SetValue(featureName, payload.Value);
                 }
                 if (feature.Type == FeatureTypes.Decimal)
                 {
                     var payload = JsonConvert.DeserializeObject<SetFeatureValuePayload<decimal>>(jsonBody);
-                    updatedFeature = await featuresServices.Set(featureName, payload.Value);
+                    updatedFeature = await featuresServices.SetValue(featureName, payload.Value);
                 }
                 if (feature.Type == FeatureTypes.String)
                 {
                     var payload = JsonConvert.DeserializeObject<SetFeatureValuePayload<string>>(jsonBody);
-                    updatedFeature = await featuresServices.Set(featureName, payload.Value);
+                    updatedFeature = await featuresServices.SetValue(featureName, payload.Value);
                 }
 
                 var output = updatedFeature.ToOutput();

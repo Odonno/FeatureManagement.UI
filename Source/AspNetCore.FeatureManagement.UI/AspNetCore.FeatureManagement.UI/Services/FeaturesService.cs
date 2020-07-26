@@ -22,36 +22,13 @@ namespace AspNetCore.FeatureManagement.UI.Services
         Task<Feature> Get(string featureName);
 
         /// <summary>
-        /// Update the value of a boolean feature.
+        /// Update the value of a feature.
         /// </summary>
+        /// <typeparam name="T">Value type of the feature. Only <see cref="bool"/>, <see cref="int"/>, <see cref="decimal"/> and <see cref="string"/> are allowed.</typeparam>
         /// <param name="featureName">The name of the feature.</param>
         /// <param name="value">The new value of the feature.</param>
-        /// <returns></returns>
-        Task<Feature> Set(string featureName, bool value);
-
-        /// <summary>
-        /// Update the value of an integer feature.
-        /// </summary>
-        /// <param name="featureName">The name of the feature.</param>
-        /// <param name="value">The new value of the feature.</param>
-        /// <returns></returns>
-        Task<Feature> Set(string featureName, int value);
-
-        /// <summary>
-        /// Update the value of a decimal feature.
-        /// </summary>
-        /// <param name="featureName">The name of the feature.</param>
-        /// <param name="value">The new value of the feature.</param>
-        /// <returns></returns>
-        Task<Feature> Set(string featureName, decimal value);
-
-        /// <summary>
-        /// Update the value of a string feature.
-        /// </summary>
-        /// <param name="featureName">The name of the feature.</param>
-        /// <param name="value">The new value of the feature.</param>
-        /// <returns></returns>
-        Task<Feature> Set(string featureName, string value);
+        /// <returns>The updated feature.</returns>
+        Task<Feature> SetValue<T>(string featureName, T value);
     }
 
     public class FeaturesService : IFeaturesService
@@ -81,7 +58,7 @@ namespace AspNetCore.FeatureManagement.UI.Services
                 .SingleOrDefaultAsync(f => f.Name == featureName);
         }
 
-        public async Task<Feature> Set(string featureName, bool value)
+        public async Task<Feature> SetValue<T>(string featureName, T value)
         {
             var existingFeature = await Get(featureName);
 
@@ -89,78 +66,45 @@ namespace AspNetCore.FeatureManagement.UI.Services
             {
                 throw new Exception($"The feature {featureName} does not exist...");
             }
-            if (existingFeature.Type != FeatureTypes.Boolean)
+
+            if (existingFeature.Type == FeatureTypes.Boolean && value is bool boolValue)
+            {
+                existingFeature.BooleanValue = boolValue;
+            }
+            else
             {
                 throw new Exception($"The feature {featureName} is not a boolean feature...");
             }
 
-            existingFeature.BooleanValue = value;
-
-            await _featureManagementDb.SaveChangesAsync();
-
-            return existingFeature;
-        }
-
-        public async Task<Feature> Set(string featureName, int value)
-        {
-            var existingFeature = await Get(featureName);
-
-            if (existingFeature == null)
+            if (existingFeature.Type == FeatureTypes.Integer && value is int intValue)
             {
-                throw new Exception($"The feature {featureName} does not exist...");
+                // TODO : Check if value is inside Choices list (if possible)
+                existingFeature.IntValue = intValue;
             }
-            if (existingFeature.Type != FeatureTypes.Integer)
+            else
             {
                 throw new Exception($"The feature {featureName} is not an integer feature...");
             }
 
-            // TODO : Check if value is inside Choices list (if possible)
-
-            existingFeature.IntValue = value;
-
-            await _featureManagementDb.SaveChangesAsync();
-
-            return existingFeature;
-        }
-
-        public async Task<Feature> Set(string featureName, decimal value)
-        {
-            var existingFeature = await Get(featureName);
-
-            if (existingFeature == null)
+            if (existingFeature.Type == FeatureTypes.Decimal && value is decimal decimalValue)
             {
-                throw new Exception($"The feature {featureName} does not exist...");
+                // TODO : Check if value is inside Choices list (if possible)
+                existingFeature.DecimalValue = decimalValue;
             }
-            if (existingFeature.Type != FeatureTypes.Decimal)
+            else
             {
                 throw new Exception($"The feature {featureName} is not a decimal feature...");
             }
 
-            // TODO : Check if value is inside Choices list (if possible)
-
-            existingFeature.DecimalValue = value;
-
-            await _featureManagementDb.SaveChangesAsync();
-
-            return existingFeature;
-        }
-
-        public async Task<Feature> Set(string featureName, string value)
-        {
-            var existingFeature = await Get(featureName);
-
-            if (existingFeature == null)
+            if (existingFeature.Type == FeatureTypes.String && value is string stringValue)
             {
-                throw new Exception($"The feature {featureName} does not exist...");
+                // TODO : Check if value is inside Choices list (if possible)
+                existingFeature.StringValue = stringValue;
             }
-            if (existingFeature.Type != FeatureTypes.String)
+            else
             {
                 throw new Exception($"The feature {featureName} is not a string feature...");
             }
-
-            // TODO : Check if value is inside Choices list (if possible)
-
-            existingFeature.StringValue = value;
 
             await _featureManagementDb.SaveChangesAsync();
 
