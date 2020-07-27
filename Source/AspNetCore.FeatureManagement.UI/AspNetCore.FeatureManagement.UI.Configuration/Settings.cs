@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using AspNetCore.FeatureManagement.UI.Core.Models;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 
 namespace AspNetCore.FeatureManagement.UI.Configuration
@@ -7,6 +9,7 @@ namespace AspNetCore.FeatureManagement.UI.Configuration
     {
         internal IServiceCollection Services { get; }
         internal List<IFeatureSettings> Features { get; } = new List<IFeatureSettings>();
+        public Action<IFeature> OnFeatureUpdated { get; set; }
 
         public Settings() { }
         public Settings(IServiceCollection services)

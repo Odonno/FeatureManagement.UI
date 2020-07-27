@@ -1,4 +1,5 @@
 ﻿using AspNetCore.FeatureManagement.UI.Configuration;
+using AspNetCore.FeatureManagement.UI.Core.Data;
 using AspNetCore.FeatureManagement.UI.Services;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
@@ -21,8 +22,12 @@ namespace Microsoft.Extensions.DependencyInjection
 
             setupSettings?.Invoke(settings);
 
-            services.TryAddSingleton<Settings>(settings);
-            services.TryAddScoped<IFeaturesService, FeaturesService>();
+            services.TryAddSingleton(settings);
+            services.TryAddScoped<IFeaturesService>(sp =>
+            {
+                var db = sp.GetRequiredService<FeatureManagementDb>();
+                return new FeaturesService(db, settings.OnFeatureUpdated);
+            });
 
             return services;
         }

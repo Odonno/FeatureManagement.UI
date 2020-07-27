@@ -108,7 +108,7 @@ namespace AspNetCore.FeatureManagement.UI.Tests.Services
         public async Task GetAllShouldReturnZeroFeatures()
         {
             // Arrange
-            var featuresService = new FeaturesService(_db);
+            var featuresService = new FeaturesService(_db, null);
 
             // Act
             var features = await featuresService.GetAll();
@@ -122,7 +122,7 @@ namespace AspNetCore.FeatureManagement.UI.Tests.Services
         {
             // Arrange
             InitializeFeaturesData();
-            var featuresService = new FeaturesService(_db);
+            var featuresService = new FeaturesService(_db, null);
 
             // Act
             var features = await featuresService.GetAll();
@@ -136,7 +136,7 @@ namespace AspNetCore.FeatureManagement.UI.Tests.Services
         {
             // Arrange
             InitializeFeaturesData();
-            var featuresService = new FeaturesService(_db);
+            var featuresService = new FeaturesService(_db, null);
 
             // Act
             var feature = await featuresService.Get("Beta");
@@ -150,7 +150,7 @@ namespace AspNetCore.FeatureManagement.UI.Tests.Services
         {
             // Arrange
             InitializeFeaturesData();
-            var featuresService = new FeaturesService(_db);
+            var featuresService = new FeaturesService(_db, null);
 
             // Act
             var feature = await featuresService.Get("X");
@@ -164,7 +164,7 @@ namespace AspNetCore.FeatureManagement.UI.Tests.Services
         {
             // Arrange
             InitializeFeaturesData();
-            var featuresService = new FeaturesService(_db);
+            var featuresService = new FeaturesService(_db, null);
 
             // Act
             bool value = await featuresService.GetValue<bool>("Beta");
@@ -177,7 +177,7 @@ namespace AspNetCore.FeatureManagement.UI.Tests.Services
         {
             // Arrange
             InitializeFeaturesData();
-            var featuresService = new FeaturesService(_db);
+            var featuresService = new FeaturesService(_db, null);
 
             // Act
             var exception = await featuresService.GetValue<string>("Beta").ShouldThrowAsync<Exception>();
@@ -191,7 +191,7 @@ namespace AspNetCore.FeatureManagement.UI.Tests.Services
         {
             // Arrange
             InitializeFeaturesData();
-            var featuresService = new FeaturesService(_db);
+            var featuresService = new FeaturesService(_db, null);
 
             // Act
             int value = await featuresService.GetValue<int>("Delay");
@@ -204,7 +204,7 @@ namespace AspNetCore.FeatureManagement.UI.Tests.Services
         {
             // Arrange
             InitializeFeaturesData();
-            var featuresService = new FeaturesService(_db);
+            var featuresService = new FeaturesService(_db, null);
 
             // Act
             var exception = await featuresService.GetValue<bool>("Delay").ShouldThrowAsync<Exception>();
@@ -218,7 +218,7 @@ namespace AspNetCore.FeatureManagement.UI.Tests.Services
         {
             // Arrange
             InitializeFeaturesData();
-            var featuresService = new FeaturesService(_db);
+            var featuresService = new FeaturesService(_db, null);
 
             // Act
             decimal value = await featuresService.GetValue<decimal>("TaxPercent");
@@ -231,7 +231,7 @@ namespace AspNetCore.FeatureManagement.UI.Tests.Services
         {
             // Arrange
             InitializeFeaturesData();
-            var featuresService = new FeaturesService(_db);
+            var featuresService = new FeaturesService(_db, null);
 
             // Act
             var exception = await featuresService.GetValue<int>("TaxPercent").ShouldThrowAsync<Exception>();
@@ -245,7 +245,7 @@ namespace AspNetCore.FeatureManagement.UI.Tests.Services
         {
             // Arrange
             InitializeFeaturesData();
-            var featuresService = new FeaturesService(_db);
+            var featuresService = new FeaturesService(_db, null);
 
             // Act
             string value = await featuresService.GetValue<string>("Theme");
@@ -258,7 +258,7 @@ namespace AspNetCore.FeatureManagement.UI.Tests.Services
         {
             // Arrange
             InitializeFeaturesData();
-            var featuresService = new FeaturesService(_db);
+            var featuresService = new FeaturesService(_db, null);
 
             // Act
             var exception = await featuresService.GetValue<decimal>("Theme").ShouldThrowAsync<Exception>();
@@ -272,7 +272,7 @@ namespace AspNetCore.FeatureManagement.UI.Tests.Services
         {
             // Arrange
             InitializeFeaturesData();
-            var featuresService = new FeaturesService(_db);
+            var featuresService = new FeaturesService(_db, null);
 
             string featureName = "X";
 
@@ -288,7 +288,7 @@ namespace AspNetCore.FeatureManagement.UI.Tests.Services
         {
             // Arrange
             InitializeFeaturesData();
-            var featuresService = new FeaturesService(_db);
+            var featuresService = new FeaturesService(_db, null);
 
             // Act
             var result = await featuresService.SetValue("Beta", false);
@@ -304,7 +304,7 @@ namespace AspNetCore.FeatureManagement.UI.Tests.Services
         {
             // Arrange
             InitializeFeaturesData();
-            var featuresService = new FeaturesService(_db);
+            var featuresService = new FeaturesService(_db, null);
 
             // Act
             var exception = await featuresService.SetValue("Beta", 10).ShouldThrowAsync<Exception>();
@@ -318,7 +318,7 @@ namespace AspNetCore.FeatureManagement.UI.Tests.Services
         {
             // Arrange
             InitializeFeaturesData();
-            var featuresService = new FeaturesService(_db);
+            var featuresService = new FeaturesService(_db, null);
 
             int newValue = 500;
 
@@ -336,7 +336,7 @@ namespace AspNetCore.FeatureManagement.UI.Tests.Services
         {
             // Arrange
             InitializeFeaturesData();
-            var featuresService = new FeaturesService(_db);
+            var featuresService = new FeaturesService(_db, null);
 
             // Act
             var exception = await featuresService.SetValue("Delay", false).ShouldThrowAsync<Exception>();
@@ -349,7 +349,7 @@ namespace AspNetCore.FeatureManagement.UI.Tests.Services
         {
             // Arrange
             InitializeFeaturesData();
-            var featuresService = new FeaturesService(_db);
+            var featuresService = new FeaturesService(_db, null);
 
             string featureName = "Delay";
             int newValue = 3000;
@@ -366,7 +366,7 @@ namespace AspNetCore.FeatureManagement.UI.Tests.Services
         {
             // Arrange
             InitializeFeaturesData();
-            var featuresService = new FeaturesService(_db);
+            var featuresService = new FeaturesService(_db, null);
 
             decimal newValue = 10;
 
@@ -384,7 +384,7 @@ namespace AspNetCore.FeatureManagement.UI.Tests.Services
         {
             // Arrange
             InitializeFeaturesData();
-            var featuresService = new FeaturesService(_db);
+            var featuresService = new FeaturesService(_db, null);
 
             // Act
             var exception = await featuresService.SetValue("TaxPercent", "123").ShouldThrowAsync<Exception>();
@@ -397,7 +397,7 @@ namespace AspNetCore.FeatureManagement.UI.Tests.Services
         {
             // Arrange
             InitializeFeaturesData();
-            var featuresService = new FeaturesService(_db);
+            var featuresService = new FeaturesService(_db, null);
 
             string featureName = "TaxPercent";
             decimal newValue = 0.5m;
@@ -414,7 +414,7 @@ namespace AspNetCore.FeatureManagement.UI.Tests.Services
         {
             // Arrange
             InitializeFeaturesData();
-            var featuresService = new FeaturesService(_db);
+            var featuresService = new FeaturesService(_db, null);
 
             string newValue = "dark";
 
@@ -432,7 +432,7 @@ namespace AspNetCore.FeatureManagement.UI.Tests.Services
         {
             // Arrange
             InitializeFeaturesData();
-            var featuresService = new FeaturesService(_db);
+            var featuresService = new FeaturesService(_db, null);
 
             // Act
             var exception = await featuresService.SetValue("Theme", true).ShouldThrowAsync<Exception>();
@@ -445,7 +445,7 @@ namespace AspNetCore.FeatureManagement.UI.Tests.Services
         {
             // Arrange
             InitializeFeaturesData();
-            var featuresService = new FeaturesService(_db);
+            var featuresService = new FeaturesService(_db, null);
 
             string featureName = "Theme";
             string newValue = "Blue";
@@ -462,7 +462,7 @@ namespace AspNetCore.FeatureManagement.UI.Tests.Services
         {
             // Arrange
             InitializeFeaturesData();
-            var featuresService = new FeaturesService(_db);
+            var featuresService = new FeaturesService(_db, null);
 
             string featureName = "X";
 
@@ -471,6 +471,27 @@ namespace AspNetCore.FeatureManagement.UI.Tests.Services
 
             // Assert
             exception.Message.ShouldBe($"The feature {featureName} does not exist...");
+        }
+    
+        [Fact]
+        public async Task SetValueShouldRaiseOnFeatureUpdated()
+        {
+            // Arrange
+            int calls = 0;
+
+            InitializeFeaturesData();
+            var featuresService = new FeaturesService(_db, _ =>
+            {
+                calls++;
+            });
+
+            string newValue = "dark";
+
+            // Act
+            var result = await featuresService.SetValue("Theme", newValue);
+
+            // Assert
+            calls.ShouldBe(1);
         }
     }
 }

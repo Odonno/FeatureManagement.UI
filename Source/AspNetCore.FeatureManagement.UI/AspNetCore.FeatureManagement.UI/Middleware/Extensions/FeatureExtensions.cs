@@ -1,12 +1,12 @@
 ﻿using AspNetCore.FeatureManagement.UI.Core.Data;
-using AspNetCore.FeatureManagement.UI.Middleware.Models;
+using AspNetCore.FeatureManagement.UI.Core.Models;
 using System.Linq;
 
 namespace AspNetCore.FeatureManagement.UI.Middleware.Extensions
 {
     internal static class FeatureExtensions
     {
-        internal static IFeatureOutput ToOutput(this Feature feature)
+        internal static IFeature ToOutput(this Feature feature)
         {
             if (feature.Type == FeatureTypes.Boolean)
             {

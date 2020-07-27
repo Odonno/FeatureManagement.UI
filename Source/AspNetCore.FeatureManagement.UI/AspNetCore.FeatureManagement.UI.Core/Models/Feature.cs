@@ -1,39 +1,39 @@
 ﻿using System.Collections.Generic;
 
-namespace AspNetCore.FeatureManagement.UI.Middleware.Models
+namespace AspNetCore.FeatureManagement.UI.Core.Models
 {
-    internal interface IFeatureOutput
+    public interface IFeature
     {
-        public string Name { get; set; }
-        public string Description { get; set; }
+        string Name { get; set; }
+        string Description { get; set; }
     }
 
-    internal interface IFeatureWithValueOutput<T> : IFeatureOutput
+    public interface IFeatureWithValue<T> : IFeature
     {
-        public T Value { get; set; }
+        T Value { get; set; }
     }
 
-    internal class BoolFeature : IFeatureWithValueOutput<bool?>
+    public class BoolFeature : IFeatureWithValue<bool?>
     {
         public string Name { get; set; }
         public string Description { get; set; }
         public bool? Value { get; set; }
     }
-    internal class IntFeature : IFeatureWithValueOutput<int?>
+    public class IntFeature : IFeatureWithValue<int?>
     {
         public string Name { get; set; }
         public string Description { get; set; }
         public int? Value { get; set; }
         public List<int> Choices { get; set; }
     }
-    internal class DecimalFeature : IFeatureWithValueOutput<decimal?>
+    public class DecimalFeature : IFeatureWithValue<decimal?>
     {
         public string Name { get; set; }
         public string Description { get; set; }
         public decimal? Value { get; set; }
         public List<decimal> Choices { get; set; }
     }
-    internal class StringFeature : IFeatureWithValueOutput<string>
+    public class StringFeature : IFeatureWithValue<string>
     {
         public string Name { get; set; }
         public string Description { get; set; }

@@ -1,4 +1,6 @@
 ﻿using AspNetCore.FeatureManagement.UI.Core.Data;
+using AspNetCore.FeatureManagement.UI.Core.Models;
+using AspNetCore.FeatureManagement.UI.Middleware.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using System;
@@ -41,13 +43,15 @@ namespace AspNetCore.FeatureManagement.UI.Services
         Task<Feature> SetValue<T>(string featureName, T value);
     }
 
-    public class FeaturesService : IFeaturesService
+    internal class FeaturesService : IFeaturesService
     {
         private readonly FeatureManagementDb _featureManagementDb;
+        private readonly Action<IFeature> _onFeatureUpdated;
 
-        public FeaturesService(FeatureManagementDb featureManagementDb)
+        public FeaturesService(FeatureManagementDb featureManagementDb, Action<IFeature> onFeatureUpdated)
         {
             _featureManagementDb = featureManagementDb;
+            _onFeatureUpdated = onFeatureUpdated;
         }
 
         public Task<List<Feature>> GetAll()
@@ -207,6 +211,8 @@ namespace AspNetCore.FeatureManagement.UI.Services
             }
 
             await _featureManagementDb.SaveChangesAsync();
+
+            _onFeatureUpdated?.Invoke(existingFeature.ToOutput());
 
             return existingFeature;
         }
