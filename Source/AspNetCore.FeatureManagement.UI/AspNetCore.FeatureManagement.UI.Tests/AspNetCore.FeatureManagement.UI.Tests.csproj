@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Source\AspNetCore.FeatureManagement.UI\AspNetCore.FeatureManagement.UI\AspNetCore.FeatureManagement.UI.csproj" />
+    <ProjectReference Include="..\AspNetCore.FeatureManagement.UI\AspNetCore.FeatureManagement.UI.csproj" />
   </ItemGroup>
 
 </Project>
