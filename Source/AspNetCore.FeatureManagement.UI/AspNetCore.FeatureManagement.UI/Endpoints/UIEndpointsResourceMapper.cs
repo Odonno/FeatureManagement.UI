@@ -103,25 +103,28 @@ namespace AspNetCore.FeatureManagement.UI.Core
 
             var flattenedFolders = new List<FlattenedFolder>();
 
-            foreach (var f1 in outputFolderStructure.Folders)
+            if (outputFolderStructure.Folders != null)
             {
-                if (f1.Folders != null)
+                foreach (var f1 in outputFolderStructure.Folders)
                 {
-                    foreach (var f2 in f1.Folders)
+                    if (f1.Folders != null)
                     {
-                        flattenedFolders.Add(new FlattenedFolder
+                        foreach (var f2 in f1.Folders)
                         {
-                            Level = 2,
-                            Path = $"{f1.Name}/{f2.Name}/"
-                        });
+                            flattenedFolders.Add(new FlattenedFolder
+                            {
+                                Level = 2,
+                                Path = $"{f1.Name}/{f2.Name}/"
+                            });
+                        }
                     }
-                }
 
-                flattenedFolders.Add(new FlattenedFolder
-                {
-                    Level = 1,
-                    Path = $"{f1.Name}/"
-                });
+                    flattenedFolders.Add(new FlattenedFolder
+                    {
+                        Level = 1,
+                        Path = $"{f1.Name}/"
+                    });
+                }
             }
 
             var orderedFlattenedFolders = flattenedFolders
@@ -135,10 +138,11 @@ namespace AspNetCore.FeatureManagement.UI.Core
                 var relativeFolder = orderedFlattenedFolders
                     .FirstOrDefault(f =>
                     {
-                        return fileWithoutBaseFolderPrefix.StartsWith(f.Path.Replace("/", ".").Replace("-", "_"));
+                        return !string.IsNullOrWhiteSpace(f.Path) &&
+                            fileWithoutBaseFolderPrefix.StartsWith(f.Path.Replace("/", ".").Replace("-", "_"));
                     });
 
-                string fileWithoutFolderPrefix = relativeFolder == null
+                string fileWithoutFolderPrefix = string.IsNullOrWhiteSpace(relativeFolder?.Path)
                     ? fileWithoutBaseFolderPrefix
                     : fileWithoutBaseFolderPrefix.Substring(relativeFolder.Path.Length);
 
@@ -147,18 +151,23 @@ namespace AspNetCore.FeatureManagement.UI.Core
                 string fileName = fileWithoutFolderPrefix.Substring(0, fileWithoutFolderPrefix.Length - 1 - extension.Length);
 
                 using (var contentStream = assembly.GetManifestResourceStream(file))
-                using (var reader = new StreamReader(contentStream))
                 {
-                    string result = reader.ReadToEnd();
+                    if (contentStream != null)
+                    {
+                        using (var reader = new StreamReader(contentStream))
+                        {
+                            string result = reader.ReadToEnd();
 
-                    resourceList.Add(
-                        new UIResource(
-                            relativeFolder?.Path,
-                            $"{fileName}.{extension}",
-                            result,
-                            ContentType.FromExtension(extension)
-                        )
-                    );
+                            resourceList.Add(
+                                new UIResource(
+                                    relativeFolder?.Path,
+                                    $"{fileName}.{extension}",
+                                    result,
+                                    ContentType.FromExtension(extension)
+                                )
+                            );
+                        }
+                    }
                 }
             }
 

@@ -48,30 +48,35 @@ namespace AspNetCore.FeatureManagement.UI.Middleware
             {
                 var featuresServices = scope.ServiceProvider.GetService<IFeaturesService>();
 
-                string featureName = context.Request.RouteValues["featureName"] as string;
+                string? featureName = context.Request.RouteValues["featureName"] as string;
+
+                if (string.IsNullOrWhiteSpace(featureName))
+                {
+                    throw new Exception("Property 'featureName' is required...");
+                }
 
                 var feature = await featuresServices.Get(featureName);
 
                 string jsonBody = await streamReader.ReadToEndAsync();
 
-                Feature updatedFeature = null;
+                Feature updatedFeature;
 
                 if (feature.Type == FeatureTypes.Boolean)
                 {
                     var payload = JsonConvert.DeserializeObject<SetFeatureValuePayload<bool>>(jsonBody);
                     updatedFeature = await featuresServices.SetValue(featureName, payload.Value);
                 }
-                if (feature.Type == FeatureTypes.Integer)
+                else if (feature.Type == FeatureTypes.Integer)
                 {
                     var payload = JsonConvert.DeserializeObject<SetFeatureValuePayload<int>>(jsonBody);
                     updatedFeature = await featuresServices.SetValue(featureName, payload.Value);
                 }
-                if (feature.Type == FeatureTypes.Decimal)
+                else if (feature.Type == FeatureTypes.Decimal)
                 {
                     var payload = JsonConvert.DeserializeObject<SetFeatureValuePayload<decimal>>(jsonBody);
                     updatedFeature = await featuresServices.SetValue(featureName, payload.Value);
                 }
-                if (feature.Type == FeatureTypes.String)
+                else
                 {
                     var payload = JsonConvert.DeserializeObject<SetFeatureValuePayload<string>>(jsonBody);
                     updatedFeature = await featuresServices.SetValue(featureName, payload.Value);

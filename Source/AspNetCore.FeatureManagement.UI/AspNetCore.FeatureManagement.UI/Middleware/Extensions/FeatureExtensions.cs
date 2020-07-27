@@ -45,7 +45,7 @@ namespace AspNetCore.FeatureManagement.UI.Middleware.Extensions
                         : null
                 };
             }
-            if (feature.Type == FeatureTypes.String)
+
             {
                 bool hasChoices = feature.StringFeatureChoices?.Any() ?? false;
 
@@ -59,8 +59,6 @@ namespace AspNetCore.FeatureManagement.UI.Middleware.Extensions
                         : null
                 };
             }
-
-            return null;
         }
     }
 }

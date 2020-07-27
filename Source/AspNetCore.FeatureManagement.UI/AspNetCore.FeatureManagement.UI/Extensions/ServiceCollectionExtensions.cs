@@ -16,7 +16,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="services">The <see cref="IServiceCollection"/> to add services to.</param>
         /// <param name="setupSettings">Apply <see cref="Settings"/> to configure features properly.</param>
         /// <returns>The <see cref="IServiceCollection"/> now configured.</returns>
-        public static IServiceCollection AddFeatures(this IServiceCollection services, Action<Settings> setupSettings = null)
+        public static IServiceCollection AddFeatures(this IServiceCollection services, Action<Settings>? setupSettings = null)
         {
             var settings = new Settings(services);
 

@@ -13,7 +13,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="defaultValue">Default value of the feature.</param>
         /// <param name="description">Description of the feature.</param>
         /// <returns>The updated <see cref="Settings"/>.</returns>
-        public static Settings Feature(this Settings settings, string featureName, bool defaultValue = false, string description = null)
+        public static Settings Feature(this Settings settings, string featureName, bool defaultValue = false, string? description = null)
         {
             settings.Features.Add(new BoolFeatureSettings
             {
@@ -33,7 +33,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="description">Description of the feature.</param>
         /// <param name="choices">A list of choices to limit the feature to a small set of values.</param>
         /// <returns>The updated <see cref="Settings"/>.</returns>
-        public static Settings Feature(this Settings settings, string featureName, int defaultValue = 0, string description = null, IEnumerable<int> choices = null)
+        public static Settings Feature(this Settings settings, string featureName, int defaultValue = 0, string? description = null, IEnumerable<int>? choices = null)
         {
             if (choices != null)
             {
@@ -66,7 +66,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="description">Description of the feature.</param>
         /// <param name="choices">A list of choices to limit the feature to a small set of values.</param>
         /// <returns>The updated <see cref="Settings"/>.</returns>
-        public static Settings Feature(this Settings settings, string featureName, decimal defaultValue = 0, string description = null, IEnumerable<decimal> choices = null)
+        public static Settings Feature(this Settings settings, string featureName, decimal defaultValue = 0, string? description = null, IEnumerable<decimal>? choices = null)
         {
             if (choices != null)
             {
@@ -99,7 +99,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="description">Description of the feature.</param>
         /// <param name="choices">A list of choices to limit the feature to a small set of values.</param>
         /// <returns>The updated <see cref="Settings"/>.</returns>
-        public static Settings Feature(this Settings settings, string featureName, string defaultValue = "", string description = null, IEnumerable<string> choices = null)
+        public static Settings Feature(this Settings settings, string featureName, string defaultValue = "", string? description = null, IEnumerable<string>? choices = null)
         {
             if (choices != null)
             {

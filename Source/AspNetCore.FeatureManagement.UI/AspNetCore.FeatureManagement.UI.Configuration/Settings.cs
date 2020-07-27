@@ -9,7 +9,7 @@ namespace AspNetCore.FeatureManagement.UI.Configuration
     {
         internal IServiceCollection Services { get; }
         internal List<IFeatureSettings> Features { get; } = new List<IFeatureSettings>();
-        public Action<IFeature> OnFeatureUpdated { get; set; }
+        public Action<IFeature>? OnFeatureUpdated { get; set; }
 
         public Settings() { }
         public Settings(IServiceCollection services)

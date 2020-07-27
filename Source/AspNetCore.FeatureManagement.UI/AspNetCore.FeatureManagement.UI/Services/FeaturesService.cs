@@ -46,9 +46,9 @@ namespace AspNetCore.FeatureManagement.UI.Services
     internal class FeaturesService : IFeaturesService
     {
         private readonly FeatureManagementDb _featureManagementDb;
-        private readonly Action<IFeature> _onFeatureUpdated;
+        private readonly Action<IFeature>? _onFeatureUpdated;
 
-        public FeaturesService(FeatureManagementDb featureManagementDb, Action<IFeature> onFeatureUpdated)
+        public FeaturesService(FeatureManagementDb featureManagementDb, Action<IFeature>? onFeatureUpdated)
         {
             _featureManagementDb = featureManagementDb;
             _onFeatureUpdated = onFeatureUpdated;
@@ -83,7 +83,7 @@ namespace AspNetCore.FeatureManagement.UI.Services
 
             if (existingFeature.Type == FeatureTypes.Boolean)
             {
-                if (typeof(T) == typeof(bool))
+                if (existingFeature.BooleanValue.HasValue && typeof(T) == typeof(bool))
                 {
                     return (T)(object)existingFeature.BooleanValue.Value;
                 }
@@ -95,9 +95,9 @@ namespace AspNetCore.FeatureManagement.UI.Services
 
             if (existingFeature.Type == FeatureTypes.Integer)
             {
-                if (typeof(T) == typeof(int))
+                if (existingFeature.IntValue.HasValue && typeof(T) == typeof(int))
                 {
-                    return (T)(object)existingFeature.IntValue;
+                    return (T)(object)existingFeature.IntValue.Value;
                 }
                 else
                 {
@@ -107,9 +107,9 @@ namespace AspNetCore.FeatureManagement.UI.Services
 
             if (existingFeature.Type == FeatureTypes.Decimal)
             {
-                if (typeof(T) == typeof(decimal))
+                if (existingFeature.DecimalValue.HasValue && typeof(T) == typeof(decimal))
                 {
-                    return (T)(object)existingFeature.DecimalValue;
+                    return (T)(object)existingFeature.DecimalValue.Value;
                 }
                 else
                 {
@@ -119,7 +119,7 @@ namespace AspNetCore.FeatureManagement.UI.Services
 
             if (existingFeature.Type == FeatureTypes.String)
             {
-                if (typeof(T) == typeof(string))
+                if (!string.IsNullOrWhiteSpace(existingFeature.StringValue) && typeof(T) == typeof(string))
                 {
                     return (T)(object)existingFeature.StringValue;
                 }

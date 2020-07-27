@@ -136,7 +136,8 @@ namespace Microsoft.Extensions.DependencyInjection
                         }
 
                         return null;
-                    });
+                    })
+                    .ToList();
 
                 var featuresToAdd = newFeatures
                     .Where(f => !featuresSet.Any(sf => sf.Name == f.Name && sf.Type == f.Type));
