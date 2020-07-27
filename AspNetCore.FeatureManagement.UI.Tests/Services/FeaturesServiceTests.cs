@@ -344,6 +344,22 @@ namespace AspNetCore.FeatureManagement.UI.Tests.Services
             // Assert
             exception.Message.ShouldBe("The feature Delay is an integer feature...");
         }
+        [Fact]
+        public async Task SetValueShouldFailIfNotInsideTheAvailableIntChoices()
+        {
+            // Arrange
+            InitializeFeaturesData();
+            var featuresService = new FeaturesService(_db);
+
+            string featureName = "Delay";
+            int newValue = 3000;
+
+            // Act
+            var exception = await featuresService.SetValue(featureName, newValue).ShouldThrowAsync<Exception>();
+
+            // Assert
+            exception.Message.ShouldBe($"The value {newValue} is not a valid choice for feature {featureName}...");
+        }
 
         [Fact]
         public async Task SetValueShouldUpdateDecimalFeature()
@@ -376,6 +392,22 @@ namespace AspNetCore.FeatureManagement.UI.Tests.Services
             // Assert
             exception.Message.ShouldBe("The feature TaxPercent is a decimal feature...");
         }
+        [Fact]
+        public async Task SetValueShouldFailIfNotInsideTheAvailableDecimalChoices()
+        {
+            // Arrange
+            InitializeFeaturesData();
+            var featuresService = new FeaturesService(_db);
+
+            string featureName = "TaxPercent";
+            decimal newValue = 0.5m;
+
+            // Act
+            var exception = await featuresService.SetValue(featureName, newValue).ShouldThrowAsync<Exception>();
+
+            // Assert
+            exception.Message.ShouldBe($"The value {newValue} is not a valid choice for feature {featureName}...");
+        }
 
         [Fact]
         public async Task SetValueShouldUpdateStringFeature()
@@ -407,6 +439,22 @@ namespace AspNetCore.FeatureManagement.UI.Tests.Services
 
             // Assert
             exception.Message.ShouldBe("The feature Theme is a string feature...");
+        }
+        [Fact]
+        public async Task SetValueShouldFailIfNotInsideTheAvailableStringChoices()
+        {
+            // Arrange
+            InitializeFeaturesData();
+            var featuresService = new FeaturesService(_db);
+
+            string featureName = "Theme";
+            string newValue = "Blue";
+
+            // Act
+            var exception = await featuresService.SetValue(featureName, newValue).ShouldThrowAsync<Exception>();
+
+            // Assert
+            exception.Message.ShouldBe($"The value {newValue} is not a valid choice for feature {featureName}...");
         }
 
         [Fact]

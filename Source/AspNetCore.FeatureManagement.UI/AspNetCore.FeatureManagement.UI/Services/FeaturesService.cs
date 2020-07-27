@@ -1,7 +1,9 @@
 ﻿using AspNetCore.FeatureManagement.UI.Core.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace AspNetCore.FeatureManagement.UI.Services
@@ -151,8 +153,14 @@ namespace AspNetCore.FeatureManagement.UI.Services
             {
                 if (value is int intValue)
                 {
-                    // TODO : Check if value is inside Choices list (if possible)
-                    existingFeature.IntValue = intValue;
+                    if (existingFeature.IntFeatureChoices.Any(c => c.Choice == intValue))
+                    {
+                        existingFeature.IntValue = intValue;
+                    }
+                    else
+                    {
+                        throw new Exception($"The value {intValue} is not a valid choice for feature {featureName}...");
+                    }
                 }
                 else
                 {
@@ -164,8 +172,14 @@ namespace AspNetCore.FeatureManagement.UI.Services
             {
                 if (value is decimal decimalValue)
                 {
-                    // TODO : Check if value is inside Choices list (if possible)
-                    existingFeature.DecimalValue = decimalValue;
+                    if (existingFeature.DecimalFeatureChoices.Any(c => c.Choice == decimalValue))
+                    {
+                        existingFeature.DecimalValue = decimalValue;
+                    }
+                    else
+                    {
+                        throw new Exception($"The value {decimalValue} is not a valid choice for feature {featureName}...");
+                    }
                 }
                 else
                 {
@@ -177,8 +191,14 @@ namespace AspNetCore.FeatureManagement.UI.Services
             {
                 if (value is string stringValue)
                 {
-                    // TODO : Check if value is inside Choices list (if possible)
-                    existingFeature.StringValue = stringValue;
+                    if (existingFeature.StringFeatureChoices.Any(c => c.Choice == stringValue))
+                    {
+                        existingFeature.StringValue = stringValue;
+                    }
+                    else
+                    {
+                        throw new Exception($"The value {stringValue} is not a valid choice for feature {featureName}...");
+                    }
                 }
                 else
                 {
