@@ -70,6 +70,11 @@ namespace AspNetCore.FeatureManagement.UI.Services
         {
             var existingFeature = await Get(featureName);
 
+            if (existingFeature == null)
+            {
+                throw new Exception($"The feature {featureName} does not exist...");
+            }
+
             if (existingFeature.Type == FeatureTypes.Boolean)
             {
                 if (typeof(T) == typeof(bool))
@@ -130,43 +135,55 @@ namespace AspNetCore.FeatureManagement.UI.Services
                 throw new Exception($"The feature {featureName} does not exist...");
             }
 
-            if (existingFeature.Type == FeatureTypes.Boolean && value is bool boolValue)
+            if (existingFeature.Type == FeatureTypes.Boolean)
             {
-                existingFeature.BooleanValue = boolValue;
-            }
-            else
-            {
-                throw new Exception($"The feature {featureName} is a boolean feature...");
-            }
-
-            if (existingFeature.Type == FeatureTypes.Integer && value is int intValue)
-            {
-                // TODO : Check if value is inside Choices list (if possible)
-                existingFeature.IntValue = intValue;
-            }
-            else
-            {
-                throw new Exception($"The feature {featureName} is an integer feature...");
+                if (value is bool boolValue)
+                {
+                    existingFeature.BooleanValue = boolValue;
+                }
+                else
+                {
+                    throw new Exception($"The feature {featureName} is a boolean feature...");
+                }
             }
 
-            if (existingFeature.Type == FeatureTypes.Decimal && value is decimal decimalValue)
+            if (existingFeature.Type == FeatureTypes.Integer)
             {
-                // TODO : Check if value is inside Choices list (if possible)
-                existingFeature.DecimalValue = decimalValue;
-            }
-            else
-            {
-                throw new Exception($"The feature {featureName} is a decimal feature...");
+                if (value is int intValue)
+                {
+                    // TODO : Check if value is inside Choices list (if possible)
+                    existingFeature.IntValue = intValue;
+                }
+                else
+                {
+                    throw new Exception($"The feature {featureName} is an integer feature...");
+                }
             }
 
-            if (existingFeature.Type == FeatureTypes.String && value is string stringValue)
+            if (existingFeature.Type == FeatureTypes.Decimal)
             {
-                // TODO : Check if value is inside Choices list (if possible)
-                existingFeature.StringValue = stringValue;
+                if (value is decimal decimalValue)
+                {
+                    // TODO : Check if value is inside Choices list (if possible)
+                    existingFeature.DecimalValue = decimalValue;
+                }
+                else
+                {
+                    throw new Exception($"The feature {featureName} is a decimal feature...");
+                }
             }
-            else
+
+            if (existingFeature.Type == FeatureTypes.String)
             {
-                throw new Exception($"The feature {featureName} is a string feature...");
+                if (value is string stringValue)
+                {
+                    // TODO : Check if value is inside Choices list (if possible)
+                    existingFeature.StringValue = stringValue;
+                }
+                else
+                {
+                    throw new Exception($"The feature {featureName} is a string feature...");
+                }
             }
 
             await _featureManagementDb.SaveChangesAsync();
