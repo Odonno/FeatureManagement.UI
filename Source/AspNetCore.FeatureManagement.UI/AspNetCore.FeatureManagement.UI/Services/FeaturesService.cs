@@ -1,4 +1,5 @@
-﻿using AspNetCore.FeatureManagement.UI.Core.Data;
+﻿using AspNetCore.FeatureManagement.UI.Configuration;
+using AspNetCore.FeatureManagement.UI.Core.Data;
 using AspNetCore.FeatureManagement.UI.Core.Models;
 using AspNetCore.FeatureManagement.UI.Extensions;
 using Microsoft.EntityFrameworkCore;
@@ -30,8 +31,9 @@ namespace AspNetCore.FeatureManagement.UI.Services
         /// </summary>
         /// <typeparam name="T">Value type of the feature. Only <see cref="bool"/>, <see cref="int"/>, <see cref="decimal"/> and <see cref="string"/> are allowed.</typeparam>
         /// <param name="featureName">The name of the feature.</param>
+        /// <param name="clientId">Id of the client.</param>
         /// <returns>The value of the feature.</returns>
-        Task<T> GetValue<T>(string featureName);
+        Task<T> GetValue<T>(string featureName, string? clientId = null);
 
         /// <summary>
         /// Update the value of a feature.
@@ -46,17 +48,55 @@ namespace AspNetCore.FeatureManagement.UI.Services
     internal class FeaturesService : IFeaturesService
     {
         private readonly FeatureManagementDb _featureManagementDb;
-        private readonly Action<IFeature>? _onFeatureUpdated;
+        private readonly Settings _settings;
 
-        public FeaturesService(FeatureManagementDb featureManagementDb, Action<IFeature>? onFeatureUpdated)
+        public FeaturesService(FeatureManagementDb featureManagementDb, Settings settings)
         {
             _featureManagementDb = featureManagementDb;
-            _onFeatureUpdated = onFeatureUpdated;
+            _settings = settings;
+        }
+
+        private async Task<ClientFeatureData> EnsuresClientDataExists(Feature feature, string clientId)
+        {
+            var clientFeatureData = await _featureManagementDb.ClientFeatureDatas
+                .SingleOrDefaultAsync(c => c.FeatureId == feature.Id && c.ClientId == clientId);
+
+            if (clientFeatureData != null)
+            {
+                return clientFeatureData;
+            }
+
+            var featureSettings = _settings.Features
+                .SingleOrDefault(f => f.Name == feature.Name);
+
+            var newClientFeatureData = new ClientFeatureData
+            {
+                FeatureId = feature.Id,
+                ClientId = clientId,
+                BooleanValue = featureSettings is IFeatureWithValue<bool> fBool
+                    ? (bool?)fBool.Value
+                    : null,
+                IntValue = featureSettings is IFeatureWithValue<int> fInt
+                    ? (int?)fInt.Value
+                    : null,
+                DecimalValue = featureSettings is IFeatureWithValue<decimal> fDecimal
+                    ? (decimal?)fDecimal.Value
+                    : null,
+                StringValue = featureSettings is IFeatureWithValue<string> fString
+                    ? fString.Value
+                    : null
+            };
+
+            _featureManagementDb.ClientFeatureDatas.Add(newClientFeatureData);
+            await _featureManagementDb.SaveChangesAsync();
+
+            return newClientFeatureData;
         }
 
         public Task<List<Feature>> GetAll()
         {
             return _featureManagementDb.Features
+                .Include(f => f.Server)
                 .Include(f => f.IntFeatureChoices)
                 .Include(f => f.DecimalFeatureChoices)
                 .Include(f => f.StringFeatureChoices)
@@ -66,13 +106,14 @@ namespace AspNetCore.FeatureManagement.UI.Services
         public Task<Feature> Get(string featureName)
         {
             return _featureManagementDb.Features
+                .Include(f => f.Server)
                 .Include(f => f.IntFeatureChoices)
                 .Include(f => f.DecimalFeatureChoices)
                 .Include(f => f.StringFeatureChoices)
                 .SingleOrDefaultAsync(f => f.Name == featureName);
         }
 
-        public async Task<T> GetValue<T>(string featureName)
+        public async Task<T> GetValue<T>(string featureName, string? clientId = null)
         {
             var existingFeature = await Get(featureName);
 
@@ -83,54 +124,94 @@ namespace AspNetCore.FeatureManagement.UI.Services
 
             if (existingFeature.ValueType == FeatureValueTypes.Boolean)
             {
-                // TODO : Client vs. Server feature
-                if (existingFeature.Server.BooleanValue.HasValue && typeof(T) == typeof(bool))
-                {
-                    return (T)(object)existingFeature.Server.BooleanValue.Value;
-                }
-                else
+                if (typeof(T) != typeof(bool))
                 {
                     throw new Exception($"The feature {featureName} is a boolean feature...");
                 }
+
+                if (existingFeature.Type == FeatureTypes.Server)
+                {
+                    // Server feature
+                    return (T)(object)existingFeature.Server.BooleanValue.Value;
+                }
+
+                // Client feature
+                if (string.IsNullOrWhiteSpace(clientId))
+                {
+                    throw new Exception("A client id is required for client features...");
+                }
+
+                var clientData = await EnsuresClientDataExists(existingFeature, clientId);
+                return (T)(object)clientData.BooleanValue.Value;
             }
 
             if (existingFeature.ValueType == FeatureValueTypes.Integer)
             {
-                // TODO : Client vs. Server feature
-                if (existingFeature.Server.IntValue.HasValue && typeof(T) == typeof(int))
+                if (typeof(T) != typeof(int))
                 {
+                    throw new Exception($"The feature {featureName} is an integer feature...");
+                }
+
+                if (existingFeature.Type == FeatureTypes.Server)
+                {
+                    // Server feature
                     return (T)(object)existingFeature.Server.IntValue.Value;
                 }
-                else
+
+                // Client feature
+                if (string.IsNullOrWhiteSpace(clientId))
                 {
-                    throw new Exception($"The feature {featureName} is not an integer feature...");
+                    throw new Exception("A client id is required for client features...");
                 }
+
+                var clientData = await EnsuresClientDataExists(existingFeature, clientId);
+                return (T)(object)clientData.IntValue.Value;
             }
 
             if (existingFeature.ValueType == FeatureValueTypes.Decimal)
             {
-                // TODO : Client vs. Server feature
-                if (existingFeature.Server.DecimalValue.HasValue && typeof(T) == typeof(decimal))
+                if (typeof(T) != typeof(decimal))
                 {
+                    throw new Exception($"The feature {featureName} is a decimal feature...");
+                }
+
+                if (existingFeature.Type == FeatureTypes.Server)
+                {
+                    // Server feature
                     return (T)(object)existingFeature.Server.DecimalValue.Value;
                 }
-                else
+
+                // Client feature
+                if (string.IsNullOrWhiteSpace(clientId))
                 {
-                    throw new Exception($"The feature {featureName} is not a decimal feature...");
+                    throw new Exception("A client id is required for client features...");
                 }
+
+                var clientData = await EnsuresClientDataExists(existingFeature, clientId);
+                return (T)(object)clientData.DecimalValue.Value;
             }
 
             if (existingFeature.ValueType == FeatureValueTypes.String)
             {
-                // TODO : Client vs. Server feature
-                if (!string.IsNullOrWhiteSpace(existingFeature.Server.StringValue) && typeof(T) == typeof(string))
+                if (typeof(T) != typeof(string))
                 {
+                    throw new Exception($"The feature {featureName} is a string feature...");
+                }
+
+                if (existingFeature.Type == FeatureTypes.Server)
+                {
+                    // Server feature
                     return (T)(object)existingFeature.Server.StringValue;
                 }
-                else
+
+                // Client feature
+                if (string.IsNullOrWhiteSpace(clientId))
                 {
-                    throw new Exception($"The feature {featureName} is not a string feature...");
+                    throw new Exception("A client id is required for client features...");
                 }
+
+                var clientData = await EnsuresClientDataExists(existingFeature, clientId);
+                return (T)(object)clientData.StringValue;
             }
 
             throw new Exception("Only value of types bool, int, decimal and string are allowed...");
@@ -220,7 +301,7 @@ namespace AspNetCore.FeatureManagement.UI.Services
 
             await _featureManagementDb.SaveChangesAsync();
 
-            _onFeatureUpdated?.Invoke(existingFeature.ToOutput());
+            _settings.OnFeatureUpdated?.Invoke(existingFeature.ToOutput());
 
             return existingFeature;
         }

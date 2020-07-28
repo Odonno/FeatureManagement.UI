@@ -58,7 +58,7 @@ public void ConfigureServices(IServiceCollection services)
             // Welcome message
             .Feature("WelcomeMessage", "Welcome to my Blog");
 
-        c.OnFeatureUpdated += (IFeature feature) =>
+        c.OnFeatureUpdated = (IFeature feature) =>
         {
             // Do something when a feature is updated 
         };
