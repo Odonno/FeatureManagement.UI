@@ -58,16 +58,16 @@ const FeatureTextInput: FunctionalComponent<Props> = (props) => {
             />
             <p>
                 {canSave && (
-                    <PrimaryButton 
-                        text="Save" 
-                        onClick={() => onValidateButtonClicked()} 
+                    <PrimaryButton
+                        text="Save"
+                        onClick={() => onValidateButtonClicked()}
                         allowDisabledFocus
                     />
                 )}
                 {canCancel && (
-                    <DefaultButton 
-                        text="Cancel" 
-                        onClick={() => onCancelButtonClicked()} 
+                    <DefaultButton
+                        text="Cancel"
+                        onClick={() => onCancelButtonClicked()}
                         allowDisabledFocus
                         style={{ marginLeft: 12 }}
                     />

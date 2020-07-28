@@ -60,17 +60,17 @@ const FeatureNumberInput: FunctionalComponent<Props> = (props) => {
                 onKeyUp={onTextChanged}
             />
             {canSave && (
-                <PrimaryButton 
-                    text="Save" 
-                    onClick={() => onValidateButtonClicked()} 
+                <PrimaryButton
+                    text="Save"
+                    onClick={() => onValidateButtonClicked()}
                     disabled={saveDisabled}
                     allowDisabledFocus
                 />
             )}
             {canCancel && (
-                <DefaultButton 
-                    text="Cancel" 
-                    onClick={() => onCancelButtonClicked()} 
+                <DefaultButton
+                    text="Cancel"
+                    onClick={() => onCancelButtonClicked()}
                     allowDisabledFocus
                     style={{ marginLeft: 12 }}
                 />

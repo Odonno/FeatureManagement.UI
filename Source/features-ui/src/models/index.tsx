@@ -9,7 +9,7 @@ type FeatureBase<T> = {
     readonly: boolean;
 };
 
-export type Feature = 
+export type Feature =
     | FeatureBase<boolean>
     | FeatureBase<number>
     | FeatureBase<string>;

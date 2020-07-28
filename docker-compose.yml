@@ -29,7 +29,7 @@ services:
     depends_on:
       - samples-api
   samples-api:
-    build: 
+    build:
       context: Samples/Back
       dockerfile: Dockerfile
     environment:
@@ -43,7 +43,7 @@ services:
     depends_on:
       - samples-db
   samples-db:
-    build: 
+    build:
       context: Samples/Data
       dockerfile: Dockerfile
     environment:
