@@ -17,6 +17,10 @@ namespace Microsoft.AspNetCore.Builder
         /// <returns>An <see cref="IEndpointConventionBuilder"/> for endpoints associated with controller actions.</returns>
         public static IEndpointConventionBuilder MapFeaturesUI(this IEndpointRouteBuilder builder)
         {
+            var getAuthSchemesApiDelegate = builder.CreateApplicationBuilder()
+                .UseMiddleware<GetAuthSchemesApiEndpointMiddleware>()
+                .Build();
+
             var getAllFeaturesApiDelegate = builder.CreateApplicationBuilder()
                 .UseMiddleware<GetAllFeaturesApiEndpointMiddleware>()
                 .Build();
@@ -24,6 +28,9 @@ namespace Microsoft.AspNetCore.Builder
             var setFeatureApiDelegate = builder.CreateApplicationBuilder()
                 .UseMiddleware<SetFeatureApiEndpointMiddleware>()
                 .Build();
+
+            var getAuthSchemesApiEndpoint = builder.MapGet("/features/auth/schemes", getAuthSchemesApiDelegate)
+                                .WithDisplayName("Get Features auth schemes - UI Api");
 
             var getAllfeaturesApiEndpoint = builder.MapGet("/features", getAllFeaturesApiDelegate)
                                 .WithDisplayName("Get all Features - UI Api");
@@ -35,7 +42,7 @@ namespace Microsoft.AspNetCore.Builder
                 .Map(builder, new Options());
                 
             var endpointConventionBuilders = new List<IEndpointConventionBuilder>(
-                new[] { getAllfeaturesApiEndpoint, setFeatureApiEndpoint }.Union(resourcesEndpoints)
+                new[] { getAuthSchemesApiEndpoint, getAllfeaturesApiEndpoint, setFeatureApiEndpoint }.Union(resourcesEndpoints)
             );
             
             return new FeaturesUIConventionBuilder(endpointConventionBuilders);

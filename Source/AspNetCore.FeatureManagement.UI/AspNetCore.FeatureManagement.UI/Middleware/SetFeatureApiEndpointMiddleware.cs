@@ -4,7 +4,6 @@ using AspNetCore.FeatureManagement.UI.Extensions;
 using AspNetCore.FeatureManagement.UI.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
@@ -25,13 +24,11 @@ namespace AspNetCore.FeatureManagement.UI.Middleware
         private readonly RequestDelegate _next;
         private readonly JsonSerializerSettings _jsonSerializationSettings;
         private readonly IServiceScopeFactory _serviceScopeFactory;
-        private readonly Settings _settings;
 
-        public SetFeatureApiEndpointMiddleware(RequestDelegate next, IServiceScopeFactory serviceScopeFactory, IOptions<Settings> settings)
+        public SetFeatureApiEndpointMiddleware(RequestDelegate next, IServiceScopeFactory serviceScopeFactory)
         {
             _next = next;
             _serviceScopeFactory = serviceScopeFactory;
-            _settings = settings?.Value ?? throw new ArgumentNullException(nameof(settings));
             _jsonSerializationSettings = new JsonSerializerSettings()
             {
                 ContractResolver = new CamelCasePropertyNamesContractResolver(),

@@ -1,23 +1,20 @@
 using AspNetCore.FeatureManagement.UI.Configuration;
-using AspNetCore.FeatureManagement.UI.Extensions;
-using AspNetCore.FeatureManagement.UI.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace AspNetCore.FeatureManagement.UI.Middleware
 {
-    internal class GetAllFeaturesApiEndpointMiddleware
+    internal class GetAuthSchemesApiEndpointMiddleware
     {
         private readonly RequestDelegate _next;
         private readonly JsonSerializerSettings _jsonSerializationSettings;
         private readonly IServiceScopeFactory _serviceScopeFactory;
 
-        public GetAllFeaturesApiEndpointMiddleware(RequestDelegate next, IServiceScopeFactory serviceScopeFactory)
+        public GetAuthSchemesApiEndpointMiddleware(RequestDelegate next, IServiceScopeFactory serviceScopeFactory)
         {
             _next = next;
             _serviceScopeFactory = serviceScopeFactory;
@@ -34,18 +31,9 @@ namespace AspNetCore.FeatureManagement.UI.Middleware
         {
             using (var scope = _serviceScopeFactory.CreateScope())
             {
-                var featuresServices = scope.ServiceProvider.GetService<IFeaturesService>();
                 var settings = scope.ServiceProvider.GetService<Settings>();
 
-                string? clientId = settings.GetClientId?.Invoke();
-
-                var features = await featuresServices.GetAll();
-
-                var output = await Task.WhenAll(
-                    features
-                        .Where(f => settings.HandleReadAuth(f, clientId))
-                        .Select(f => f.ToOutput(featuresServices, settings, clientId))
-                );
+                var output = settings.AuthSchemes;
 
                 var responseContent = JsonConvert.SerializeObject(output, _jsonSerializationSettings);
                 context.Response.ContentType = "application/json";

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using AspNetCore.FeatureManagement.UI.Core.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;

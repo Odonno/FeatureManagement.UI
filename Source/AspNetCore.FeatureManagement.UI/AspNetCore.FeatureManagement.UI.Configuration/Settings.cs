@@ -36,6 +36,11 @@ namespace AspNetCore.FeatureManagement.UI.Configuration
         /// </summary>
         public Action<IFeature, string>? OnClientFeatureUpdated { get; set; }
 
+        /// <summary>
+        /// List of authentication schemes applied in Features authentication (to be used in the UI)
+        /// </summary>
+        public List<IAuthenticationScheme> AuthSchemes { get; internal set; } = new List<IAuthenticationScheme>();
+
         public Settings() 
         {
             Initialize();    
