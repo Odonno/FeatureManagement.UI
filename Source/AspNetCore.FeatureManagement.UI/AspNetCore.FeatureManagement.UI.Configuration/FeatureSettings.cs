@@ -6,6 +6,7 @@ namespace AspNetCore.FeatureManagement.UI.Configuration
     {
         string Name { get; set; }
         string? Description { get; set; }
+        string Type { get; set; }
     }
 
     internal interface IFeatureWithValueSettings<T> : IFeatureSettings
@@ -22,45 +23,52 @@ namespace AspNetCore.FeatureManagement.UI.Configuration
     {
         public string Name { get; set; }
         public string? Description { get; set; }
+        public string Type { get; set; }
         public bool Value { get; set; }
     }
     internal class IntFeatureSettings : IFeatureWithValueSettings<int>
     {
         public string Name { get; set; }
         public string? Description { get; set; }
+        public string Type { get; set; }
         public int Value { get; set; }
     }
     internal class IntFeatureWithChoicesSettings : IFeatureWithChoicesSettings<int>
     {
         public string Name { get; set; }
         public string? Description { get; set; }
+        public string Type { get; set; }
         public int Value { get; set; }
-        public IEnumerable<int> Choices { get; set; }
+        public IEnumerable<int> Choices { get; set; } = new List<int>();
     }
     internal class DecimalFeatureSettings : IFeatureWithValueSettings<decimal>
     {
         public string Name { get; set; }
         public string? Description { get; set; }
+        public string Type { get; set; }
         public decimal Value { get; set; }
     }
     internal class DecimalFeatureWithChoicesSettings : IFeatureWithChoicesSettings<decimal>
     {
         public string Name { get; set; }
         public string? Description { get; set; }
+        public string Type { get; set; }
         public decimal Value { get; set; }
-        public IEnumerable<decimal> Choices { get; set; }
+        public IEnumerable<decimal> Choices { get; set; } = new List<decimal>();
     }
     internal class StringFeatureSettings : IFeatureWithValueSettings<string>
     {
         public string Name { get; set; }
         public string? Description { get; set; }
+        public string Type { get; set; }
         public string Value { get; set; }
     }
     internal class StringFeatureWithChoicesSettings : IFeatureWithChoicesSettings<string>
     {
         public string Name { get; set; }
         public string? Description { get; set; }
+        public string Type { get; set; }
         public string Value { get; set; }
-        public IEnumerable<string> Choices { get; set; }
+        public IEnumerable<string> Choices { get; set; } = new List<string>();
     }
 }

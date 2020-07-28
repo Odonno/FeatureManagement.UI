@@ -29,19 +29,9 @@ namespace AspNetCore.FeatureManagement.UI.Core.Data.Configuration
                 .IsRequired(false)
                 .HasMaxLength(1000);
 
-            builder.Property(f => f.Type)
+            builder.Property(f => f.ValueType)
                 .IsRequired(true)
                 .HasMaxLength(10);
-
-            builder.Property(f => f.BooleanValue)
-                .IsRequired(false);
-            builder.Property(f => f.IntValue)
-                .IsRequired(false);
-            builder.Property(f => f.DecimalValue)
-                .IsRequired(false);
-            builder.Property(f => f.StringValue)
-                .IsRequired(false)
-                .HasColumnType("NVARCHAR(MAX)");
         }
     }
 }

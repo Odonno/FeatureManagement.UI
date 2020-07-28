@@ -1,5 +1,6 @@
 ﻿using AspNetCore.FeatureManagement.UI.Configuration;
 using AspNetCore.FeatureManagement.UI.Core.Data;
+using AspNetCore.FeatureManagement.UI.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -58,8 +59,10 @@ namespace Microsoft.Extensions.DependencyInjection
                             {
                                 Name = f.Name,
                                 Description = f.Description,
-                                Type = FeatureTypes.Boolean,
-                                BooleanValue = fBool.Value
+                                ValueType = FeatureValueTypes.Boolean,
+                                Server = f.Type == FeatureTypes.Server
+                                    ? new ServerFeatureData { BooleanValue = fBool.Value }
+                                    : null
                             };
                         }
                         if (f is IFeatureWithChoicesSettings<int> fIntWithChoices)
@@ -68,8 +71,10 @@ namespace Microsoft.Extensions.DependencyInjection
                             {
                                 Name = f.Name,
                                 Description = f.Description,
-                                Type = FeatureTypes.Integer,
-                                IntValue = fIntWithChoices.Value,
+                                ValueType = FeatureValueTypes.Integer,
+                                Server = f.Type == FeatureTypes.Server
+                                    ? new ServerFeatureData { IntValue = fIntWithChoices.Value }
+                                    : null,
                                 IntFeatureChoices = fIntWithChoices.Choices
                                     .Select(c => new IntFeatureChoice { Choice = c })
                                     .ToList()
@@ -81,8 +86,10 @@ namespace Microsoft.Extensions.DependencyInjection
                             {
                                 Name = f.Name,
                                 Description = f.Description,
-                                Type = FeatureTypes.Integer,
-                                IntValue = fInt.Value,
+                                ValueType = FeatureValueTypes.Integer,
+                                Server = f.Type == FeatureTypes.Server
+                                    ? new ServerFeatureData { IntValue = fInt.Value }
+                                    : null,
                                 IntFeatureChoices = new List<IntFeatureChoice>()
                             };
                         }
@@ -92,8 +99,10 @@ namespace Microsoft.Extensions.DependencyInjection
                             {
                                 Name = f.Name,
                                 Description = f.Description,
-                                Type = FeatureTypes.Decimal,
-                                DecimalValue = fDecimalWithChoices.Value,
+                                ValueType = FeatureValueTypes.Decimal,
+                                Server = f.Type == FeatureTypes.Server
+                                    ? new ServerFeatureData { DecimalValue = fDecimalWithChoices.Value }
+                                    : null,
                                 DecimalFeatureChoices = fDecimalWithChoices.Choices
                                     .Select(c => new DecimalFeatureChoice { Choice = c })
                                     .ToList()
@@ -105,8 +114,10 @@ namespace Microsoft.Extensions.DependencyInjection
                             {
                                 Name = f.Name,
                                 Description = f.Description,
-                                Type = FeatureTypes.Decimal,
-                                DecimalValue = fDecimal.Value,
+                                ValueType = FeatureValueTypes.Decimal,
+                                Server = f.Type == FeatureTypes.Server
+                                    ? new ServerFeatureData { DecimalValue = fDecimal.Value }
+                                    : null,
                                 DecimalFeatureChoices = new List<DecimalFeatureChoice>()
                             };
                         }
@@ -116,8 +127,10 @@ namespace Microsoft.Extensions.DependencyInjection
                             {
                                 Name = f.Name,
                                 Description = f.Description,
-                                Type = FeatureTypes.String,
-                                StringValue = fStringWithChoices.Value,
+                                ValueType = FeatureValueTypes.String,
+                                Server = f.Type == FeatureTypes.Server
+                                    ? new ServerFeatureData { StringValue = fStringWithChoices.Value }
+                                    : null,
                                 StringFeatureChoices = fStringWithChoices.Choices
                                     .Select(c => new StringFeatureChoice { Choice = c })
                                     .ToList()
@@ -129,8 +142,10 @@ namespace Microsoft.Extensions.DependencyInjection
                             {
                                 Name = f.Name,
                                 Description = f.Description,
-                                Type = FeatureTypes.String,
-                                StringValue = fString.Value,
+                                ValueType = FeatureValueTypes.String,
+                                Server = f.Type == FeatureTypes.Server
+                                    ? new ServerFeatureData { StringValue = fString.Value }
+                                    : null,
                                 StringFeatureChoices = new List<StringFeatureChoice>()
                             };
                         }
@@ -140,11 +155,11 @@ namespace Microsoft.Extensions.DependencyInjection
                     .ToList();
 
                 var featuresToAdd = newFeatures
-                    .Where(f => !featuresSet.Any(sf => sf.Name == f.Name && sf.Type == f.Type));
+                    .Where(f => !existingFeatures.Any(sf => sf.Name == f.Name && !FeatureExtensions.HasBreakingChanges(sf, f)));
                 var featuresToUpdate = newFeatures
-                    .Where(f => featuresSet.Any(sf => sf.Name == f.Name && sf.Type == f.Type));
+                    .Where(f => existingFeatures.Any(sf => sf.Name == f.Name && !FeatureExtensions.HasBreakingChanges(sf, f)));
                 var featuresToDelete = existingFeatures
-                    .Where(f => !newFeatures.Any(sf => sf.Name == f.Name && sf.Type == f.Type));
+                    .Where(f => !newFeatures.Any(sf => sf.Name == f.Name && !FeatureExtensions.HasBreakingChanges(sf, f)));
 
                 featuresSet.AddRange(featuresToAdd);
 
@@ -153,7 +168,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     var savedFeature = existingFeatures.Single(f => f.Name == feature.Name);
                     savedFeature.Description = feature.Description;
 
-                    if (feature.Type == FeatureTypes.Integer)
+                    if (feature.ValueType == FeatureValueTypes.Integer)
                     {
                         var existingChoices = savedFeature.IntFeatureChoices;
 
@@ -165,7 +180,7 @@ namespace Microsoft.Extensions.DependencyInjection
                         savedFeature.IntFeatureChoices.AddRange(choicesToAdd);
                         intFeatureChoicesSet.RemoveRange(choicesToDelete);
                     }
-                    if (feature.Type == FeatureTypes.Decimal)
+                    if (feature.ValueType == FeatureValueTypes.Decimal)
                     {
                         var existingChoices = savedFeature.DecimalFeatureChoices;
 
@@ -177,7 +192,7 @@ namespace Microsoft.Extensions.DependencyInjection
                         savedFeature.DecimalFeatureChoices.AddRange(choicesToAdd);
                         decimalFeatureChoicesSet.RemoveRange(choicesToDelete);
                     }
-                    if (feature.Type == FeatureTypes.String)
+                    if (feature.ValueType == FeatureValueTypes.String)
                     {
                         var existingChoices = savedFeature.StringFeatureChoices;
 

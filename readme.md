@@ -52,15 +52,21 @@ public void ConfigureServices(IServiceCollection services)
         // Storage provider
         c.AddInMemoryStorage()
             // Beta feature, enabled by default
-            .Feature("Beta", true)
-            // Theme feature, "light" by default
-            .Feature("Theme", themes[0], "Choose a theme for the frontend", themes)
+            .ServerFeature("Beta", true)
             // Welcome message
-            .Feature("WelcomeMessage", "Welcome to my Blog");
+            .ServerFeature("WelcomeMessage", "Welcome to my Blog")
+            // Theme feature, "light" by default
+            .ClientFeature("Theme", themes[0], "Choose a theme for the frontend", themes);
 
-        c.OnFeatureUpdated += (IFeature feature) =>
+        c.GetClientId = () =>
         {
-            // Do something when a feature is updated 
+            // Retrieve client id used to identify the user of each client features
+            return Guid.NewGuid().ToString();
+        };
+
+        c.OnServerFeatureUpdated = (IFeature feature) =>
+        {
+            // Do something when a server feature is updated 
         };
     });
 
@@ -138,8 +144,8 @@ public interface IFeaturesService
 {
     Task<List<Feature>> GetAll();
     Task<Feature> Get(string featureName);
-    Task<T> GetValue<T>(string featureName);
-    Task<Feature> SetValue<T>(string featureName, T value);
+    Task<T> GetValue<T>(string featureName, string? clientId = null);
+    Task<Feature> SetValue<T>(string featureName, T value, string? clientId = null);
 }
 ```
 

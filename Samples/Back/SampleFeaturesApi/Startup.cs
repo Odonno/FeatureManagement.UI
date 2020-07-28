@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -27,9 +28,16 @@ namespace SampleFeaturesApi
                 };
 
                 c.AddSqlServerStorage(Configuration.GetConnectionString("DefaultConnection"))
-                    .Feature("Beta", true)
-                    .Feature("Theme", themes[0], "Choose a theme for the frontend", themes)
-                    .Feature("WelcomeMessage", "Welcome to my Blog");
+                    .ServerFeature("Beta", true)
+                    .ServerFeature("WelcomeMessage", "Welcome to my Blog")
+                    .ClientFeature("Theme", themes[0], "Choose a theme for the frontend", themes);
+
+                string uniqueId = Guid.NewGuid().ToString();
+
+                c.GetClientId = () =>
+                {
+                    return uniqueId;
+                };
             });
 
             services.AddControllers();
