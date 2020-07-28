@@ -1,5 +1,6 @@
 ﻿using AspNetCore.FeatureManagement.UI.Configuration;
 using AspNetCore.FeatureManagement.UI.Core.Data;
+using AspNetCore.FeatureManagement.UI.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -52,106 +53,99 @@ namespace Microsoft.Extensions.DependencyInjection
                 var newFeatures = settings.Features
                     .Select(f =>
                     {
-                        if (f is IServerFeatureWithValueSettings<bool> fBool)
+                        if (f is IFeatureWithValueSettings<bool> fBool)
                         {
                             return new Feature
                             {
                                 Name = f.Name,
                                 Description = f.Description,
                                 ValueType = FeatureValueTypes.Boolean,
-                                Server = new ServerFeatureData
-                                {
-                                    BooleanValue = fBool.Value
-                                }
+                                Server = f.Type == FeatureTypes.Server
+                                    ? new ServerFeatureData { BooleanValue = fBool.Value }
+                                    : null
                             };
                         }
-                        if (f is IServerFeatureWithChoicesSettings<int> fIntWithChoices)
+                        if (f is IFeatureWithChoicesSettings<int> fIntWithChoices)
                         {
                             return new Feature
                             {
                                 Name = f.Name,
                                 Description = f.Description,
                                 ValueType = FeatureValueTypes.Integer,
-                                Server = new ServerFeatureData
-                                {
-                                    IntValue = fIntWithChoices.Value
-                                },
+                                Server = f.Type == FeatureTypes.Server
+                                    ? new ServerFeatureData { IntValue = fIntWithChoices.Value }
+                                    : null,
                                 IntFeatureChoices = fIntWithChoices.Choices
                                     .Select(c => new IntFeatureChoice { Choice = c })
                                     .ToList()
                             };
                         }
-                        if (f is IServerFeatureWithValueSettings<int> fInt)
+                        if (f is IFeatureWithValueSettings<int> fInt)
                         {
                             return new Feature
                             {
                                 Name = f.Name,
                                 Description = f.Description,
                                 ValueType = FeatureValueTypes.Integer,
-                                Server = new ServerFeatureData
-                                {
-                                    IntValue = fInt.Value
-                                },
+                                Server = f.Type == FeatureTypes.Server
+                                    ? new ServerFeatureData { IntValue = fInt.Value }
+                                    : null,
                                 IntFeatureChoices = new List<IntFeatureChoice>()
                             };
                         }
-                        if (f is IServerFeatureWithChoicesSettings<decimal> fDecimalWithChoices)
+                        if (f is IFeatureWithChoicesSettings<decimal> fDecimalWithChoices)
                         {
                             return new Feature
                             {
                                 Name = f.Name,
                                 Description = f.Description,
                                 ValueType = FeatureValueTypes.Decimal,
-                                Server = new ServerFeatureData
-                                {
-                                    DecimalValue = fDecimalWithChoices.Value
-                                },
+                                Server = f.Type == FeatureTypes.Server
+                                    ? new ServerFeatureData { DecimalValue = fDecimalWithChoices.Value }
+                                    : null,
                                 DecimalFeatureChoices = fDecimalWithChoices.Choices
                                     .Select(c => new DecimalFeatureChoice { Choice = c })
                                     .ToList()
                             };
                         }
-                        if (f is IServerFeatureWithValueSettings<decimal> fDecimal)
+                        if (f is IFeatureWithValueSettings<decimal> fDecimal)
                         {
                             return new Feature
                             {
                                 Name = f.Name,
                                 Description = f.Description,
                                 ValueType = FeatureValueTypes.Decimal,
-                                Server = new ServerFeatureData
-                                {
-                                    DecimalValue = fDecimal.Value
-                                },
+                                Server = f.Type == FeatureTypes.Server
+                                    ? new ServerFeatureData { DecimalValue = fDecimal.Value }
+                                    : null,
                                 DecimalFeatureChoices = new List<DecimalFeatureChoice>()
                             };
                         }
-                        if (f is IServerFeatureWithChoicesSettings<string> fStringWithChoices)
+                        if (f is IFeatureWithChoicesSettings<string> fStringWithChoices)
                         {
                             return new Feature
                             {
                                 Name = f.Name,
                                 Description = f.Description,
                                 ValueType = FeatureValueTypes.String,
-                                Server = new ServerFeatureData
-                                {
-                                    StringValue = fStringWithChoices.Value
-                                },
+                                Server = f.Type == FeatureTypes.Server
+                                    ? new ServerFeatureData { StringValue = fStringWithChoices.Value }
+                                    : null,
                                 StringFeatureChoices = fStringWithChoices.Choices
                                     .Select(c => new StringFeatureChoice { Choice = c })
                                     .ToList()
                             };
                         }
-                        if (f is IServerFeatureWithValueSettings<string> fString)
+                        if (f is IFeatureWithValueSettings<string> fString)
                         {
                             return new Feature
                             {
                                 Name = f.Name,
                                 Description = f.Description,
                                 ValueType = FeatureValueTypes.String,
-                                Server = new ServerFeatureData
-                                {
-                                    StringValue = fString.Value
-                                },
+                                Server = f.Type == FeatureTypes.Server
+                                    ? new ServerFeatureData { StringValue = fString.Value }
+                                    : null,
                                 StringFeatureChoices = new List<StringFeatureChoice>()
                             };
                         }
@@ -161,11 +155,11 @@ namespace Microsoft.Extensions.DependencyInjection
                     .ToList();
 
                 var featuresToAdd = newFeatures
-                    .Where(f => !featuresSet.Any(sf => sf.Name == f.Name && sf.ValueType == f.ValueType));
+                    .Where(f => !existingFeatures.Any(sf => sf.Name == f.Name && !FeatureExtensions.HasBreakingChanges(sf, f)));
                 var featuresToUpdate = newFeatures
-                    .Where(f => featuresSet.Any(sf => sf.Name == f.Name && sf.ValueType == f.ValueType));
+                    .Where(f => existingFeatures.Any(sf => sf.Name == f.Name && !FeatureExtensions.HasBreakingChanges(sf, f)));
                 var featuresToDelete = existingFeatures
-                    .Where(f => !newFeatures.Any(sf => sf.Name == f.Name && sf.ValueType == f.ValueType));
+                    .Where(f => !newFeatures.Any(sf => sf.Name == f.Name && !FeatureExtensions.HasBreakingChanges(sf, f)));
 
                 featuresSet.AddRange(featuresToAdd);
 

@@ -7,7 +7,8 @@ namespace AspNetCore.FeatureManagement.UI.Core.Data
         public int Id { get; set; }
         public string Name { get; set; }
         public string? Description { get; set; }
-        public string ValueType { get; set; }        
+        public string ValueType { get; set; }
+        public string Type => Server != null ? FeatureTypes.Server : FeatureTypes.Client;
 
         public ServerFeatureData? Server { get; set; }
         public List<ClientFeatureData>? Clients { get; set; }

@@ -1,6 +1,6 @@
 ﻿using AspNetCore.FeatureManagement.UI.Core.Data;
 using AspNetCore.FeatureManagement.UI.Core.Models;
-using AspNetCore.FeatureManagement.UI.Middleware.Extensions;
+using AspNetCore.FeatureManagement.UI.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using System;

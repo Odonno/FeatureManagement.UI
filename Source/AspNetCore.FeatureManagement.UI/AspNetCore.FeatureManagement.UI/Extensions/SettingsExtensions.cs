@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using AspNetCore.FeatureManagement.UI.Configuration;
+using AspNetCore.FeatureManagement.UI.Core.Data;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -15,11 +16,12 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns>The updated <see cref="Settings"/>.</returns>
         public static Settings ServerFeature(this Settings settings, string featureName, bool defaultValue = false, string? description = null)
         {
-            settings.Features.Add(new BoolServerFeatureSettings
+            settings.Features.Add(new BoolFeatureSettings
             {
                 Name = featureName,
                 Value = defaultValue,
-                Description = description
+                Description = description,
+                Type = FeatureTypes.Server
             });
 
             return settings;
@@ -37,21 +39,23 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             if (choices != null)
             {
-                settings.Features.Add(new IntServerFeatureWithChoicesSettings
+                settings.Features.Add(new IntFeatureWithChoicesSettings
                 {
                     Name = featureName,
                     Value = defaultValue,
                     Description = description,
+                    Type = FeatureTypes.Server,
                     Choices = choices
                 });
             }
             else
             {
-                settings.Features.Add(new IntServerFeatureSettings
+                settings.Features.Add(new IntFeatureSettings
                 {
                     Name = featureName,
                     Value = defaultValue,
-                    Description = description
+                    Description = description,
+                    Type = FeatureTypes.Server
                 });
             }
 
@@ -70,21 +74,23 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             if (choices != null)
             {
-                settings.Features.Add(new DecimalServerFeatureWithChoicesSettings
+                settings.Features.Add(new DecimalFeatureWithChoicesSettings
                 {
                     Name = featureName,
                     Value = defaultValue,
                     Description = description,
+                    Type = FeatureTypes.Server,
                     Choices = choices
                 });
             }
             else
             {
-                settings.Features.Add(new DecimalServerFeatureSettings
+                settings.Features.Add(new DecimalFeatureSettings
                 {
                     Name = featureName,
                     Value = defaultValue,
-                    Description = description
+                    Description = description,
+                    Type = FeatureTypes.Server
                 });
             }
 
@@ -103,21 +109,23 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             if (choices != null)
             {
-                settings.Features.Add(new StringServerFeatureWithChoicesSettings
+                settings.Features.Add(new StringFeatureWithChoicesSettings
                 {
                     Name = featureName,
                     Value = defaultValue,
                     Description = description,
+                    Type = FeatureTypes.Server,
                     Choices = choices
                 });
             }
             else
             {
-                settings.Features.Add(new StringServerFeatureSettings
+                settings.Features.Add(new StringFeatureSettings
                 {
                     Name = featureName,
                     Value = defaultValue,
-                    Description = description
+                    Description = description,
+                    Type = FeatureTypes.Server
                 });
             }
 
@@ -134,11 +142,12 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns>The updated <see cref="Settings"/>.</returns>
         public static Settings ClientFeature(this Settings settings, string featureName, bool defaultValue = false, string? description = null)
         {
-            settings.Features.Add(new BoolClientFeatureSettings
+            settings.Features.Add(new BoolFeatureSettings
             {
                 Name = featureName,
                 Value = defaultValue,
-                Description = description
+                Description = description,
+                Type = FeatureTypes.Client
             });
 
             return settings;
@@ -156,21 +165,23 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             if (choices != null)
             {
-                settings.Features.Add(new IntClientFeatureWithChoicesSettings
+                settings.Features.Add(new IntFeatureWithChoicesSettings
                 {
                     Name = featureName,
                     Value = defaultValue,
                     Description = description,
+                    Type = FeatureTypes.Client,
                     Choices = choices
                 });
             }
             else
             {
-                settings.Features.Add(new IntClientFeatureSettings
+                settings.Features.Add(new IntFeatureSettings
                 {
                     Name = featureName,
                     Value = defaultValue,
-                    Description = description
+                    Description = description,
+                    Type = FeatureTypes.Client
                 });
             }
 
@@ -189,21 +200,23 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             if (choices != null)
             {
-                settings.Features.Add(new DecimalClientFeatureWithChoicesSettings
+                settings.Features.Add(new DecimalFeatureWithChoicesSettings
                 {
                     Name = featureName,
                     Value = defaultValue,
                     Description = description,
+                    Type = FeatureTypes.Client,
                     Choices = choices
                 });
             }
             else
             {
-                settings.Features.Add(new DecimalClientFeatureSettings
+                settings.Features.Add(new DecimalFeatureSettings
                 {
                     Name = featureName,
                     Value = defaultValue,
-                    Description = description
+                    Description = description,
+                    Type = FeatureTypes.Client
                 });
             }
 
@@ -222,21 +235,23 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             if (choices != null)
             {
-                settings.Features.Add(new StringClientFeatureWithChoicesSettings
+                settings.Features.Add(new StringFeatureWithChoicesSettings
                 {
                     Name = featureName,
                     Value = defaultValue,
                     Description = description,
+                    Type = FeatureTypes.Client,
                     Choices = choices
                 });
             }
             else
             {
-                settings.Features.Add(new StringClientFeatureSettings
+                settings.Features.Add(new StringFeatureSettings
                 {
                     Name = featureName,
                     Value = defaultValue,
-                    Description = description
+                    Description = description,
+                    Type = FeatureTypes.Client
                 });
             }
 

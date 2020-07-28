@@ -1,6 +1,6 @@
 using AspNetCore.FeatureManagement.UI.Configuration;
 using AspNetCore.FeatureManagement.UI.Core.Data;
-using AspNetCore.FeatureManagement.UI.Middleware.Extensions;
+using AspNetCore.FeatureManagement.UI.Extensions;
 using AspNetCore.FeatureManagement.UI.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;

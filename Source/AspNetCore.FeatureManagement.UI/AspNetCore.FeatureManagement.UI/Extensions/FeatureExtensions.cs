@@ -1,11 +1,24 @@
 ﻿using AspNetCore.FeatureManagement.UI.Core.Data;
 using AspNetCore.FeatureManagement.UI.Core.Models;
+using System;
 using System.Linq;
 
-namespace AspNetCore.FeatureManagement.UI.Middleware.Extensions
+namespace AspNetCore.FeatureManagement.UI.Extensions
 {
     internal static class FeatureExtensions
     {
+        internal static bool HasBreakingChanges(this Feature f1, Feature f2)
+        {
+            if (f1.Name != f2.Name)
+            {
+                throw new Exception("The two features does not have the same name...");
+            }
+
+            return 
+                f1.Type != f2.Type ||
+                f1.ValueType != f2.ValueType;
+        }
+
         internal static IFeature ToOutput(this Feature feature)
         {
             if (feature.ValueType == FeatureValueTypes.Boolean)
@@ -26,8 +39,8 @@ namespace AspNetCore.FeatureManagement.UI.Middleware.Extensions
                     Name = feature.Name,
                     Description = feature.Description,
                     Value = feature.Server.IntValue, // TODO : Client vs. Server feature
-                    Choices = hasChoices 
-                        ? feature.IntFeatureChoices.Select(c => c.Choice).ToList() 
+                    Choices = hasChoices
+                        ? feature.IntFeatureChoices.Select(c => c.Choice).ToList()
                         : null
                 };
             }
