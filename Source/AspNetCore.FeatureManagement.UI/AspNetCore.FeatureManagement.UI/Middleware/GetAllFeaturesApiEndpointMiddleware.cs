@@ -39,11 +39,14 @@ namespace AspNetCore.FeatureManagement.UI.Middleware
             using (var scope = _serviceScopeFactory.CreateScope())
             {
                 var featuresServices = scope.ServiceProvider.GetService<IFeaturesService>();
+                var settings = scope.ServiceProvider.GetService<Settings>();
+
+                string? clientId = settings.GetClientId?.Invoke();
 
                 var features = await featuresServices.GetAll();
 
                 var output = await Task.WhenAll(
-                    features.Select(f => f.ToOutput(featuresServices))
+                    features.Select(f => f.ToOutput(featuresServices, clientId))
                 );
 
                 var responseContent = JsonConvert.SerializeObject(output, _jsonSerializationSettings);

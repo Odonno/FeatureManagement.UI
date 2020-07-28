@@ -21,7 +21,7 @@ namespace AspNetCore.FeatureManagement.UI.Extensions
                 f1.ValueType != f2.ValueType;
         }
 
-        internal static async Task<IFeature> ToOutput(this Feature feature, IFeaturesService featuresService, string? clientId = null)
+        internal static async Task<IFeature> ToOutput(this Feature feature, IFeaturesService featuresService, string? clientId)
         {
             if (feature.ValueType == FeatureValueTypes.Boolean)
             {

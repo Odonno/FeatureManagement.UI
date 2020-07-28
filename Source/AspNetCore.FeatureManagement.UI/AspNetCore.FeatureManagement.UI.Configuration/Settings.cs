@@ -9,6 +9,8 @@ namespace AspNetCore.FeatureManagement.UI.Configuration
     {
         internal IServiceCollection Services { get; }
         internal List<IFeatureSettings> Features { get; } = new List<IFeatureSettings>();
+
+        public Func<string>? GetClientId { get; set; }
         public Action<IFeature>? OnServerFeatureUpdated { get; set; }
         public Action<IFeature, string>? OnClientFeatureUpdated { get; set; }
 

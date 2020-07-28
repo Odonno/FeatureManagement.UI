@@ -56,7 +56,13 @@ public void ConfigureServices(IServiceCollection services)
             // Welcome message
             .ServerFeature("WelcomeMessage", "Welcome to my Blog")
             // Theme feature, "light" by default
-            .ServerFeature("Theme", themes[0], "Choose a theme for the frontend", themes);
+            .ClientFeature("Theme", themes[0], "Choose a theme for the frontend", themes);
+
+        c.GetClientId = () =>
+        {
+            // Retrieve client id used to identify the user of each client features
+            return Guid.NewGuid().ToString();
+        };
 
         c.OnServerFeatureUpdated = (IFeature feature) =>
         {
