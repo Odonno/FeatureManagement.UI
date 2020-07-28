@@ -42,7 +42,9 @@ namespace AspNetCore.FeatureManagement.UI.Middleware
 
                 var features = await featuresServices.GetAll();
 
-                var output = features.Select(f => f.ToOutput());
+                var output = await Task.WhenAll(
+                    features.Select(f => f.ToOutput(featuresServices))
+                );
 
                 var responseContent = JsonConvert.SerializeObject(output, _jsonSerializationSettings);
                 context.Response.ContentType = "application/json";

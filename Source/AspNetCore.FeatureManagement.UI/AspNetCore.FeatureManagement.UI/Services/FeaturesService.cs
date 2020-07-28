@@ -1,6 +1,5 @@
 ﻿using AspNetCore.FeatureManagement.UI.Configuration;
 using AspNetCore.FeatureManagement.UI.Core.Data;
-using AspNetCore.FeatureManagement.UI.Core.Models;
 using AspNetCore.FeatureManagement.UI.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
@@ -74,16 +73,16 @@ namespace AspNetCore.FeatureManagement.UI.Services
             {
                 FeatureId = feature.Id,
                 ClientId = clientId,
-                BooleanValue = featureSettings is IFeatureWithValue<bool> fBool
+                BooleanValue = featureSettings is IFeatureWithValueSettings<bool> fBool
                     ? (bool?)fBool.Value
                     : null,
-                IntValue = featureSettings is IFeatureWithValue<int> fInt
+                IntValue = featureSettings is IFeatureWithValueSettings<int> fInt
                     ? (int?)fInt.Value
                     : null,
-                DecimalValue = featureSettings is IFeatureWithValue<decimal> fDecimal
+                DecimalValue = featureSettings is IFeatureWithValueSettings<decimal> fDecimal
                     ? (decimal?)fDecimal.Value
                     : null,
-                StringValue = featureSettings is IFeatureWithValue<string> fString
+                StringValue = featureSettings is IFeatureWithValueSettings<string> fString
                     ? fString.Value
                     : null
             };
@@ -364,11 +363,13 @@ namespace AspNetCore.FeatureManagement.UI.Services
 
             if (existingFeature.Type == FeatureTypes.Server)
             {
-                _settings.OnServerFeatureUpdated?.Invoke(existingFeature.ToOutput());
+                var output = await existingFeature.ToOutput(this);
+                _settings.OnServerFeatureUpdated?.Invoke(output);
             }
             else
             {
-                _settings.OnClientFeatureUpdated?.Invoke(existingFeature.ToOutput(), clientId);
+                var output = await existingFeature.ToOutput(this);
+                _settings.OnClientFeatureUpdated?.Invoke(output, clientId);
             }
 
             return existingFeature;

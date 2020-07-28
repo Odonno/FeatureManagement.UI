@@ -82,7 +82,7 @@ namespace AspNetCore.FeatureManagement.UI.Middleware
                     updatedFeature = await featuresServices.SetValue(featureName, payload.Value);
                 }
 
-                var output = updatedFeature.ToOutput();
+                var output = await updatedFeature.ToOutput(featuresServices);
 
                 var responseContent = JsonConvert.SerializeObject(output, _jsonSerializationSettings);
                 context.Response.ContentType = "application/json";

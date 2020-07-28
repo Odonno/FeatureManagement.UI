@@ -53,10 +53,10 @@ public void ConfigureServices(IServiceCollection services)
         c.AddInMemoryStorage()
             // Beta feature, enabled by default
             .ServerFeature("Beta", true)
-            // Theme feature, "light" by default
-            .ServerFeature("Theme", themes[0], "Choose a theme for the frontend", themes)
             // Welcome message
-            .ServerFeature("WelcomeMessage", "Welcome to my Blog");
+            .ServerFeature("WelcomeMessage", "Welcome to my Blog")
+            // Theme feature, "light" by default
+            .ServerFeature("Theme", themes[0], "Choose a theme for the frontend", themes);
 
         c.OnServerFeatureUpdated = (IFeature feature) =>
         {
