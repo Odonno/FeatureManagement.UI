@@ -52,7 +52,7 @@ namespace AspNetCore.FeatureManagement.UI.Tests.Services
             _db.Features.Add(new Feature
             {
                 Name = "Beta",
-                Type = FeatureTypes.Boolean,
+                ValueType = FeatureValueTypes.Boolean,
                 Server = new ServerFeatureData
                 {
                     BooleanValue = true
@@ -62,7 +62,7 @@ namespace AspNetCore.FeatureManagement.UI.Tests.Services
             {
                 Name = "Theme",
                 Description = "Choose a theme for the frontend",
-                Type = FeatureTypes.String,
+                ValueType = FeatureValueTypes.String,
                 Server = new ServerFeatureData
                 {
                     StringValue = themes[0],
@@ -77,7 +77,7 @@ namespace AspNetCore.FeatureManagement.UI.Tests.Services
             _db.Features.Add(new Feature
             {
                 Name = "WelcomeMessage",
-                Type = FeatureTypes.String,
+                ValueType = FeatureValueTypes.String,
                 Server = new ServerFeatureData
                 {
                     StringValue = "Welcome to my Blog"
@@ -87,7 +87,7 @@ namespace AspNetCore.FeatureManagement.UI.Tests.Services
             {
                 Name = "Delay",
                 Description = "Animation delay (in ms)",
-                Type = FeatureTypes.Integer,
+                ValueType = FeatureValueTypes.Integer,
                 Server = new ServerFeatureData
                 {
                     IntValue = delays[1]
@@ -103,7 +103,7 @@ namespace AspNetCore.FeatureManagement.UI.Tests.Services
             {
                 Name = "TaxPercent",
                 Description = "Tax percentage",
-                Type = FeatureTypes.Decimal,
+                ValueType = FeatureValueTypes.Decimal,
                 Server = new ServerFeatureData
                 {
                     DecimalValue = percents[1]

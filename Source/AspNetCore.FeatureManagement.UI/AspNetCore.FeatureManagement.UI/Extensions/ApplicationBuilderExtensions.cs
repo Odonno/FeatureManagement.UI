@@ -58,7 +58,7 @@ namespace Microsoft.Extensions.DependencyInjection
                             {
                                 Name = f.Name,
                                 Description = f.Description,
-                                Type = FeatureTypes.Boolean,
+                                ValueType = FeatureValueTypes.Boolean,
                                 Server = new ServerFeatureData
                                 {
                                     BooleanValue = fBool.Value
@@ -71,7 +71,7 @@ namespace Microsoft.Extensions.DependencyInjection
                             {
                                 Name = f.Name,
                                 Description = f.Description,
-                                Type = FeatureTypes.Integer,
+                                ValueType = FeatureValueTypes.Integer,
                                 Server = new ServerFeatureData
                                 {
                                     IntValue = fIntWithChoices.Value
@@ -87,7 +87,7 @@ namespace Microsoft.Extensions.DependencyInjection
                             {
                                 Name = f.Name,
                                 Description = f.Description,
-                                Type = FeatureTypes.Integer,
+                                ValueType = FeatureValueTypes.Integer,
                                 Server = new ServerFeatureData
                                 {
                                     IntValue = fInt.Value
@@ -101,7 +101,7 @@ namespace Microsoft.Extensions.DependencyInjection
                             {
                                 Name = f.Name,
                                 Description = f.Description,
-                                Type = FeatureTypes.Decimal,
+                                ValueType = FeatureValueTypes.Decimal,
                                 Server = new ServerFeatureData
                                 {
                                     DecimalValue = fDecimalWithChoices.Value
@@ -117,7 +117,7 @@ namespace Microsoft.Extensions.DependencyInjection
                             {
                                 Name = f.Name,
                                 Description = f.Description,
-                                Type = FeatureTypes.Decimal,
+                                ValueType = FeatureValueTypes.Decimal,
                                 Server = new ServerFeatureData
                                 {
                                     DecimalValue = fDecimal.Value
@@ -131,7 +131,7 @@ namespace Microsoft.Extensions.DependencyInjection
                             {
                                 Name = f.Name,
                                 Description = f.Description,
-                                Type = FeatureTypes.String,
+                                ValueType = FeatureValueTypes.String,
                                 Server = new ServerFeatureData
                                 {
                                     StringValue = fStringWithChoices.Value
@@ -147,7 +147,7 @@ namespace Microsoft.Extensions.DependencyInjection
                             {
                                 Name = f.Name,
                                 Description = f.Description,
-                                Type = FeatureTypes.String,
+                                ValueType = FeatureValueTypes.String,
                                 Server = new ServerFeatureData
                                 {
                                     StringValue = fString.Value
@@ -161,11 +161,11 @@ namespace Microsoft.Extensions.DependencyInjection
                     .ToList();
 
                 var featuresToAdd = newFeatures
-                    .Where(f => !featuresSet.Any(sf => sf.Name == f.Name && sf.Type == f.Type));
+                    .Where(f => !featuresSet.Any(sf => sf.Name == f.Name && sf.ValueType == f.ValueType));
                 var featuresToUpdate = newFeatures
-                    .Where(f => featuresSet.Any(sf => sf.Name == f.Name && sf.Type == f.Type));
+                    .Where(f => featuresSet.Any(sf => sf.Name == f.Name && sf.ValueType == f.ValueType));
                 var featuresToDelete = existingFeatures
-                    .Where(f => !newFeatures.Any(sf => sf.Name == f.Name && sf.Type == f.Type));
+                    .Where(f => !newFeatures.Any(sf => sf.Name == f.Name && sf.ValueType == f.ValueType));
 
                 featuresSet.AddRange(featuresToAdd);
 
@@ -174,7 +174,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     var savedFeature = existingFeatures.Single(f => f.Name == feature.Name);
                     savedFeature.Description = feature.Description;
 
-                    if (feature.Type == FeatureTypes.Integer)
+                    if (feature.ValueType == FeatureValueTypes.Integer)
                     {
                         var existingChoices = savedFeature.IntFeatureChoices;
 
@@ -186,7 +186,7 @@ namespace Microsoft.Extensions.DependencyInjection
                         savedFeature.IntFeatureChoices.AddRange(choicesToAdd);
                         intFeatureChoicesSet.RemoveRange(choicesToDelete);
                     }
-                    if (feature.Type == FeatureTypes.Decimal)
+                    if (feature.ValueType == FeatureValueTypes.Decimal)
                     {
                         var existingChoices = savedFeature.DecimalFeatureChoices;
 
@@ -198,7 +198,7 @@ namespace Microsoft.Extensions.DependencyInjection
                         savedFeature.DecimalFeatureChoices.AddRange(choicesToAdd);
                         decimalFeatureChoicesSet.RemoveRange(choicesToDelete);
                     }
-                    if (feature.Type == FeatureTypes.String)
+                    if (feature.ValueType == FeatureValueTypes.String)
                     {
                         var existingChoices = savedFeature.StringFeatureChoices;
 

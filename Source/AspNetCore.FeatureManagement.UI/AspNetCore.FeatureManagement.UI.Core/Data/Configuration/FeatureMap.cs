@@ -29,7 +29,7 @@ namespace AspNetCore.FeatureManagement.UI.Core.Data.Configuration
                 .IsRequired(false)
                 .HasMaxLength(1000);
 
-            builder.Property(f => f.Type)
+            builder.Property(f => f.ValueType)
                 .IsRequired(true)
                 .HasMaxLength(10);
         }

@@ -8,7 +8,7 @@ namespace AspNetCore.FeatureManagement.UI.Middleware.Extensions
     {
         internal static IFeature ToOutput(this Feature feature)
         {
-            if (feature.Type == FeatureTypes.Boolean)
+            if (feature.ValueType == FeatureValueTypes.Boolean)
             {
                 return new BoolFeature
                 {
@@ -17,7 +17,7 @@ namespace AspNetCore.FeatureManagement.UI.Middleware.Extensions
                     Value = feature.Server.BooleanValue // TODO : Client vs. Server feature
                 };
             }
-            if (feature.Type == FeatureTypes.Integer)
+            if (feature.ValueType == FeatureValueTypes.Integer)
             {
                 bool hasChoices = feature.IntFeatureChoices?.Any() ?? false;
 
@@ -31,7 +31,7 @@ namespace AspNetCore.FeatureManagement.UI.Middleware.Extensions
                         : null
                 };
             }
-            if (feature.Type == FeatureTypes.Decimal)
+            if (feature.ValueType == FeatureValueTypes.Decimal)
             {
                 bool hasChoices = feature.DecimalFeatureChoices?.Any() ?? false;
 
