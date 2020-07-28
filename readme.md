@@ -138,8 +138,8 @@ public interface IFeaturesService
 {
     Task<List<Feature>> GetAll();
     Task<Feature> Get(string featureName);
-    Task<T> GetValue<T>(string featureName);
-    Task<Feature> SetValue<T>(string featureName, T value);
+    Task<T> GetValue<T>(string featureName, string? clientId = null);
+    Task<Feature> SetValue<T>(string featureName, T value, string? clientId = null);
 }
 ```
 
