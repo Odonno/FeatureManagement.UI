@@ -1,4 +1,5 @@
-﻿using AspNetCore.FeatureManagement.UI.Core.Data;
+﻿using AspNetCore.FeatureManagement.UI.Configuration;
+using AspNetCore.FeatureManagement.UI.Core.Data;
 using AspNetCore.FeatureManagement.UI.Core.Models;
 using AspNetCore.FeatureManagement.UI.Services;
 using System;
@@ -21,8 +22,10 @@ namespace AspNetCore.FeatureManagement.UI.Extensions
                 f1.ValueType != f2.ValueType;
         }
 
-        internal static async Task<IFeature> ToOutput(this Feature feature, IFeaturesService featuresService, string? clientId)
+        internal static async Task<IFeature> ToOutput(this Feature feature, IFeaturesService featuresService, Settings settings, string? clientId)
         {
+            bool @readonly = !settings.HandleWriteAuth(feature, clientId);
+
             if (feature.ValueType == FeatureValueTypes.Boolean)
             {
                 var value = await featuresService.GetValue<bool>(feature.Name, clientId);
@@ -31,7 +34,8 @@ namespace AspNetCore.FeatureManagement.UI.Extensions
                 {
                     Name = feature.Name,
                     Description = feature.Description,
-                    Value = value
+                    Value = value,
+                    Readonly = @readonly
                 };
             }
             if (feature.ValueType == FeatureValueTypes.Integer)
@@ -46,7 +50,8 @@ namespace AspNetCore.FeatureManagement.UI.Extensions
                     Value = value,
                     Choices = hasChoices
                         ? feature.IntFeatureChoices.Select(c => c.Choice).ToList()
-                        : null
+                        : null,
+                    Readonly = @readonly
                 };
             }
             if (feature.ValueType == FeatureValueTypes.Decimal)
@@ -61,7 +66,8 @@ namespace AspNetCore.FeatureManagement.UI.Extensions
                     Value = value,
                     Choices = hasChoices
                         ? feature.DecimalFeatureChoices.Select(c => c.Choice).ToList()
-                        : null
+                        : null,
+                    Readonly = @readonly
                 };
             }
 
@@ -76,7 +82,8 @@ namespace AspNetCore.FeatureManagement.UI.Extensions
                     Value = value,
                     Choices = hasChoices
                         ? feature.StringFeatureChoices.Select(c => c.Choice).ToList()
-                        : null
+                        : null,
+                    Readonly = @readonly
                 };
             }
         }

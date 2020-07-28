@@ -59,6 +59,18 @@ namespace AspNetCore.FeatureManagement.UI.Middleware
 
                 var feature = await featuresServices.Get(featureName);
 
+                bool canRead = settings.HandleReadAuth(feature, clientId);
+                if (!canRead)
+                {
+                    throw new Exception($"You do not have permission to read the feature {featureName}...");
+                }
+
+                bool canWrite = settings.HandleWriteAuth(feature, clientId);
+                if (!canWrite)
+                {
+                    throw new Exception($"You do not have permission to update the feature {featureName}...");
+                }
+
                 string jsonBody = await streamReader.ReadToEndAsync();
 
                 Feature updatedFeature;
@@ -84,7 +96,7 @@ namespace AspNetCore.FeatureManagement.UI.Middleware
                     updatedFeature = await featuresServices.SetValue(featureName, payload.Value, clientId);
                 }
 
-                var output = await updatedFeature.ToOutput(featuresServices, clientId);
+                var output = await updatedFeature.ToOutput(featuresServices, settings, clientId);
 
                 var responseContent = JsonConvert.SerializeObject(output, _jsonSerializationSettings);
                 context.Response.ContentType = "application/json";

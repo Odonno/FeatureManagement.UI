@@ -61,12 +61,27 @@ public void ConfigureServices(IServiceCollection services)
         c.GetClientId = () =>
         {
             // Retrieve client id used to identify the user of each client features
-            return Guid.NewGuid().ToString();
+            return Guid.NewGuid().ToString(); // EXAMPLE
+        };
+
+        c.HandleReadAuth = (Feature feature, string? clientId) =>
+        {
+            // Indicates if the user can see this feature
+            return true; // DEFAULT
+        };
+        c.HandleWriteAuth = (Feature feature, string? clientId) =>
+        {
+            // Indicates if the user can update this feature (server features are often only managed by an admin)
+            return feature.Type == FeatureTypes.Client; // DEFAULT
         };
 
         c.OnServerFeatureUpdated = (IFeature feature) =>
         {
             // Do something when a server feature is updated 
+        };
+        c.OnClientFeatureUpdated = (IFeature feature, string clientId) =>
+        {
+            // Do something when a client feature is updated 
         };
     });
 

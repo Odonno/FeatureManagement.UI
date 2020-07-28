@@ -363,12 +363,12 @@ namespace AspNetCore.FeatureManagement.UI.Services
 
             if (existingFeature.Type == FeatureTypes.Server)
             {
-                var output = await existingFeature.ToOutput(this, clientId);
+                var output = await existingFeature.ToOutput(this, _settings, clientId);
                 _settings.OnServerFeatureUpdated?.Invoke(output);
             }
             else
             {
-                var output = await existingFeature.ToOutput(this, clientId);
+                var output = await existingFeature.ToOutput(this, _settings, clientId);
                 _settings.OnClientFeatureUpdated?.Invoke(output, clientId);
             }
 

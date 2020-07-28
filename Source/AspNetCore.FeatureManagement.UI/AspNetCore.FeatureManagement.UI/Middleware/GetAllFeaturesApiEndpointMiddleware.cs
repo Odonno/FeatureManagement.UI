@@ -46,7 +46,9 @@ namespace AspNetCore.FeatureManagement.UI.Middleware
                 var features = await featuresServices.GetAll();
 
                 var output = await Task.WhenAll(
-                    features.Select(f => f.ToOutput(featuresServices, clientId))
+                    features
+                        .Where(f => settings.HandleReadAuth(f, clientId))
+                        .Select(f => f.ToOutput(featuresServices, settings, clientId))
                 );
 
                 var responseContent = JsonConvert.SerializeObject(output, _jsonSerializationSettings);
