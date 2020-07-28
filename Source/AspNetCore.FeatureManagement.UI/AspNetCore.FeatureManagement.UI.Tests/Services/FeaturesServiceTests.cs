@@ -499,7 +499,7 @@ namespace AspNetCore.FeatureManagement.UI.Tests.Services
 
             var settings = new Settings
             {
-                OnFeatureUpdated = _ =>
+                OnServerFeatureUpdated = _ =>
                 {
                     calls++;
                 }

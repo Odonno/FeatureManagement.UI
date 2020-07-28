@@ -362,7 +362,14 @@ namespace AspNetCore.FeatureManagement.UI.Services
 
             await _featureManagementDb.SaveChangesAsync();
 
-            _settings.OnFeatureUpdated?.Invoke(existingFeature.ToOutput());
+            if (existingFeature.Type == FeatureTypes.Server)
+            {
+                _settings.OnServerFeatureUpdated?.Invoke(existingFeature.ToOutput());
+            }
+            else
+            {
+                _settings.OnClientFeatureUpdated?.Invoke(existingFeature.ToOutput(), clientId);
+            }
 
             return existingFeature;
         }
