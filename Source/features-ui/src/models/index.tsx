@@ -13,3 +13,8 @@ export type Feature =
     | FeatureBase<boolean>
     | FeatureBase<number>
     | FeatureBase<string>;
+
+export type AuthenticationScheme =
+    | { type: 'None' }
+    | { type: 'Query', key: string }
+    | { type: 'Header', key: string };
