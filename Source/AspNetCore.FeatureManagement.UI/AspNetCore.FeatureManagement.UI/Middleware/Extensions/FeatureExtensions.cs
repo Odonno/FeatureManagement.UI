@@ -14,7 +14,7 @@ namespace AspNetCore.FeatureManagement.UI.Middleware.Extensions
                 {
                     Name = feature.Name,
                     Description = feature.Description,
-                    Value = feature.BooleanValue
+                    Value = feature.Server.BooleanValue // TODO : Client vs. Server feature
                 };
             }
             if (feature.Type == FeatureTypes.Integer)
@@ -25,7 +25,7 @@ namespace AspNetCore.FeatureManagement.UI.Middleware.Extensions
                 {
                     Name = feature.Name,
                     Description = feature.Description,
-                    Value = feature.IntValue,
+                    Value = feature.Server.IntValue, // TODO : Client vs. Server feature
                     Choices = hasChoices 
                         ? feature.IntFeatureChoices.Select(c => c.Choice).ToList() 
                         : null
@@ -39,7 +39,7 @@ namespace AspNetCore.FeatureManagement.UI.Middleware.Extensions
                 {
                     Name = feature.Name,
                     Description = feature.Description,
-                    Value = feature.DecimalValue,
+                    Value = feature.Server.DecimalValue, // TODO : Client vs. Server feature
                     Choices = hasChoices
                         ? feature.DecimalFeatureChoices.Select(c => c.Choice).ToList()
                         : null
@@ -53,7 +53,7 @@ namespace AspNetCore.FeatureManagement.UI.Middleware.Extensions
                 {
                     Name = feature.Name,
                     Description = feature.Description,
-                    Value = feature.StringValue,
+                    Value = feature.Server.StringValue, // TODO : Client vs. Server feature
                     Choices = hasChoices
                         ? feature.StringFeatureChoices.Select(c => c.Choice).ToList()
                         : null

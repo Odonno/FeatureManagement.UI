@@ -27,9 +27,9 @@ namespace SampleFeaturesApi
                 };
 
                 c.AddSqlServerStorage(Configuration.GetConnectionString("DefaultConnection"))
-                    .Feature("Beta", true)
-                    .Feature("Theme", themes[0], "Choose a theme for the frontend", themes)
-                    .Feature("WelcomeMessage", "Welcome to my Blog");
+                    .ServerFeature("Beta", true)
+                    .ServerFeature("WelcomeMessage", "Welcome to my Blog")
+                    .ServerFeature("Theme", themes[0], "Choose a theme for the frontend", themes);
             });
 
             services.AddControllers();

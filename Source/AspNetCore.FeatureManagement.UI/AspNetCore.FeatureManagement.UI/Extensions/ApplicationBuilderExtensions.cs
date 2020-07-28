@@ -52,85 +52,106 @@ namespace Microsoft.Extensions.DependencyInjection
                 var newFeatures = settings.Features
                     .Select(f =>
                     {
-                        if (f is IFeatureWithValueSettings<bool> fBool)
+                        if (f is IServerFeatureWithValueSettings<bool> fBool)
                         {
                             return new Feature
                             {
                                 Name = f.Name,
                                 Description = f.Description,
                                 Type = FeatureTypes.Boolean,
-                                BooleanValue = fBool.Value
+                                Server = new ServerFeatureData
+                                {
+                                    BooleanValue = fBool.Value
+                                }
                             };
                         }
-                        if (f is IFeatureWithChoicesSettings<int> fIntWithChoices)
+                        if (f is IServerFeatureWithChoicesSettings<int> fIntWithChoices)
                         {
                             return new Feature
                             {
                                 Name = f.Name,
                                 Description = f.Description,
                                 Type = FeatureTypes.Integer,
-                                IntValue = fIntWithChoices.Value,
+                                Server = new ServerFeatureData
+                                {
+                                    IntValue = fIntWithChoices.Value
+                                },
                                 IntFeatureChoices = fIntWithChoices.Choices
                                     .Select(c => new IntFeatureChoice { Choice = c })
                                     .ToList()
                             };
                         }
-                        if (f is IFeatureWithValueSettings<int> fInt)
+                        if (f is IServerFeatureWithValueSettings<int> fInt)
                         {
                             return new Feature
                             {
                                 Name = f.Name,
                                 Description = f.Description,
                                 Type = FeatureTypes.Integer,
-                                IntValue = fInt.Value,
+                                Server = new ServerFeatureData
+                                {
+                                    IntValue = fInt.Value
+                                },
                                 IntFeatureChoices = new List<IntFeatureChoice>()
                             };
                         }
-                        if (f is IFeatureWithChoicesSettings<decimal> fDecimalWithChoices)
+                        if (f is IServerFeatureWithChoicesSettings<decimal> fDecimalWithChoices)
                         {
                             return new Feature
                             {
                                 Name = f.Name,
                                 Description = f.Description,
                                 Type = FeatureTypes.Decimal,
-                                DecimalValue = fDecimalWithChoices.Value,
+                                Server = new ServerFeatureData
+                                {
+                                    DecimalValue = fDecimalWithChoices.Value
+                                },
                                 DecimalFeatureChoices = fDecimalWithChoices.Choices
                                     .Select(c => new DecimalFeatureChoice { Choice = c })
                                     .ToList()
                             };
                         }
-                        if (f is IFeatureWithValueSettings<decimal> fDecimal)
+                        if (f is IServerFeatureWithValueSettings<decimal> fDecimal)
                         {
                             return new Feature
                             {
                                 Name = f.Name,
                                 Description = f.Description,
                                 Type = FeatureTypes.Decimal,
-                                DecimalValue = fDecimal.Value,
+                                Server = new ServerFeatureData
+                                {
+                                    DecimalValue = fDecimal.Value
+                                },
                                 DecimalFeatureChoices = new List<DecimalFeatureChoice>()
                             };
                         }
-                        if (f is IFeatureWithChoicesSettings<string> fStringWithChoices)
+                        if (f is IServerFeatureWithChoicesSettings<string> fStringWithChoices)
                         {
                             return new Feature
                             {
                                 Name = f.Name,
                                 Description = f.Description,
                                 Type = FeatureTypes.String,
-                                StringValue = fStringWithChoices.Value,
+                                Server = new ServerFeatureData
+                                {
+                                    StringValue = fStringWithChoices.Value
+                                },
                                 StringFeatureChoices = fStringWithChoices.Choices
                                     .Select(c => new StringFeatureChoice { Choice = c })
                                     .ToList()
                             };
                         }
-                        if (f is IFeatureWithValueSettings<string> fString)
+                        if (f is IServerFeatureWithValueSettings<string> fString)
                         {
                             return new Feature
                             {
                                 Name = f.Name,
                                 Description = f.Description,
                                 Type = FeatureTypes.String,
-                                StringValue = fString.Value,
+                                Server = new ServerFeatureData
+                                {
+                                    StringValue = fString.Value
+                                },
                                 StringFeatureChoices = new List<StringFeatureChoice>()
                             };
                         }

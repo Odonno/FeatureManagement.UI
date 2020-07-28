@@ -83,9 +83,10 @@ namespace AspNetCore.FeatureManagement.UI.Services
 
             if (existingFeature.Type == FeatureTypes.Boolean)
             {
-                if (existingFeature.BooleanValue.HasValue && typeof(T) == typeof(bool))
+                // TODO : Client vs. Server feature
+                if (existingFeature.Server.BooleanValue.HasValue && typeof(T) == typeof(bool))
                 {
-                    return (T)(object)existingFeature.BooleanValue.Value;
+                    return (T)(object)existingFeature.Server.BooleanValue.Value;
                 }
                 else
                 {
@@ -95,9 +96,10 @@ namespace AspNetCore.FeatureManagement.UI.Services
 
             if (existingFeature.Type == FeatureTypes.Integer)
             {
-                if (existingFeature.IntValue.HasValue && typeof(T) == typeof(int))
+                // TODO : Client vs. Server feature
+                if (existingFeature.Server.IntValue.HasValue && typeof(T) == typeof(int))
                 {
-                    return (T)(object)existingFeature.IntValue.Value;
+                    return (T)(object)existingFeature.Server.IntValue.Value;
                 }
                 else
                 {
@@ -107,9 +109,10 @@ namespace AspNetCore.FeatureManagement.UI.Services
 
             if (existingFeature.Type == FeatureTypes.Decimal)
             {
-                if (existingFeature.DecimalValue.HasValue && typeof(T) == typeof(decimal))
+                // TODO : Client vs. Server feature
+                if (existingFeature.Server.DecimalValue.HasValue && typeof(T) == typeof(decimal))
                 {
-                    return (T)(object)existingFeature.DecimalValue.Value;
+                    return (T)(object)existingFeature.Server.DecimalValue.Value;
                 }
                 else
                 {
@@ -119,9 +122,10 @@ namespace AspNetCore.FeatureManagement.UI.Services
 
             if (existingFeature.Type == FeatureTypes.String)
             {
-                if (!string.IsNullOrWhiteSpace(existingFeature.StringValue) && typeof(T) == typeof(string))
+                // TODO : Client vs. Server feature
+                if (!string.IsNullOrWhiteSpace(existingFeature.Server.StringValue) && typeof(T) == typeof(string))
                 {
-                    return (T)(object)existingFeature.StringValue;
+                    return (T)(object)existingFeature.Server.StringValue;
                 }
                 else
                 {
@@ -143,9 +147,10 @@ namespace AspNetCore.FeatureManagement.UI.Services
 
             if (existingFeature.Type == FeatureTypes.Boolean)
             {
+                // TODO : Client vs. Server feature
                 if (value is bool boolValue)
                 {
-                    existingFeature.BooleanValue = boolValue;
+                    existingFeature.Server.BooleanValue = boolValue;
                 }
                 else
                 {
@@ -155,11 +160,12 @@ namespace AspNetCore.FeatureManagement.UI.Services
 
             if (existingFeature.Type == FeatureTypes.Integer)
             {
+                // TODO : Client vs. Server feature
                 if (value is int intValue)
                 {
                     if (existingFeature.IntFeatureChoices.Any(c => c.Choice == intValue))
                     {
-                        existingFeature.IntValue = intValue;
+                        existingFeature.Server.IntValue = intValue;
                     }
                     else
                     {
@@ -174,11 +180,12 @@ namespace AspNetCore.FeatureManagement.UI.Services
 
             if (existingFeature.Type == FeatureTypes.Decimal)
             {
+                // TODO : Client vs. Server feature
                 if (value is decimal decimalValue)
                 {
                     if (existingFeature.DecimalFeatureChoices.Any(c => c.Choice == decimalValue))
                     {
-                        existingFeature.DecimalValue = decimalValue;
+                        existingFeature.Server.DecimalValue = decimalValue;
                     }
                     else
                     {
@@ -193,11 +200,12 @@ namespace AspNetCore.FeatureManagement.UI.Services
 
             if (existingFeature.Type == FeatureTypes.String)
             {
+                // TODO : Client vs. Server feature
                 if (value is string stringValue)
                 {
                     if (existingFeature.StringFeatureChoices.Any(c => c.Choice == stringValue))
                     {
-                        existingFeature.StringValue = stringValue;
+                        existingFeature.Server.StringValue = stringValue;
                     }
                     else
                     {

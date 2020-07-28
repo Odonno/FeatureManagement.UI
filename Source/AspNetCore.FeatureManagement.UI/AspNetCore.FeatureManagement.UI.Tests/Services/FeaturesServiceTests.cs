@@ -53,14 +53,20 @@ namespace AspNetCore.FeatureManagement.UI.Tests.Services
             {
                 Name = "Beta",
                 Type = FeatureTypes.Boolean,
-                BooleanValue = true
+                Server = new ServerFeatureData
+                {
+                    BooleanValue = true
+                }
             });
             _db.Features.Add(new Feature
             {
                 Name = "Theme",
                 Description = "Choose a theme for the frontend",
                 Type = FeatureTypes.String,
-                StringValue = themes[0],
+                Server = new ServerFeatureData
+                {
+                    StringValue = themes[0],
+                },
                 StringFeatureChoices = themes
                     .Select(theme => new StringFeatureChoice
                     {
@@ -72,14 +78,20 @@ namespace AspNetCore.FeatureManagement.UI.Tests.Services
             {
                 Name = "WelcomeMessage",
                 Type = FeatureTypes.String,
-                StringValue = "Welcome to my Blog"
+                Server = new ServerFeatureData
+                {
+                    StringValue = "Welcome to my Blog"
+                }
             });
             _db.Features.Add(new Feature
             {
                 Name = "Delay",
                 Description = "Animation delay (in ms)",
                 Type = FeatureTypes.Integer,
-                IntValue = delays[1],
+                Server = new ServerFeatureData
+                {
+                    IntValue = delays[1]
+                },
                 IntFeatureChoices = delays
                     .Select(delay => new IntFeatureChoice
                     {
@@ -92,7 +104,10 @@ namespace AspNetCore.FeatureManagement.UI.Tests.Services
                 Name = "TaxPercent",
                 Description = "Tax percentage",
                 Type = FeatureTypes.Decimal,
-                DecimalValue = percents[1],
+                Server = new ServerFeatureData
+                {
+                    DecimalValue = percents[1]
+                },
                 DecimalFeatureChoices = percents
                     .Select(percent => new DecimalFeatureChoice
                     {
@@ -294,10 +309,10 @@ namespace AspNetCore.FeatureManagement.UI.Tests.Services
             var result = await featuresService.SetValue("Beta", false);
 
             // Assert
-            result.BooleanValue.Value.ShouldBeFalse();
-            result.IntValue.ShouldBeNull();
-            result.DecimalValue.ShouldBeNull();
-            result.StringValue.ShouldBeNull();
+            result.Server.BooleanValue.Value.ShouldBeFalse();
+            result.Server.IntValue.ShouldBeNull();
+            result.Server.DecimalValue.ShouldBeNull();
+            result.Server.StringValue.ShouldBeNull();
         }
         [Fact]
         public async Task SetValueShouldFailIfMismatchTypeForBooleanValue()
@@ -326,10 +341,10 @@ namespace AspNetCore.FeatureManagement.UI.Tests.Services
             var result = await featuresService.SetValue("Delay", newValue);
 
             // Assert
-            result.BooleanValue.ShouldBeNull();
-            result.IntValue.ShouldBe(newValue);
-            result.DecimalValue.ShouldBeNull();
-            result.StringValue.ShouldBeNull();
+            result.Server.BooleanValue.ShouldBeNull();
+            result.Server.IntValue.ShouldBe(newValue);
+            result.Server.DecimalValue.ShouldBeNull();
+            result.Server.StringValue.ShouldBeNull();
         }
         [Fact]
         public async Task SetValueShouldFailIfMismatchTypeForIntValue()
@@ -374,10 +389,10 @@ namespace AspNetCore.FeatureManagement.UI.Tests.Services
             var result = await featuresService.SetValue("TaxPercent", newValue);
 
             // Assert
-            result.BooleanValue.ShouldBeNull();
-            result.IntValue.ShouldBeNull();
-            result.DecimalValue.ShouldBe(newValue);
-            result.StringValue.ShouldBeNull();
+            result.Server.BooleanValue.ShouldBeNull();
+            result.Server.IntValue.ShouldBeNull();
+            result.Server.DecimalValue.ShouldBe(newValue);
+            result.Server.StringValue.ShouldBeNull();
         }
         [Fact]
         public async Task SetValueShouldFailIfMismatchTypeForDecimalValue()
@@ -422,10 +437,10 @@ namespace AspNetCore.FeatureManagement.UI.Tests.Services
             var result = await featuresService.SetValue("Theme", newValue);
 
             // Assert
-            result.BooleanValue.ShouldBeNull();
-            result.IntValue.ShouldBeNull();
-            result.DecimalValue.ShouldBeNull();
-            result.StringValue.ShouldBe(newValue);
+            result.Server.BooleanValue.ShouldBeNull();
+            result.Server.IntValue.ShouldBeNull();
+            result.Server.DecimalValue.ShouldBeNull();
+            result.Server.StringValue.ShouldBe(newValue);
         }
         [Fact]
         public async Task SetValueShouldFailIfMismatchTypeForStringValue()

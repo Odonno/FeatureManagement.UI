@@ -8,59 +8,116 @@ namespace AspNetCore.FeatureManagement.UI.Configuration
         string? Description { get; set; }
     }
 
-    internal interface IFeatureWithValueSettings<T> : IFeatureSettings
+    internal interface IServerFeatureSettings : IFeatureSettings { }
+    internal interface IClientFeatureSettings : IFeatureSettings { }
+
+    internal interface IServerFeatureWithValueSettings<T> : IServerFeatureSettings
+    {
+        T Value { get; set; }
+    }
+    internal interface IClientFeatureWithValueSettings<T> : IClientFeatureSettings
     {
         T Value { get; set; }
     }
 
-    internal interface IFeatureWithChoicesSettings<T> : IFeatureWithValueSettings<T>
+    internal interface IServerFeatureWithChoicesSettings<T> : IServerFeatureWithValueSettings<T>
+    {
+        IEnumerable<T> Choices { get; set; }
+    }
+    internal interface IClientFeatureWithChoicesSettings<T> : IClientFeatureWithValueSettings<T>
     {
         IEnumerable<T> Choices { get; set; }
     }
 
-    internal class BoolFeatureSettings : IFeatureWithValueSettings<bool>
+    internal class BoolServerFeatureSettings : IServerFeatureWithValueSettings<bool>
     {
         public string Name { get; set; }
         public string? Description { get; set; }
         public bool Value { get; set; }
     }
-    internal class IntFeatureSettings : IFeatureWithValueSettings<int>
+    internal class IntServerFeatureSettings : IServerFeatureWithValueSettings<int>
     {
         public string Name { get; set; }
         public string? Description { get; set; }
         public int Value { get; set; }
     }
-    internal class IntFeatureWithChoicesSettings : IFeatureWithChoicesSettings<int>
+    internal class IntServerFeatureWithChoicesSettings : IServerFeatureWithChoicesSettings<int>
     {
         public string Name { get; set; }
         public string? Description { get; set; }
         public int Value { get; set; }
-        public IEnumerable<int> Choices { get; set; }
+        public IEnumerable<int> Choices { get; set; } = new List<int>();
     }
-    internal class DecimalFeatureSettings : IFeatureWithValueSettings<decimal>
+    internal class DecimalServerFeatureSettings : IServerFeatureWithValueSettings<decimal>
     {
         public string Name { get; set; }
         public string? Description { get; set; }
         public decimal Value { get; set; }
     }
-    internal class DecimalFeatureWithChoicesSettings : IFeatureWithChoicesSettings<decimal>
+    internal class DecimalServerFeatureWithChoicesSettings : IServerFeatureWithChoicesSettings<decimal>
     {
         public string Name { get; set; }
         public string? Description { get; set; }
         public decimal Value { get; set; }
-        public IEnumerable<decimal> Choices { get; set; }
+        public IEnumerable<decimal> Choices { get; set; } = new List<decimal>();
     }
-    internal class StringFeatureSettings : IFeatureWithValueSettings<string>
+    internal class StringServerFeatureSettings : IServerFeatureWithValueSettings<string>
     {
         public string Name { get; set; }
         public string? Description { get; set; }
         public string Value { get; set; }
     }
-    internal class StringFeatureWithChoicesSettings : IFeatureWithChoicesSettings<string>
+    internal class StringServerFeatureWithChoicesSettings : IServerFeatureWithChoicesSettings<string>
     {
         public string Name { get; set; }
         public string? Description { get; set; }
         public string Value { get; set; }
-        public IEnumerable<string> Choices { get; set; }
+        public IEnumerable<string> Choices { get; set; } = new List<string>();
+    }
+
+    internal class BoolClientFeatureSettings : IClientFeatureWithValueSettings<bool>
+    {
+        public string Name { get; set; }
+        public string? Description { get; set; }
+        public bool Value { get; set; }
+    }
+    internal class IntClientFeatureSettings : IClientFeatureWithValueSettings<int>
+    {
+        public string Name { get; set; }
+        public string? Description { get; set; }
+        public int Value { get; set; }
+    }
+    internal class IntClientFeatureWithChoicesSettings : IClientFeatureWithChoicesSettings<int>
+    {
+        public string Name { get; set; }
+        public string? Description { get; set; }
+        public int Value { get; set; }
+        public IEnumerable<int> Choices { get; set; } = new List<int>();
+    }
+    internal class DecimalClientFeatureSettings : IClientFeatureWithValueSettings<decimal>
+    {
+        public string Name { get; set; }
+        public string? Description { get; set; }
+        public decimal Value { get; set; }
+    }
+    internal class DecimalClientFeatureWithChoicesSettings : IClientFeatureWithChoicesSettings<decimal>
+    {
+        public string Name { get; set; }
+        public string? Description { get; set; }
+        public decimal Value { get; set; }
+        public IEnumerable<decimal> Choices { get; set; } = new List<decimal>();
+    }
+    internal class StringClientFeatureSettings : IClientFeatureWithValueSettings<string>
+    {
+        public string Name { get; set; }
+        public string? Description { get; set; }
+        public string Value { get; set; }
+    }
+    internal class StringClientFeatureWithChoicesSettings : IClientFeatureWithChoicesSettings<string>
+    {
+        public string Name { get; set; }
+        public string? Description { get; set; }
+        public string Value { get; set; }
+        public IEnumerable<string> Choices { get; set; } = new List<string>();
     }
 }
