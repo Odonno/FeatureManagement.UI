@@ -1,14 +1,14 @@
 // @ts-nocheck
 import { FunctionalComponent, h } from "preact";
-import { Feature, FeatureType, FeatureChoicesType } from '../../models';
+import { Feature, FeatureValueType, FeatureChoicesType } from '../../models';
 import { Text, Dropdown, PrimaryButton, DefaultButton, IDropdownOption } from '@fluentui/react';
 import { useState } from "preact/hooks";
 
 type Props = {
     feature: Feature,
     value: FeatureChoicesType,
-    choices: FeatureType[],
-    handleFeatureChange: (feature: Feature, newValue: FeatureType) => void
+    choices: FeatureValueType[],
+    handleFeatureChange: (feature: Feature, newValue: FeatureValueType) => void
 };
 
 const FeatureCombobox: FunctionalComponent<Props> = (props) => {
@@ -18,6 +18,8 @@ const FeatureCombobox: FunctionalComponent<Props> = (props) => {
         choices,
         handleFeatureChange
     } = props;
+
+    const { readonly } = feature;
 
     const [newValue, setNewValue] = useState(value);
 
@@ -62,6 +64,7 @@ const FeatureCombobox: FunctionalComponent<Props> = (props) => {
                 placeholder="Select an option"
                 defaultSelectedKey={newValue}
                 options={options}
+                disabled={readonly}
                 onChange={onChange}
             />
             <p>

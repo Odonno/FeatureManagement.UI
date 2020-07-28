@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Source\AspNetCore.FeatureManagement.UI\AspNetCore.FeatureManagement.UI.InMemory.Storage\AspNetCore.FeatureManagement.UI.InMemory.Storage.csproj" />
     <ProjectReference Include="..\..\..\Source\AspNetCore.FeatureManagement.UI\AspNetCore.FeatureManagement.UI.SqlServer.Storage\AspNetCore.FeatureManagement.UI.SqlServer.Storage.csproj" />
     <ProjectReference Include="..\..\..\Source\AspNetCore.FeatureManagement.UI\AspNetCore.FeatureManagement.UI\AspNetCore.FeatureManagement.UI.csproj" />
   </ItemGroup>

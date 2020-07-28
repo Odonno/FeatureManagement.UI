@@ -27,7 +27,14 @@ namespace SampleFeaturesApi
                     "dark"
                 };
 
-                c.AddSqlServerStorage(Configuration.GetConnectionString("DefaultConnection"))
+                string STORAGE_MODE = "IN_MEMORY";
+
+                if (STORAGE_MODE == "IN_MEMORY")
+                    c.AddInMemoryStorage();
+                if (STORAGE_MODE == "SQL_SERVER")
+                    c.AddSqlServerStorage(Configuration.GetConnectionString("DefaultConnection"));
+
+                c
                     .ServerFeature("Beta", true)
                     .ServerFeature("WelcomeMessage", "Welcome to my Blog")
                     .ClientFeature("Theme", themes[0], "Choose a theme for the frontend", themes);

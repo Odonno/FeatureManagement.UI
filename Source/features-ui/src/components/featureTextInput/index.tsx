@@ -1,13 +1,13 @@
 // @ts-nocheck
 import { FunctionalComponent, h } from "preact";
-import { Feature, FeatureType } from '../../models';
+import { Feature, FeatureValueType } from '../../models';
 import { Text, TextField, PrimaryButton, DefaultButton } from '@fluentui/react';
 import { useState } from "preact/hooks";
 
 type Props = {
     feature: Feature,
     value: string,
-    handleFeatureChange: (feature: Feature, newValue: FeatureType) => void
+    handleFeatureChange: (feature: Feature, newValue: FeatureValueType) => void
 };
 
 const FeatureTextInput: FunctionalComponent<Props> = (props) => {
@@ -16,6 +16,8 @@ const FeatureTextInput: FunctionalComponent<Props> = (props) => {
         value,
         handleFeatureChange
     } = props;
+
+    const { readonly } = feature;
 
     const [newValue, setNewValue] = useState(value);
 
@@ -51,6 +53,7 @@ const FeatureTextInput: FunctionalComponent<Props> = (props) => {
             </p>
             <TextField
                 defaultValue={newValue}
+                disabled={readonly}
                 onKeyUp={onTextChanged}
             />
             <p>
