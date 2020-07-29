@@ -7,6 +7,8 @@ type FeatureBase<T> = {
     value: T;
     choices?: T[];
     readonly: boolean;
+    uiPrefix?: string;
+    uiSuffix?: string;
 };
 
 export type Feature =

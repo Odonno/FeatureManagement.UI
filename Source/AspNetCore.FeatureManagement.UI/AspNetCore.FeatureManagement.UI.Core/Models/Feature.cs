@@ -12,6 +12,8 @@ namespace AspNetCore.FeatureManagement.UI.Core.Models
     {
         T Value { get; set; }
         bool Readonly { get; set; }
+        string? UiPrefix { get; set; }
+        string? UiSuffix { get; set; }
     }
 
     public class BoolFeature : IFeatureWithValue<bool?>
@@ -20,6 +22,8 @@ namespace AspNetCore.FeatureManagement.UI.Core.Models
         public string? Description { get; set; }
         public bool? Value { get; set; }
         public bool Readonly { get; set; }
+        public string? UiPrefix { get; set; }
+        public string? UiSuffix { get; set; }
     }
     public class IntFeature : IFeatureWithValue<int?>
     {
@@ -28,6 +32,8 @@ namespace AspNetCore.FeatureManagement.UI.Core.Models
         public int? Value { get; set; }
         public List<int>? Choices { get; set; }
         public bool Readonly { get; set; }
+        public string? UiPrefix { get; set; }
+        public string? UiSuffix { get; set; }
     }
     public class DecimalFeature : IFeatureWithValue<decimal?>
     {
@@ -36,6 +42,8 @@ namespace AspNetCore.FeatureManagement.UI.Core.Models
         public decimal? Value { get; set; }
         public List<decimal>? Choices { get; set; }
         public bool Readonly { get; set; }
+        public string? UiPrefix { get; set; }
+        public string? UiSuffix { get; set; }
     }
     public class StringFeature : IFeatureWithValue<string?>
     {
@@ -44,5 +52,7 @@ namespace AspNetCore.FeatureManagement.UI.Core.Models
         public string? Value { get; set; }
         public List<string>? Choices { get; set; }
         public bool Readonly { get; set; }
+        public string? UiPrefix { get; set; }
+        public string? UiSuffix { get; set; }
     }
 }

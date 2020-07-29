@@ -17,12 +17,16 @@ const FeatureTextInput: FunctionalComponent<Props> = (props) => {
         handleFeatureChange
     } = props;
 
-    const { readonly } = feature;
+    const {
+        readonly,
+        uiPrefix,
+        uiSuffix
+    } = feature;
 
     const [newValue, setNewValue] = useState(value);
 
     const hasChanged = value !== newValue;
-    
+
     const canSave = hasChanged;
     const canCancel = hasChanged;
 
@@ -55,6 +59,8 @@ const FeatureTextInput: FunctionalComponent<Props> = (props) => {
                 defaultValue={newValue}
                 disabled={readonly}
                 onKeyUp={onTextChanged}
+                prefix={uiPrefix || undefined}
+                suffix={uiSuffix || undefined}
             />
             <p>
                 {canSave && (

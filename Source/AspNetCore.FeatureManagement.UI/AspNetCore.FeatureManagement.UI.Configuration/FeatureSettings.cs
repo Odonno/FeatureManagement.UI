@@ -12,6 +12,8 @@ namespace AspNetCore.FeatureManagement.UI.Configuration
     internal interface IFeatureWithValueSettings<T> : IFeatureSettings
     {
         T Value { get; set; }
+        string? UiPrefix { get; set; }
+        string? UiSuffix { get; set; }
     }
 
     internal interface IFeatureWithChoicesSettings<T> : IFeatureWithValueSettings<T>
@@ -25,6 +27,8 @@ namespace AspNetCore.FeatureManagement.UI.Configuration
         public string? Description { get; set; }
         public string Type { get; set; }
         public bool Value { get; set; }
+        public string? UiPrefix { get; set; }
+        public string? UiSuffix { get; set; }
     }
     internal class IntFeatureSettings : IFeatureWithValueSettings<int>
     {
@@ -32,6 +36,8 @@ namespace AspNetCore.FeatureManagement.UI.Configuration
         public string? Description { get; set; }
         public string Type { get; set; }
         public int Value { get; set; }
+        public string? UiPrefix { get; set; }
+        public string? UiSuffix { get; set; }
     }
     internal class IntFeatureWithChoicesSettings : IFeatureWithChoicesSettings<int>
     {
@@ -40,6 +46,8 @@ namespace AspNetCore.FeatureManagement.UI.Configuration
         public string Type { get; set; }
         public int Value { get; set; }
         public IEnumerable<int> Choices { get; set; } = new List<int>();
+        public string? UiPrefix { get; set; }
+        public string? UiSuffix { get; set; }
     }
     internal class DecimalFeatureSettings : IFeatureWithValueSettings<decimal>
     {
@@ -47,6 +55,8 @@ namespace AspNetCore.FeatureManagement.UI.Configuration
         public string? Description { get; set; }
         public string Type { get; set; }
         public decimal Value { get; set; }
+        public string? UiPrefix { get; set; }
+        public string? UiSuffix { get; set; }
     }
     internal class DecimalFeatureWithChoicesSettings : IFeatureWithChoicesSettings<decimal>
     {
@@ -55,6 +65,8 @@ namespace AspNetCore.FeatureManagement.UI.Configuration
         public string Type { get; set; }
         public decimal Value { get; set; }
         public IEnumerable<decimal> Choices { get; set; } = new List<decimal>();
+        public string? UiPrefix { get; set; }
+        public string? UiSuffix { get; set; }
     }
     internal class StringFeatureSettings : IFeatureWithValueSettings<string>
     {
@@ -62,6 +74,8 @@ namespace AspNetCore.FeatureManagement.UI.Configuration
         public string? Description { get; set; }
         public string Type { get; set; }
         public string Value { get; set; }
+        public string? UiPrefix { get; set; }
+        public string? UiSuffix { get; set; }
     }
     internal class StringFeatureWithChoicesSettings : IFeatureWithChoicesSettings<string>
     {
@@ -70,5 +84,7 @@ namespace AspNetCore.FeatureManagement.UI.Configuration
         public string Type { get; set; }
         public string Value { get; set; }
         public IEnumerable<string> Choices { get; set; } = new List<string>();
+        public string? UiPrefix { get; set; }
+        public string? UiSuffix { get; set; }
     }
 }

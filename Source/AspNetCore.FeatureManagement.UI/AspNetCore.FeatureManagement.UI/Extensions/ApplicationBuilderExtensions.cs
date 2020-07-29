@@ -62,7 +62,9 @@ namespace Microsoft.Extensions.DependencyInjection
                                 ValueType = FeatureValueTypes.Boolean,
                                 Server = f.Type == FeatureTypes.Server
                                     ? new ServerFeatureData { BooleanValue = fBool.Value }
-                                    : null
+                                    : null,
+                                UiPrefix = fBool.UiPrefix,
+                                UiSuffix = fBool.UiSuffix
                             };
                         }
                         if (f is IFeatureWithChoicesSettings<int> fIntWithChoices)
@@ -77,7 +79,9 @@ namespace Microsoft.Extensions.DependencyInjection
                                     : null,
                                 IntFeatureChoices = fIntWithChoices.Choices
                                     .Select(c => new IntFeatureChoice { Choice = c })
-                                    .ToList()
+                                    .ToList(),
+                                UiPrefix = fIntWithChoices.UiPrefix,
+                                UiSuffix = fIntWithChoices.UiSuffix
                             };
                         }
                         if (f is IFeatureWithValueSettings<int> fInt)
@@ -90,7 +94,9 @@ namespace Microsoft.Extensions.DependencyInjection
                                 Server = f.Type == FeatureTypes.Server
                                     ? new ServerFeatureData { IntValue = fInt.Value }
                                     : null,
-                                IntFeatureChoices = new List<IntFeatureChoice>()
+                                IntFeatureChoices = new List<IntFeatureChoice>(),
+                                UiPrefix = fInt.UiPrefix,
+                                UiSuffix = fInt.UiSuffix
                             };
                         }
                         if (f is IFeatureWithChoicesSettings<decimal> fDecimalWithChoices)
@@ -105,7 +111,9 @@ namespace Microsoft.Extensions.DependencyInjection
                                     : null,
                                 DecimalFeatureChoices = fDecimalWithChoices.Choices
                                     .Select(c => new DecimalFeatureChoice { Choice = c })
-                                    .ToList()
+                                    .ToList(),
+                                UiPrefix = fDecimalWithChoices.UiPrefix,
+                                UiSuffix = fDecimalWithChoices.UiSuffix
                             };
                         }
                         if (f is IFeatureWithValueSettings<decimal> fDecimal)
@@ -118,7 +126,9 @@ namespace Microsoft.Extensions.DependencyInjection
                                 Server = f.Type == FeatureTypes.Server
                                     ? new ServerFeatureData { DecimalValue = fDecimal.Value }
                                     : null,
-                                DecimalFeatureChoices = new List<DecimalFeatureChoice>()
+                                DecimalFeatureChoices = new List<DecimalFeatureChoice>(),
+                                UiPrefix = fDecimal.UiPrefix,
+                                UiSuffix = fDecimal.UiSuffix
                             };
                         }
                         if (f is IFeatureWithChoicesSettings<string> fStringWithChoices)
@@ -133,7 +143,9 @@ namespace Microsoft.Extensions.DependencyInjection
                                     : null,
                                 StringFeatureChoices = fStringWithChoices.Choices
                                     .Select(c => new StringFeatureChoice { Choice = c })
-                                    .ToList()
+                                    .ToList(),
+                                UiPrefix = fStringWithChoices.UiPrefix,
+                                UiSuffix = fStringWithChoices.UiSuffix
                             };
                         }
                         if (f is IFeatureWithValueSettings<string> fString)
@@ -146,7 +158,9 @@ namespace Microsoft.Extensions.DependencyInjection
                                 Server = f.Type == FeatureTypes.Server
                                     ? new ServerFeatureData { StringValue = fString.Value }
                                     : null,
-                                StringFeatureChoices = new List<StringFeatureChoice>()
+                                StringFeatureChoices = new List<StringFeatureChoice>(),
+                                UiPrefix = fString.UiPrefix,
+                                UiSuffix = fString.UiSuffix
                             };
                         }
 

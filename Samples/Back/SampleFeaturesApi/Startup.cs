@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using AspNetCore.FeatureManagement.UI.Core.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -38,6 +37,7 @@ namespace SampleFeaturesApi
                 c
                     .ServerFeature("Beta", true)
                     .ServerFeature("WelcomeMessage", "Welcome to my Blog")
+                    .ServerFeature("Delay", 1000, "Animation delay", uiSuffix: "ms")
                     .ClientFeature("Theme", themes[0], "Choose a theme for the frontend", themes);
 
                 string uniqueId = Guid.NewGuid().ToString();

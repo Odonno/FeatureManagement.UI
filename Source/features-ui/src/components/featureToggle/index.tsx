@@ -16,7 +16,11 @@ const FeatureToggle: FunctionalComponent<Props> = (props) => {
         handleFeatureChange
     } = props;
 
-    const { readonly } = feature;
+    const {
+        readonly,
+        uiPrefix,
+        uiSuffix
+    } = feature;
 
     return (
         <div>
@@ -34,6 +38,8 @@ const FeatureToggle: FunctionalComponent<Props> = (props) => {
                 checked={checked}
                 disabled={readonly}
                 onChange={() => handleFeatureChange(feature, !checked)}
+                prefix={uiPrefix || undefined}
+                suffix={uiSuffix || undefined}
             />
         </div>
     );

@@ -35,7 +35,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="description">Description of the feature.</param>
         /// <param name="choices">A list of choices to limit the feature to a small set of values.</param>
         /// <returns>The updated <see cref="Settings"/>.</returns>
-        public static Settings ServerFeature(this Settings settings, string featureName, int defaultValue = 0, string? description = null, IEnumerable<int>? choices = null)
+        public static Settings ServerFeature(this Settings settings, string featureName, int defaultValue = 0, string? description = null, IEnumerable<int>? choices = null, string? uiPrefix = null, string? uiSuffix = null)
         {
             if (choices != null)
             {
@@ -45,7 +45,9 @@ namespace Microsoft.Extensions.DependencyInjection
                     Value = defaultValue,
                     Description = description,
                     Type = FeatureTypes.Server,
-                    Choices = choices
+                    Choices = choices,
+                    UiPrefix = uiPrefix,
+                    UiSuffix = uiSuffix
                 });
             }
             else
@@ -55,7 +57,9 @@ namespace Microsoft.Extensions.DependencyInjection
                     Name = featureName,
                     Value = defaultValue,
                     Description = description,
-                    Type = FeatureTypes.Server
+                    Type = FeatureTypes.Server,
+                    UiPrefix = uiPrefix,
+                    UiSuffix = uiSuffix
                 });
             }
 
@@ -70,7 +74,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="description">Description of the feature.</param>
         /// <param name="choices">A list of choices to limit the feature to a small set of values.</param>
         /// <returns>The updated <see cref="Settings"/>.</returns>
-        public static Settings ServerFeature(this Settings settings, string featureName, decimal defaultValue = 0, string? description = null, IEnumerable<decimal>? choices = null)
+        public static Settings ServerFeature(this Settings settings, string featureName, decimal defaultValue = 0, string? description = null, IEnumerable<decimal>? choices = null, string? uiPrefix = null, string? uiSuffix = null)
         {
             if (choices != null)
             {
@@ -80,7 +84,9 @@ namespace Microsoft.Extensions.DependencyInjection
                     Value = defaultValue,
                     Description = description,
                     Type = FeatureTypes.Server,
-                    Choices = choices
+                    Choices = choices,
+                    UiPrefix = uiPrefix,
+                    UiSuffix = uiSuffix
                 });
             }
             else
@@ -90,7 +96,9 @@ namespace Microsoft.Extensions.DependencyInjection
                     Name = featureName,
                     Value = defaultValue,
                     Description = description,
-                    Type = FeatureTypes.Server
+                    Type = FeatureTypes.Server,
+                    UiPrefix = uiPrefix,
+                    UiSuffix = uiSuffix
                 });
             }
 
@@ -105,7 +113,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="description">Description of the feature.</param>
         /// <param name="choices">A list of choices to limit the feature to a small set of values.</param>
         /// <returns>The updated <see cref="Settings"/>.</returns>
-        public static Settings ServerFeature(this Settings settings, string featureName, string defaultValue = "", string? description = null, IEnumerable<string>? choices = null)
+        public static Settings ServerFeature(this Settings settings, string featureName, string defaultValue = "", string? description = null, IEnumerable<string>? choices = null, string? uiPrefix = null, string? uiSuffix = null)
         {
             if (choices != null)
             {
@@ -115,7 +123,9 @@ namespace Microsoft.Extensions.DependencyInjection
                     Value = defaultValue,
                     Description = description,
                     Type = FeatureTypes.Server,
-                    Choices = choices
+                    Choices = choices,
+                    UiPrefix = uiPrefix,
+                    UiSuffix = uiSuffix
                 });
             }
             else
@@ -125,7 +135,9 @@ namespace Microsoft.Extensions.DependencyInjection
                     Name = featureName,
                     Value = defaultValue,
                     Description = description,
-                    Type = FeatureTypes.Server
+                    Type = FeatureTypes.Server,
+                    UiPrefix = uiPrefix,
+                    UiSuffix = uiSuffix
                 });
             }
 
@@ -161,7 +173,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="description">Description of the feature.</param>
         /// <param name="choices">A list of choices to limit the feature to a small set of values.</param>
         /// <returns>The updated <see cref="Settings"/>.</returns>
-        public static Settings ClientFeature(this Settings settings, string featureName, int defaultValue = 0, string? description = null, IEnumerable<int>? choices = null)
+        public static Settings ClientFeature(this Settings settings, string featureName, int defaultValue = 0, string? description = null, IEnumerable<int>? choices = null, string? uiPrefix = null, string? uiSuffix = null)
         {
             if (choices != null)
             {
@@ -171,7 +183,9 @@ namespace Microsoft.Extensions.DependencyInjection
                     Value = defaultValue,
                     Description = description,
                     Type = FeatureTypes.Client,
-                    Choices = choices
+                    Choices = choices,
+                    UiPrefix = uiPrefix,
+                    UiSuffix = uiSuffix
                 });
             }
             else
@@ -181,7 +195,9 @@ namespace Microsoft.Extensions.DependencyInjection
                     Name = featureName,
                     Value = defaultValue,
                     Description = description,
-                    Type = FeatureTypes.Client
+                    Type = FeatureTypes.Client,
+                    UiPrefix = uiPrefix,
+                    UiSuffix = uiSuffix
                 });
             }
 
@@ -196,7 +212,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="description">Description of the feature.</param>
         /// <param name="choices">A list of choices to limit the feature to a small set of values.</param>
         /// <returns>The updated <see cref="Settings"/>.</returns>
-        public static Settings ClientFeature(this Settings settings, string featureName, decimal defaultValue = 0, string? description = null, IEnumerable<decimal>? choices = null)
+        public static Settings ClientFeature(this Settings settings, string featureName, decimal defaultValue = 0, string? description = null, IEnumerable<decimal>? choices = null, string? uiPrefix = null, string? uiSuffix = null)
         {
             if (choices != null)
             {
@@ -206,7 +222,9 @@ namespace Microsoft.Extensions.DependencyInjection
                     Value = defaultValue,
                     Description = description,
                     Type = FeatureTypes.Client,
-                    Choices = choices
+                    Choices = choices,
+                    UiPrefix = uiPrefix,
+                    UiSuffix = uiSuffix
                 });
             }
             else
@@ -216,7 +234,9 @@ namespace Microsoft.Extensions.DependencyInjection
                     Name = featureName,
                     Value = defaultValue,
                     Description = description,
-                    Type = FeatureTypes.Client
+                    Type = FeatureTypes.Client,
+                    UiPrefix = uiPrefix,
+                    UiSuffix = uiSuffix
                 });
             }
 
@@ -231,7 +251,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="description">Description of the feature.</param>
         /// <param name="choices">A list of choices to limit the feature to a small set of values.</param>
         /// <returns>The updated <see cref="Settings"/>.</returns>
-        public static Settings ClientFeature(this Settings settings, string featureName, string defaultValue = "", string? description = null, IEnumerable<string>? choices = null)
+        public static Settings ClientFeature(this Settings settings, string featureName, string defaultValue = "", string? description = null, IEnumerable<string>? choices = null, string? uiPrefix = null, string? uiSuffix = null)
         {
             if (choices != null)
             {
@@ -241,7 +261,9 @@ namespace Microsoft.Extensions.DependencyInjection
                     Value = defaultValue,
                     Description = description,
                     Type = FeatureTypes.Client,
-                    Choices = choices
+                    Choices = choices,
+                    UiPrefix = uiPrefix,
+                    UiSuffix = uiSuffix
                 });
             }
             else
@@ -251,7 +273,9 @@ namespace Microsoft.Extensions.DependencyInjection
                     Name = featureName,
                     Value = defaultValue,
                     Description = description,
-                    Type = FeatureTypes.Client
+                    Type = FeatureTypes.Client,
+                    UiPrefix = uiPrefix,
+                    UiSuffix = uiSuffix
                 });
             }
 

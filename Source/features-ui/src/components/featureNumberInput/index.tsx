@@ -18,12 +18,16 @@ const FeatureNumberInput: FunctionalComponent<Props> = (props) => {
     } = props;
 
     const [newValue, setNewValue] = useState(value);
-    
-    const { readonly } = feature;
+
+    const {
+        readonly,
+        uiPrefix,
+        uiSuffix
+    } = feature;
 
     const isNumeric = !isNaN(newValue);
     const hasChanged = value !== newValue;
-    
+
     const canSave = hasChanged;
     const canCancel = hasChanged;
 
@@ -58,6 +62,8 @@ const FeatureNumberInput: FunctionalComponent<Props> = (props) => {
                 defaultValue={newValue.toString()}
                 disabled={readonly}
                 onKeyUp={onTextChanged}
+                prefix={uiPrefix || undefined}
+                suffix={uiSuffix || undefined}
             />
             {canSave && (
                 <PrimaryButton

@@ -35,7 +35,9 @@ namespace AspNetCore.FeatureManagement.UI.Extensions
                     Name = feature.Name,
                     Description = feature.Description,
                     Value = value,
-                    Readonly = @readonly
+                    Readonly = @readonly,
+                    UiPrefix = feature.UiPrefix,
+                    UiSuffix = feature.UiSuffix
                 };
             }
             if (feature.ValueType == FeatureValueTypes.Integer)
@@ -51,7 +53,9 @@ namespace AspNetCore.FeatureManagement.UI.Extensions
                     Choices = hasChoices
                         ? feature.IntFeatureChoices.Select(c => c.Choice).ToList()
                         : null,
-                    Readonly = @readonly
+                    Readonly = @readonly,
+                    UiPrefix = feature.UiPrefix,
+                    UiSuffix = feature.UiSuffix
                 };
             }
             if (feature.ValueType == FeatureValueTypes.Decimal)
@@ -67,7 +71,9 @@ namespace AspNetCore.FeatureManagement.UI.Extensions
                     Choices = hasChoices
                         ? feature.DecimalFeatureChoices.Select(c => c.Choice).ToList()
                         : null,
-                    Readonly = @readonly
+                    Readonly = @readonly,
+                    UiPrefix = feature.UiPrefix,
+                    UiSuffix = feature.UiSuffix
                 };
             }
 
@@ -83,7 +89,9 @@ namespace AspNetCore.FeatureManagement.UI.Extensions
                     Choices = hasChoices
                         ? feature.StringFeatureChoices.Select(c => c.Choice).ToList()
                         : null,
-                    Readonly = @readonly
+                    Readonly = @readonly,
+                    UiPrefix = feature.UiPrefix,
+                    UiSuffix = feature.UiSuffix
                 };
             }
         }

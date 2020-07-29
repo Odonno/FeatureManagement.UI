@@ -19,7 +19,11 @@ const FeatureCombobox: FunctionalComponent<Props> = (props) => {
         handleFeatureChange
     } = props;
 
-    const { readonly } = feature;
+    const {
+        readonly,
+        uiPrefix,
+        uiSuffix
+    } = feature;
 
     const [newValue, setNewValue] = useState(value);
 
@@ -66,6 +70,8 @@ const FeatureCombobox: FunctionalComponent<Props> = (props) => {
                 options={options}
                 disabled={readonly}
                 onChange={onChange}
+                prefix={uiPrefix || undefined}
+                suffix={uiSuffix || undefined}
             />
             <p>
                 {canSave && (

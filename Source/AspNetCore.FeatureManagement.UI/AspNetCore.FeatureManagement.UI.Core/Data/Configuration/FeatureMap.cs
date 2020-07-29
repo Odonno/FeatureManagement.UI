@@ -32,6 +32,14 @@ namespace AspNetCore.FeatureManagement.UI.Core.Data.Configuration
             builder.Property(f => f.ValueType)
                 .IsRequired(true)
                 .HasMaxLength(10);
+
+            builder.Property(f => f.UiPrefix)
+                .IsRequired(false)
+                .HasMaxLength(20);
+
+            builder.Property(f => f.UiSuffix)
+                .IsRequired(false)
+                .HasMaxLength(20);
         }
     }
 }
