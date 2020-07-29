@@ -184,3 +184,9 @@ Set feature value
 POST - /features/{featureName}/set
 Payload: { value: boolean | number | string }
 ```
+
+```
+Retrieve authentication schemes
+
+GET - /features/auth/schemes
+```
