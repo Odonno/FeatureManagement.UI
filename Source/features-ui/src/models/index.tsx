@@ -16,7 +16,16 @@ export type Feature =
     | FeatureBase<number>
     | FeatureBase<string>;
 
+type NoneAuthenticationSchemeType = 'None';
+type QueryAuthenticationSchemeType = 'Query';
+type HeaderAuthenticationSchemeType = 'Header';
+
+export type AuthenticationSchemeType =
+    | NoneAuthenticationSchemeType
+    | QueryAuthenticationSchemeType
+    | HeaderAuthenticationSchemeType;
+
 export type AuthenticationScheme =
-    | { type: 'None' }
-    | { type: 'Query', key: string }
-    | { type: 'Header', key: string };
+    | { type: NoneAuthenticationSchemeType }
+    | { type: QueryAuthenticationSchemeType, key: string }
+    | { type: HeaderAuthenticationSchemeType, key: string };
