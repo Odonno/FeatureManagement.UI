@@ -1,4 +1,5 @@
 using AspNetCore.FeatureManagement.UI.Configuration;
+using AspNetCore.FeatureManagement.UI.Core.Models;
 using AspNetCore.FeatureManagement.UI.Extensions;
 using AspNetCore.FeatureManagement.UI.Services;
 using Microsoft.AspNetCore.Http;
@@ -6,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -41,16 +43,18 @@ namespace AspNetCore.FeatureManagement.UI.Middleware
 
                 var features = await featuresServices.GetAll();
 
-                // TODO : Fix ensures client data (single DbContext to use)
-                var output = await Task.WhenAll(
-                    features
-                        .Where(f => featuresAuthServices.HandleReadAuth(f, clientId))
-                        .Select(f =>
-                        {
-                            bool @readonly = !featuresAuthServices.HandleWriteAuth(f, clientId);
-                            return f.ToOutput(featuresServices, @readonly, clientId);
-                        })
-                );
+                var readableFeatures = features
+                    .Where(f => featuresAuthServices.HandleReadAuth(f, clientId));
+
+                var output = new List<IFeature>();
+
+                foreach (var feature in readableFeatures)
+                {
+                    bool @readonly = !featuresAuthServices.HandleWriteAuth(feature, clientId);
+                    var outputFeature = await feature.ToOutput(featuresServices, @readonly, clientId);
+
+                    output.Add(outputFeature);
+                }
 
                 var responseContent = JsonConvert.SerializeObject(output, _jsonSerializationSettings);
                 context.Response.ContentType = "application/json";

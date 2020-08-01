@@ -60,7 +60,7 @@ const AuthCardSelection: FunctionalComponent<AuthCardSelectionProps> = (props) =
             <div>
                 Type: {authScheme.type}
             </div>
-            <div 
+            <div
                 style={{ marginBottom: 8 }}
             >
                 Key: {authScheme.key}

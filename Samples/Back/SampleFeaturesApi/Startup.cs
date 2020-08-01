@@ -29,7 +29,7 @@ namespace SampleFeaturesApi
                     "dark"
                 };
 
-                string STORAGE_MODE = "IN_MEMORY";
+                string STORAGE_MODE = "SQL_SERVER";
 
                 if (STORAGE_MODE == "IN_MEMORY")
                     c.AddInMemoryStorage();
