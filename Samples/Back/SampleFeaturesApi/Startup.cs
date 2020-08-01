@@ -1,12 +1,12 @@
-using System;
 using System.Collections.Generic;
-using AspNetCore.FeatureManagement.UI.Core.Data;
 using AspNetCore.FeatureManagement.UI.Core.Models;
+using AspNetCore.FeatureManagement.UI.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SampleFeaturesApi.Services;
 
 namespace SampleFeaturesApi
 {
@@ -42,25 +42,13 @@ namespace SampleFeaturesApi
                     .ServerFeature("Delay", 1000, "Animation delay", uiSuffix: "ms")
                     .ClientFeature("Theme", themes[0], "Choose a theme for the frontend", themes);
 
-                string uniqueId = Guid.NewGuid().ToString();
-
-                c.GetClientId = () =>
-                {
-                    return uniqueId;
-                };
-
-                c.HandleWriteAuth = (Feature feature, string? clientId) => 
-                {
-                    if (feature.Type == FeatureTypes.Client) 
-                    {
-                        return true;
-                    }
-                    return true; // TODO : Use HttpContext info 
-                };
-
                 c.AuthSchemes.Add(new NoAuthenticationScheme());
                 c.AuthSchemes.Add(new QueryAuthenticationScheme { Key = "Username" });
             });
+
+            services.AddScoped<IFeaturesAuthService, SampleFeaturesAuthService>();
+
+            services.AddHttpContextAccessor();
 
             services.AddControllers();
         }

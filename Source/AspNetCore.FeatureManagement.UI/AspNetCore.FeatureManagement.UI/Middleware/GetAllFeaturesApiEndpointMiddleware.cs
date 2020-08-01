@@ -35,17 +35,21 @@ namespace AspNetCore.FeatureManagement.UI.Middleware
             using (var scope = _serviceScopeFactory.CreateScope())
             {
                 var featuresServices = scope.ServiceProvider.GetService<IFeaturesService>();
-                var settings = scope.ServiceProvider.GetService<Settings>();
+                var featuresAuthServices = scope.ServiceProvider.GetService<IFeaturesAuthService>();
 
-                string? clientId = settings.GetClientId?.Invoke();
+                string? clientId = featuresAuthServices.GetClientId();
 
                 var features = await featuresServices.GetAll();
 
                 // TODO : Fix ensures client data (single DbContext to use)
                 var output = await Task.WhenAll(
                     features
-                        .Where(f => settings.HandleReadAuth(f, clientId))
-                        .Select(f => f.ToOutput(featuresServices, settings, clientId))
+                        .Where(f => featuresAuthServices.HandleReadAuth(f, clientId))
+                        .Select(f =>
+                        {
+                            bool @readonly = !featuresAuthServices.HandleWriteAuth(f, clientId);
+                            return f.ToOutput(featuresServices, @readonly, clientId);
+                        })
                 );
 
                 var responseContent = JsonConvert.SerializeObject(output, _jsonSerializationSettings);

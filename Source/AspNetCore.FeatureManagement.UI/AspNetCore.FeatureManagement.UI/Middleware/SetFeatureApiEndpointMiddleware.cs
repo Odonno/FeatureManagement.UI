@@ -44,10 +44,10 @@ namespace AspNetCore.FeatureManagement.UI.Middleware
             using (var streamReader = new StreamReader(context.Request.Body, Encoding.UTF8))
             {
                 var featuresServices = scope.ServiceProvider.GetService<IFeaturesService>();
-                var settings = scope.ServiceProvider.GetService<Settings>();
+                var featuresAuthServices = scope.ServiceProvider.GetService<IFeaturesAuthService>();
 
                 string? featureName = context.Request.RouteValues["featureName"] as string;
-                string? clientId = settings.GetClientId?.Invoke();
+                string? clientId = featuresAuthServices.GetClientId();
 
                 if (string.IsNullOrWhiteSpace(featureName))
                 {
@@ -56,13 +56,13 @@ namespace AspNetCore.FeatureManagement.UI.Middleware
 
                 var feature = await featuresServices.Get(featureName);
 
-                bool canRead = settings.HandleReadAuth(feature, clientId);
+                bool canRead = featuresAuthServices.HandleReadAuth(feature, clientId);
                 if (!canRead)
                 {
                     throw new Exception($"You do not have permission to read the feature {featureName}...");
                 }
 
-                bool canWrite = settings.HandleWriteAuth(feature, clientId);
+                bool canWrite = featuresAuthServices.HandleWriteAuth(feature, clientId);
                 if (!canWrite)
                 {
                     throw new Exception($"You do not have permission to update the feature {featureName}...");
@@ -93,7 +93,8 @@ namespace AspNetCore.FeatureManagement.UI.Middleware
                     updatedFeature = await featuresServices.SetValue(featureName, payload.Value, clientId);
                 }
 
-                var output = await updatedFeature.ToOutput(featuresServices, settings, clientId);
+                bool @readonly = !featuresAuthServices.HandleWriteAuth(feature, clientId);
+                var output = await updatedFeature.ToOutput(featuresServices, @readonly, clientId);
 
                 var responseContent = JsonConvert.SerializeObject(output, _jsonSerializationSettings);
                 context.Response.ContentType = "application/json";

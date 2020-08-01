@@ -22,10 +22,8 @@ namespace AspNetCore.FeatureManagement.UI.Extensions
                 f1.ValueType != f2.ValueType;
         }
 
-        internal static async Task<IFeature> ToOutput(this Feature feature, IFeaturesService featuresService, Settings settings, string? clientId)
+        internal static async Task<IFeature> ToOutput(this Feature feature, IFeaturesService featuresService, bool @readonly, string? clientId)
         {
-            bool @readonly = !settings.HandleWriteAuth(feature, clientId);
-
             if (feature.ValueType == FeatureValueTypes.Boolean)
             {
                 var value = await featuresService.GetValue<bool>(feature.Name, clientId);
