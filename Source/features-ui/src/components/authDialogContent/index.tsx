@@ -1,8 +1,6 @@
 import { FunctionalComponent, h } from "preact";
 import { PrimaryButton } from '@fluentui/react';
-import { AuthenticationScheme } from "../../models";
-import { useState, useEffect } from "preact/hooks";
-import { env } from "../../config";
+import { useAuthSchemes } from "../../store";
 
 type Props = {
     handleDialogDismissed: () => void;
@@ -13,15 +11,7 @@ const AuthDialogContent: FunctionalComponent<Props> = (props) => {
         handleDialogDismissed
     } = props;
 
-    const [authSchemes, setAuthSchemes] = useState<AuthenticationScheme[]>([]);
-
-    useEffect(() => {
-        fetch(`${env.apiEndpoint}/auth/schemes`)
-            .then<AuthenticationScheme[]>(res => res.json())
-            .then(authSchemes => {
-                setAuthSchemes(authSchemes);
-            });
-    }, []);
+    const authSchemes = useAuthSchemes();
 
     return (
         <div>

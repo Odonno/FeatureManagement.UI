@@ -20,16 +20,19 @@
   "dependencies": {
     "@fluentui/react": "^7.123.0",
     "history": "^5.0.0",
+    "mergerino": "^0.4.0",
     "preact": "^10.3.1",
     "preact-jsx-chai": "^3.0.0",
     "preact-markup": "^2.0.0",
     "preact-render-to-string": "^5.1.4",
-    "preact-router": "^3.2.1"
+    "preact-router": "^3.2.1",
+    "staterino": "^1.0.6"
   },
   "devDependencies": {
     "@teamsupercell/typings-for-css-modules-loader": "^2.2.0",
     "@types/enzyme": "^3.10.5",
     "@types/jest": "^25.1.2",
+    "@types/mergerino": "^0.4.0",
     "@types/node": "^14.0.23",
     "@types/webpack-env": "^1.15.1",
     "@typescript-eslint/eslint-plugin": "^2.25.0",

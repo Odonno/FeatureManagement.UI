@@ -1456,6 +1456,11 @@
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.5.tgz#dcce4430e64b443ba8945f0290fb564ad5bac6dd"
   integrity sha512-7+2BITlgjgDhH0vvwZU/HZJVyk+2XUlvxXe8dFMedNX/aMkaOq++rMAFXc0tM7ij15QaWlbdQASBR9dihi+bDQ==
 
+"@types/mergerino@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@types/mergerino/-/mergerino-0.4.0.tgz#02851cef37f2067b409a768899c79f3137686be9"
+  integrity sha512-f5v19VVvlk1uBNel8Cf6n0V2Y+xqhiVS38lA0fz5OurUbyoVggQLiMVW3BGNwT8ZGMzfIva2s71RE4NAcQ80Bg==
+
 "@types/minimatch@*":
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.3.tgz#3dca0e3f33b200fc7d1139c0cd96c1268cadfd9d"
@@ -7053,6 +7058,11 @@ merge-stream@^2.0.0:
   resolved "https://registry.yarnpkg.com/merge-stream/-/merge-stream-2.0.0.tgz#52823629a14dd00c9770fb6ad47dc6310f2c1f60"
   integrity sha512-abv/qOcuPfk3URPfDzmZU1LKmuw8kT+0nIHvKrKgFrwifol/doWcdA4ZqsWQ8ENrFKkd67Mfpo/LovbIUsbt3w==
 
+mergerino@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/mergerino/-/mergerino-0.4.0.tgz#234536a50ab714d4cb91dce32cec9f1459a22089"
+  integrity sha512-dvyWWLp9GN7OZoAoqn1u2ewCDV06oggVi6AwFsgHxUV8jNnaTOMEyux3fZ7Njm7Hg/ypK2+M0p6liCIEWcJnbg==
+
 methods@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/methods/-/methods-1.1.2.tgz#5529a4d67654134edcc5266656835b0f851afcee"
@@ -9845,6 +9855,11 @@ stack-utils@^1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/stack-utils/-/stack-utils-1.0.2.tgz#33eba3897788558bebfc2db059dc158ec36cebb8"
   integrity sha512-MTX+MeG5U994cazkjd/9KNAapsHnibjMLnfXodlkXw76JEea0UiNzrqidzo1emMwk7w5Qhc9jd4Bn9TBb1MFwA==
+
+staterino@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/staterino/-/staterino-1.0.6.tgz#b12462180f8b3a5d461f4d1c84ad516cd1636625"
+  integrity sha512-PGahWAj2v990HtI93GVXVsVMG0eaIEw2CniDtAaKYNAU2FywTDaTiDJzB+qX+fBx9071N6m/Ct0WaZ+eoAcrBw==
 
 static-extend@^0.1.1:
   version "0.1.2"

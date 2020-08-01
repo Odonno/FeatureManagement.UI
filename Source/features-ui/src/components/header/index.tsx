@@ -4,6 +4,7 @@ import * as style from "./style.css";
 import { Icon, Dialog, DialogType } from "@fluentui/react";
 import { useState } from "preact/hooks";
 import AuthDialogContent from '../../components/authDialogContent';
+import { useAuthSelectionEnabled } from "../../store";
 
 const modalProps = {
     isBlocking: false,
@@ -17,6 +18,7 @@ const dialogContentProps = {
 };
 
 const Header: FunctionalComponent = () => {
+    const authSelectionEnabled = useAuthSelectionEnabled();
     const [hideDialog, setHideDialog] = useState(true);
 
     const handleAuthClicked = () => {
@@ -31,10 +33,12 @@ const Header: FunctionalComponent = () => {
         <>
             <header class={style.header}>
                 <h1>Features</h1>
-                <Icon
-                    iconName="AuthenticatorApp"
-                    onClick={handleAuthClicked}
-                />
+                {authSelectionEnabled &&
+                    <Icon
+                        iconName="AuthenticatorApp"
+                        onClick={handleAuthClicked}
+                    />
+                }
             </header>
 
             <Dialog

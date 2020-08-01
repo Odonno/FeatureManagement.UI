@@ -2,28 +2,55 @@
 import { FunctionalComponent, h } from "preact";
 import * as style from "./style.css";
 import { useState, useEffect } from "preact/hooks";
-import { Feature, FeatureValueType } from '../../models';
+import { Feature, FeatureValueType, AuthenticationScheme } from '../../models';
 import { env } from '../../config';
 import { Spinner, SpinnerSize } from '@fluentui/react';
 import FeatureToggle from '../../components/featureToggle';
 import FeatureTextInput from '../../components/featureTextInput';
 import FeatureNumberInput from '../../components/featureNumberInput';
 import FeatureCombobox from '../../components/featureCombobox';
+import { setAuthSchemes, useAuthSchemes, useFeatures, setFeatures, setSelectedAuthScheme, useSelectedAuthScheme } from "../../store";
 
 const Home: FunctionalComponent = () => {
-    const [loading, setLoading] = useState(false);
-    const [features, setFeatures] = useState<Feature[]>([]);
+    const authSchemes = useAuthSchemes();
+    const selectedAuthScheme = useSelectedAuthScheme();
+    const features = useFeatures();
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        setLoading(true);
+        if (authSchemes === undefined) {
+            fetch(`${env.apiEndpoint}/auth/schemes`)
+                .then<AuthenticationScheme[]>(res => res.json())
+                .then(authSchemes => {
+                    setAuthSchemes(authSchemes);
+                    setLoading(false);
+                });
+        }
+    }, [authSchemes]);
 
-        fetch(env.apiEndpoint)
-            .then<Feature[]>(res => res.json())
-            .then(features => {
-                setFeatures(features);
-                setLoading(false);
-            });
-    }, []);
+    useEffect(() => {
+        if (authSchemes !== undefined && selectedAuthScheme === undefined) {
+            const hasAnonymousAuth =
+                authSchemes.length <= 0 || s.authSchemes.some(as => as.type === 'None');
+
+            if (hasAnonymousAuth) {
+                setSelectedAuthScheme({ type: 'None' });
+            }
+        }
+    }, [authSchemes, selectedAuthScheme]);
+
+    useEffect(() => {
+        if (selectedAuthScheme !== undefined) {
+            setLoading(true);
+
+            fetch(env.apiEndpoint)
+                .then<Feature[]>(res => res.json())
+                .then(features => {
+                    setFeatures(features);
+                    setLoading(false);
+                });
+        }
+    }, [selectedAuthScheme]);
 
     const handleFeatureChange = (feature: Feature, newValue: FeatureValueType) => {
         const payload = {
@@ -36,14 +63,14 @@ const Home: FunctionalComponent = () => {
         })
             .then<Feature>(res => res.json())
             .then(feature => {
-                setFeatures(features => {
-                    return features.map(f => {
-                        if (f.name === feature.name) {
-                            return feature;
-                        }
-                        return f;
-                    });
+                const newFeatures = features.map(f => {
+                    if (f.name === feature.name) {
+                        return feature;
+                    }
+                    return f;
                 });
+
+                setFeatures(newFeatures);
             });
     };
 
@@ -61,9 +88,20 @@ const Home: FunctionalComponent = () => {
         );
     }
 
+    if (selectedAuthScheme === undefined) {
+        return (
+            <div
+                class={style.home}
+                style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+            >
+                Please select an authentication scheme
+            </div>
+        );
+    }
+
     return (
         <div class={style.home}>
-            {features.map(f => {
+            {features && features.map(f => {
                 if (typeof f.value === 'boolean') {
                     const checked = f.value;
 
