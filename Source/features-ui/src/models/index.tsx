@@ -26,6 +26,6 @@ export type AuthenticationSchemeType =
     | HeaderAuthenticationSchemeType;
 
 export type AuthenticationScheme =
-    | { type: NoneAuthenticationSchemeType }
-    | { type: QueryAuthenticationSchemeType, key: string }
-    | { type: HeaderAuthenticationSchemeType, key: string };
+    | { type: NoneAuthenticationSchemeType, key: undefined, value: undefined }
+    | { type: QueryAuthenticationSchemeType, key: string, value: string }
+    | { type: HeaderAuthenticationSchemeType, key: string, value: string };

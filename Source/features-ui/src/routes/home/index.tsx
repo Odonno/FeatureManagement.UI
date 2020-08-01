@@ -31,7 +31,7 @@ const Home: FunctionalComponent = () => {
     useEffect(() => {
         if (authSchemes !== undefined && selectedAuthScheme === undefined) {
             const hasAnonymousAuth =
-                authSchemes.length <= 0 || s.authSchemes.some(as => as.type === 'None');
+                authSchemes.length <= 0 || authSchemes.some(as => as.type === 'None');
 
             if (hasAnonymousAuth) {
                 setSelectedAuthScheme({ type: 'None' });

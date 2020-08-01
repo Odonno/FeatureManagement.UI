@@ -41,6 +41,7 @@ namespace AspNetCore.FeatureManagement.UI.Middleware
 
                 var features = await featuresServices.GetAll();
 
+                // TODO : Fix ensures client data (single DbContext to use)
                 var output = await Task.WhenAll(
                     features
                         .Where(f => settings.HandleReadAuth(f, clientId))

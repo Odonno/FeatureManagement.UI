@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using AspNetCore.FeatureManagement.UI.Core.Data;
+using AspNetCore.FeatureManagement.UI.Core.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -46,6 +48,18 @@ namespace SampleFeaturesApi
                 {
                     return uniqueId;
                 };
+
+                c.HandleWriteAuth = (Feature feature, string? clientId) => 
+                {
+                    if (feature.Type == FeatureTypes.Client) 
+                    {
+                        return true;
+                    }
+                    return true; // TODO : Use HttpContext info 
+                };
+
+                c.AuthSchemes.Add(new NoAuthenticationScheme());
+                c.AuthSchemes.Add(new QueryAuthenticationScheme { Key = "Username" });
             });
 
             services.AddControllers();
