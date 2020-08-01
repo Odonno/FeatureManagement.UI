@@ -4,6 +4,7 @@ import * as style from "./style.css";
 import { useState, useEffect } from "preact/hooks";
 import { Feature, FeatureValueType, AuthenticationScheme } from '../../models';
 import { env } from '../../config';
+import { createRequest } from '../../functions/http';
 import { Spinner, SpinnerSize } from '@fluentui/react';
 import FeatureToggle from '../../components/featureToggle';
 import FeatureTextInput from '../../components/featureTextInput';
@@ -19,7 +20,7 @@ const Home: FunctionalComponent = () => {
 
     useEffect(() => {
         if (authSchemes === undefined) {
-            fetch(`${env.apiEndpoint}/auth/schemes`)
+            createRequest(`${env.apiEndpoint}/auth/schemes`, selectedAuthScheme)
                 .then<AuthenticationScheme[]>(res => res.json())
                 .then(authSchemes => {
                     setAuthSchemes(authSchemes);
@@ -43,7 +44,7 @@ const Home: FunctionalComponent = () => {
         if (selectedAuthScheme !== undefined) {
             setLoading(true);
 
-            fetch(env.apiEndpoint)
+            createRequest(env.apiEndpoint, selectedAuthScheme)
                 .then<Feature[]>(res => res.json())
                 .then(features => {
                     setFeatures(features);
@@ -57,10 +58,12 @@ const Home: FunctionalComponent = () => {
             value: newValue
         };
 
-        fetch(`${env.apiEndpoint}/${feature.name}/set`, {
+        const request = {
             method: 'POST',
             body: JSON.stringify(payload)
-        })
+        };
+
+        createRequest(`${env.apiEndpoint}/${feature.name}/set`, selectedAuthScheme, request)
             .then<Feature>(res => res.json())
             .then(feature => {
                 const newFeatures = features.map(f => {
