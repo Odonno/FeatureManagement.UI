@@ -141,7 +141,9 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 
 You will then be able to display the UI at the following url: `/features-ui`.
 
-![Features UI](./Images/features-ui.png)
+![Features UI - Home](./Images/features-ui.png)
+
+![Features UI - Auth](./Images/features-ui-auth.png)
 
 ### Feature consumption
 
