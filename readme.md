@@ -32,11 +32,9 @@ This library has for only purpose to let you create, use and provide Feature Fla
 * ❌ store chat messages
 * ❌ store sensitive data (credentials, connection strings, etc...)
 
-### Configuration
+### Getting started
 
-##### Feature definition
-
-First, you have to add the features that should be used by your API. Don't forget to set a storage provider too.
+In order to get a working Feature Management system in your API, you first have to add the features that should be used by your API. Don't forget to set a storage provider too.
 
 ```cs
 public void ConfigureServices(IServiceCollection services)
@@ -57,52 +55,58 @@ public void ConfigureServices(IServiceCollection services)
             .ServerFeature("WelcomeMessage", "Welcome to my Blog")
             // Theme feature, "light" by default
             .ClientFeature("Theme", themes[0], "Choose a theme for the frontend", themes);
-
-        c.GetClientId = () =>
-        {
-            // Retrieve client id used to identify the user of each client features
-            return Guid.NewGuid().ToString(); // EXAMPLE
-        };
-
-        c.HandleReadAuth = (Feature feature, string? clientId) =>
-        {
-            // Indicates if the user can see this feature
-            return true; // DEFAULT
-        };
-        c.HandleWriteAuth = (Feature feature, string? clientId) =>
-        {
-            // Indicates if the user can update this feature (server features are often only managed by an admin)
-            return feature.Type == FeatureTypes.Client; // DEFAULT
-        };
-
-        c.OnServerFeatureUpdated = (IFeature feature) =>
-        {
-            // Do something when a server feature is updated 
-        };
-        c.OnClientFeatureUpdated = (IFeature feature, string clientId) =>
-        {
-            // Do something when a client feature is updated 
-        };
     });
 
     // ...
 }
-```
 
-Then, don't forget to use these features. Otherwise, no feature will be applied...
-
-```cs
 public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 {
+    // Apply features configuration
     app.UseFeatures();
 
-    // ...
+    // Enable features UI
+    app.UseEndpoints(endpoints =>
+    {
+        endpoints.MapFeaturesUI();
+    });
 }
+```
+
+You will then be able to display the UI at the following url: `/features-ui`.
+
+![Features UI - Home](./Images/features-ui.png)
+
+### Configuration
+
+##### Value types
+
+`AspNetCore.FeatureManagement.UI` works with the following types of value:
+
+* `boolean`
+* `integer`
+* `decimal`
+* `string`
+
+```csharp
+configuration.ServerFeature("Beta", true);
+```
+
+By default, it provides a feature without strict limitation. You can however specify a list of choices to limit the number of options available.
+
+```csharp
+var themes = new List<string>
+{
+    "light",
+    "dark"
+};
+
+configuration.ClientFeature("Theme", themes[0], "Choose a theme for the frontend", themes);
 ```
 
 ##### Storage Providers
 
-AspNetCore.FeatureManagement.UI offers several storage providers.
+`AspNetCore.FeatureManagement.UI` offers several storage providers.
 
 ###### InMemory
 
@@ -123,7 +127,33 @@ services.AddFeatures(c =>
 });
 ```
 
-##### UI
+##### Feature types
+
+###### Server feature
+
+A server feature is defined globally and it will have the same value for every user of the application.
+
+```csharp
+configuration.ServerFeature("Beta", true);
+```
+
+Server features are often only managed by an admin.
+
+###### Client feature
+
+A client feature has a different value for each user of the application. Each user will see the default value but they can update it at anytime (default behavior).
+
+```csharp
+var themes = new List<string>
+{
+    "light",
+    "dark"
+};
+
+configuration.ClientFeature("Theme", themes[0], "Choose a theme for the frontend", themes);
+```
+
+##### User Interface
 
 If you like to see the features for yourself. You can enable the UI by configuring it:
 
@@ -141,9 +171,60 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 
 You will then be able to display the UI at the following url: `/features-ui`.
 
-![Features UI - Home](./Images/features-ui.png)
+##### Authentication
+
+You should add an `IFeaturesAuthService` to handle features authentication.
+
+```csharp
+services.AddScoped<IFeaturesAuthService, SampleFeaturesAuthService>();
+```
+
+There is a default service you can use named `SampleFeaturesAuthService`. Here is the how it works:
+
+* Everyone can read all features
+* No one can update a *server* feature
+* Each user can update a *client* feature
+* No way to define a client id (returns `null`)
+
+###### Authorization
+
+There is some authentication schemes you can use to authenticate users and give access to features:
+
+* No authentication (anonymous)
+* Query params authentication
+* Header authentication
+
+For example, you can apply a JWT Bearer authentication using the `Authorization` HTTP header and define a `IFeaturesAuthService` to use the user information stored inside the JWT token.
+
+###### UI settings
+
+You can configure the UI by providing the authentication schemes used in the application:
+
+```csharp
+configuration.AuthSchemes.Add(new NoAuthenticationScheme());
+configuration.AuthSchemes.Add(new QueryAuthenticationScheme { Key = "Username" });
+```
+
+It will give each user an access to the `Authentication` dialog to select the desired authentication mechanism.
 
 ![Features UI - Auth](./Images/features-ui-auth.png)
+
+##### Realtime updates
+
+###### Feature updated event handlers
+
+There are event handlers you can use that are triggered when a feature is updated.
+
+```csharp
+c.OnServerFeatureUpdated = (IFeature feature) =>
+{
+    // Do something when a server feature is updated 
+};
+c.OnClientFeatureUpdated = (IFeature feature, string clientId) =>
+{
+    // Do something when a client feature is updated 
+};
+```
 
 ### Feature consumption
 
