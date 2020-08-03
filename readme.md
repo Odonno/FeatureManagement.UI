@@ -57,6 +57,8 @@ public void ConfigureServices(IServiceCollection services)
             .ClientFeature("Theme", themes[0], "Choose a theme for the frontend", themes);
     });
 
+    services.AddScoped<IFeaturesAuthService, DefaultFeaturesAuthService>();
+
     // ...
 }
 
@@ -176,10 +178,10 @@ You will then be able to display the UI at the following url: `/features-ui`.
 You should add an `IFeaturesAuthService` to handle features authentication.
 
 ```csharp
-services.AddScoped<IFeaturesAuthService, SampleFeaturesAuthService>();
+services.AddScoped<IFeaturesAuthService, DefaultFeaturesAuthService>();
 ```
 
-There is a default service you can use named `SampleFeaturesAuthService`. Here is the how it works:
+There is a default service you can use named `DefaultFeaturesAuthService`. Here is the how it works:
 
 * Everyone can read all features
 * No one can update a *server* feature
