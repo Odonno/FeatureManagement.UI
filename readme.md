@@ -14,6 +14,28 @@ Perfectly designed UI for Feature Flags in ASP.NET Core Web API
 
 This package allows you to configure your application inside your own ASP.NET Core Web API. You can create and configure a large number of feature toggles.
 
+### Summary
+
+* [Purpose](#purpose)
+* [Getting started](#getting-started)
+* [Configuration](#configuration)
+  * [Value types](#value-types)
+  * [Storage Providers](#storage-providers)
+    * [In memory](#inmemory)
+    * [SQL Server](#sql-server)
+  * [Feature types](#feature-types)
+    * [Server feature](#server-feature)
+    * [Client feature](#client-feature)
+  * [User Interface](#user-interface)
+  * [Authentication](#authentication)
+    * [Authorization](#authorization)
+    * [UI settings](#ui-settings)
+  * [Realtime updates](#realtime-updates)
+    * [Feature updated event handlers](#feature-updated-event-handlers)
+* [Feature consumption](#feature-consumption)
+  * [Self-consumption](#self-consumption)
+  * [API](#api)
+
 ### Purpose
 
 This library is meant to create, use and provide something developers are calling `Feature Flag` or `Feature Toggle`. It can be viewed as a configuration system. The main benefit over using a simple configuration file like `appsettings.json` is that:
