@@ -27,6 +27,7 @@ This package allows you to configure your application inside your own ASP.NET Co
   * [Feature types](#feature-types)
     * [Server feature](#server-feature)
     * [Client feature](#client-feature)
+    * [Group feature](#group-feature)
   * [User Interface](#user-interface)
   * [Authentication](#authentication)
     * [Authorization](#authorization)
