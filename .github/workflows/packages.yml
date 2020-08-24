@@ -32,9 +32,6 @@ jobs:
 
     - name: DotNet Test (AspNetCore.FeatureManagement.UI)
       run: dotnet test --no-restore --verbosity normal
-    
-    - name: dotnet pack [AspNetCore.FeatureManagement.UI.Configuration]
-      run: dotnet pack ./Source/AspNetCore.FeatureManagement.UI/AspNetCore.FeatureManagement.UI.Configuration/AspNetCore.FeatureManagement.UI.Configuration.csproj /p:Version=${{github.event.inputs.version}} -c Release --no-build --include-source --include-symbols -o ./artifacts
 
     - name: dotnet pack [AspNetCore.FeatureManagement.UI.Core]
       run: dotnet pack ./Source/AspNetCore.FeatureManagement.UI/AspNetCore.FeatureManagement.UI.Core/AspNetCore.FeatureManagement.UI.Core.csproj /p:Version=${{github.event.inputs.version}} -c Release --no-build --include-source --include-symbols -o ./artifacts
@@ -55,9 +52,6 @@ jobs:
       uses: NuGet/setup-nuget@v1.0.2
       with:
         nuget-version: latest
-
-    - name: Publish package [AspNetCore.FeatureManagement.UI.Configuration]
-      run: dotnet nuget push ./artifacts/AspNetCore.FeatureManagement.UI.Configuration.*.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json --skip-duplicate
 
     - name: Publish package [AspNetCore.FeatureManagement.UI.Core]
       run: dotnet nuget push ./artifacts/AspNetCore.FeatureManagement.UI.Core.*.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json --skip-duplicate
