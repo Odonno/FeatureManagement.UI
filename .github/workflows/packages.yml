@@ -47,7 +47,7 @@ jobs:
 
     - name: dotnet pack [AspNetCore.FeatureManagement.UI.SqlServer.Storage]
       run: dotnet pack ./Source/AspNetCore.FeatureManagement.UI/AspNetCore.FeatureManagement.UI.SqlServer.Storage/AspNetCore.FeatureManagement.UI.SqlServer.Storage.csproj /p:Version=${{github.event.inputs.version}} -c Release --no-build --include-source --include-symbols -o ./artifacts
-      
+
     - name: dotnet pack [AspNetCore.FeatureManagement.UI.Configuration.GroupFeature]
       run: dotnet pack ./Source/AspNetCore.FeatureManagement.UI/AspNetCore.FeatureManagement.UI.Configuration.GroupFeature/AspNetCore.FeatureManagement.UI.Configuration.GroupFeature.csproj /p:Version=${{github.event.inputs.version}} -c Release --no-build --include-source --include-symbols -o ./artifacts
 
