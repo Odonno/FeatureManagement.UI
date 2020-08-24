@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using AspNetCore.FeatureManagement.UI.Configuration;
 using AspNetCore.FeatureManagement.UI.Core.Data;
+using AspNetCore.FeatureManagement.UI.Extensions;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -293,7 +294,8 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns>The updated <see cref="Settings"/>.</returns>
         public static Settings ClientFeature(this Settings settings, string featureName, GroupFeatureConfiguration<bool> configuration, bool defaultValue = false, string? description = null)
         {
-            // TODO : Ensures configuration contains NO "null" group
+            FeatureConfigurationExtensions.EnsuresCorrectConfiguration(configuration);
+
             settings.Features.Add(new BoolFeatureSettings
             {
                 Name = featureName,
@@ -317,7 +319,8 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns>The updated <see cref="Settings"/>.</returns>
         public static Settings ClientFeature(this Settings settings, string featureName, GroupFeatureConfiguration<int> configuration, int defaultValue = 0, string? description = null, IEnumerable<int>? choices = null, string? uiPrefix = null, string? uiSuffix = null)
         {
-            // TODO : Ensures configuration contains NO "null" group
+            FeatureConfigurationExtensions.EnsuresCorrectConfiguration(configuration);
+
             if (choices != null)
             {
                 settings.Features.Add(new IntFeatureWithChoicesSettings
@@ -360,7 +363,8 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns>The updated <see cref="Settings"/>.</returns>
         public static Settings ClientFeature(this Settings settings, string featureName, GroupFeatureConfiguration<decimal> configuration, decimal defaultValue = 0, string? description = null, IEnumerable<decimal>? choices = null, string? uiPrefix = null, string? uiSuffix = null)
         {
-            // TODO : Ensures configuration contains NO "null" group
+            FeatureConfigurationExtensions.EnsuresCorrectConfiguration(configuration);
+
             if (choices != null)
             {
                 settings.Features.Add(new DecimalFeatureWithChoicesSettings
@@ -403,7 +407,8 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns>The updated <see cref="Settings"/>.</returns>
         public static Settings ClientFeature(this Settings settings, string featureName, GroupFeatureConfiguration<string> configuration, string defaultValue = "", string? description = null, IEnumerable<string>? choices = null, string? uiPrefix = null, string? uiSuffix = null)
         {
-            // TODO : Ensures configuration contains NO "null" group
+            FeatureConfigurationExtensions.EnsuresCorrectConfiguration(configuration);
+
             if (choices != null)
             {
                 settings.Features.Add(new StringFeatureWithChoicesSettings
