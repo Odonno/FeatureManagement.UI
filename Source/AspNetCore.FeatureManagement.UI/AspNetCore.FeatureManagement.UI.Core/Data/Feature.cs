@@ -19,5 +19,6 @@ namespace AspNetCore.FeatureManagement.UI.Core.Data
         public List<DecimalFeatureChoice> DecimalFeatureChoices { get; set; }
         public List<StringFeatureChoice> StringFeatureChoices { get; set; }
         public List<GroupFeature> GroupFeatures { get; set; }
+        public List<TimeWindowFeature> TimeWindowFeatures { get; set; }
     }
 }

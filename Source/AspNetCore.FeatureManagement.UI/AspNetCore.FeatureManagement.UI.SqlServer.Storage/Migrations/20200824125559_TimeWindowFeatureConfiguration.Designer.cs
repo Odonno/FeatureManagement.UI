@@ -4,14 +4,16 @@ using AspNetCore.FeatureManagement.UI.Core.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AspNetCore.FeatureManagement.UI.SqlServer.Storage.Migrations
 {
     [DbContext(typeof(FeatureManagementDb))]
-    partial class FeatureManagementDbModelSnapshot : ModelSnapshot
+    [Migration("20200824125559_TimeWindowFeatureConfiguration")]
+    partial class TimeWindowFeatureConfiguration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
