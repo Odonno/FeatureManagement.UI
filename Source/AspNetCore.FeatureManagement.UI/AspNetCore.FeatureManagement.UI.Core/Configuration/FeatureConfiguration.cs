@@ -1,6 +1,6 @@
 ﻿using AspNetCore.FeatureManagement.UI.Core.Data;
 
-namespace AspNetCore.FeatureManagement.UI.Configuration
+namespace AspNetCore.FeatureManagement.UI.Core.Configuration
 {
     public interface IFeatureConfiguration
     {

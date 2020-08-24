@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 
-namespace AspNetCore.FeatureManagement.UI.Configuration
+namespace AspNetCore.FeatureManagement.UI.Core.Configuration
 {
     public class Settings
     {

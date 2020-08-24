@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using AspNetCore.FeatureManagement.UI.Configuration;
+using AspNetCore.FeatureManagement.UI.Core.Configuration;
 using AspNetCore.FeatureManagement.UI.Core.Endpoints.Extensions;
 using AspNetCore.FeatureManagement.UI.Core.Endpoints.Models;
 using Microsoft.AspNetCore.Builder;

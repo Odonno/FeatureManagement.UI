@@ -1,4 +1,4 @@
-﻿using AspNetCore.FeatureManagement.UI.Configuration;
+﻿using AspNetCore.FeatureManagement.UI.Core.Configuration;
 using AspNetCore.FeatureManagement.UI.Core.Data;
 using AspNetCore.FeatureManagement.UI.Core.Models;
 using AspNetCore.FeatureManagement.UI.Services;

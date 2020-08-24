@@ -1,4 +1,3 @@
-using AspNetCore.FeatureManagement.UI.Configuration;
 using AspNetCore.FeatureManagement.UI.Core.Data;
 using AspNetCore.FeatureManagement.UI.Extensions;
 using AspNetCore.FeatureManagement.UI.Services;

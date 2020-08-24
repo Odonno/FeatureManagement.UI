@@ -1,4 +1,4 @@
-using AspNetCore.FeatureManagement.UI.Configuration;
+using AspNetCore.FeatureManagement.UI.Core.Configuration;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;

@@ -1,7 +1,6 @@
-﻿using AspNetCore.FeatureManagement.UI.Configuration;
-using AspNetCore.FeatureManagement.UI.Configuration.GroupFeature;
+﻿using AspNetCore.FeatureManagement.UI.Configuration.GroupFeature;
+using AspNetCore.FeatureManagement.UI.Core.Configuration;
 using AspNetCore.FeatureManagement.UI.Core.Data;
-using System;
 using System.Collections.Generic;
 
 namespace Microsoft.Extensions.DependencyInjection

@@ -31,7 +31,7 @@ namespace SampleFeaturesApi
                     "dark"
                 };
 
-                string STORAGE_MODE = "SQL_SERVER";
+                string STORAGE_MODE = "IN_MEMORY";
 
                 switch (STORAGE_MODE)
                 {

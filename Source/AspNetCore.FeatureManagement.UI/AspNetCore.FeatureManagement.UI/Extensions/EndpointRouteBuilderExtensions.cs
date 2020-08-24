@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using AspNetCore.FeatureManagement.UI;
-using AspNetCore.FeatureManagement.UI.Configuration;
 using AspNetCore.FeatureManagement.UI.Core;
+using AspNetCore.FeatureManagement.UI.Core.Configuration;
 using AspNetCore.FeatureManagement.UI.Middleware;
 using Microsoft.AspNetCore.Routing;
 

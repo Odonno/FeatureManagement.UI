@@ -1,4 +1,4 @@
-﻿using AspNetCore.FeatureManagement.UI.Configuration;
+﻿using AspNetCore.FeatureManagement.UI.Core.Configuration;
 using AspNetCore.FeatureManagement.UI.Services;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;

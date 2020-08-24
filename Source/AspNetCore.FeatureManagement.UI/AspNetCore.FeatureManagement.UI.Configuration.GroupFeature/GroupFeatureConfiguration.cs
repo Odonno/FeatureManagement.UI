@@ -1,4 +1,5 @@
-﻿using AspNetCore.FeatureManagement.UI.Core.Data;
+﻿using AspNetCore.FeatureManagement.UI.Core.Configuration;
+using AspNetCore.FeatureManagement.UI.Core.Data;
 using System.Collections.Generic;
 using System.Linq;
 using DatabaseGroupFeature = AspNetCore.FeatureManagement.UI.Core.Data.GroupFeature;

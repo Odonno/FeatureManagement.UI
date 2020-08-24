@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.30223.230
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCore.FeatureManagement.UI", "Source\AspNetCore.FeatureManagement.UI\AspNetCore.FeatureManagement.UI\AspNetCore.FeatureManagement.UI.csproj", "{C189427B-18B8-41E5-8818-F2BABD6FDEFA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCore.FeatureManagement.UI.Configuration", "Source\AspNetCore.FeatureManagement.UI\AspNetCore.FeatureManagement.UI.Configuration\AspNetCore.FeatureManagement.UI.Configuration.csproj", "{89252AE8-8BC2-4744-948B-33B0DBE0D7D9}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCore.FeatureManagement.UI.Core", "Source\AspNetCore.FeatureManagement.UI\AspNetCore.FeatureManagement.UI.Core\AspNetCore.FeatureManagement.UI.Core.csproj", "{6B52CC5A-F07E-4875-AD83-404BD11F564E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCore.FeatureManagement.UI.InMemory.Storage", "Source\AspNetCore.FeatureManagement.UI\AspNetCore.FeatureManagement.UI.InMemory.Storage\AspNetCore.FeatureManagement.UI.InMemory.Storage.csproj", "{B9138DC9-8867-4C7E-80F7-FF32E524C2D1}"
@@ -29,10 +27,6 @@ Global
 		{C189427B-18B8-41E5-8818-F2BABD6FDEFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C189427B-18B8-41E5-8818-F2BABD6FDEFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C189427B-18B8-41E5-8818-F2BABD6FDEFA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{89252AE8-8BC2-4744-948B-33B0DBE0D7D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{89252AE8-8BC2-4744-948B-33B0DBE0D7D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{89252AE8-8BC2-4744-948B-33B0DBE0D7D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{89252AE8-8BC2-4744-948B-33B0DBE0D7D9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6B52CC5A-F07E-4875-AD83-404BD11F564E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6B52CC5A-F07E-4875-AD83-404BD11F564E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B52CC5A-F07E-4875-AD83-404BD11F564E}.Release|Any CPU.ActiveCfg = Release|Any CPU

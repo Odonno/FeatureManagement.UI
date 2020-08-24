@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace AspNetCore.FeatureManagement.UI.Configuration
+namespace AspNetCore.FeatureManagement.UI.Core.Configuration
 {
     internal interface IFeatureSettings
     {

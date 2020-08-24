@@ -1,5 +1,5 @@
+using AspNetCore.FeatureManagement.UI.Core.Configuration;
 using System.IO;
-using AspNetCore.FeatureManagement.UI.Configuration;
 
 namespace AspNetCore.FeatureManagement.UI.Core.Endpoints.Models
 {
