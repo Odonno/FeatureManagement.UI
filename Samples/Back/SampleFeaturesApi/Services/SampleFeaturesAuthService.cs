@@ -2,6 +2,7 @@
 using AspNetCore.FeatureManagement.UI.Services;
 using Microsoft.AspNetCore.Http;
 using System;
+using System.Collections.Generic;
 
 namespace SampleFeaturesApi.Services
 {
@@ -19,6 +20,11 @@ namespace SampleFeaturesApi.Services
         public string? GetClientId()
         {
             return _uniqueId;
+        }
+
+        public IEnumerable<string> GetClientGroups(string? clientId)
+        {
+            return new List<string> { "Ring1" };
         }
 
         public bool HandleReadAuth(Feature feature, string? clientId)

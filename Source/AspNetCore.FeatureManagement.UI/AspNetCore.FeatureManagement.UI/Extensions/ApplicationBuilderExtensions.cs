@@ -43,128 +43,144 @@ namespace Microsoft.Extensions.DependencyInjection
                 var intFeatureChoicesSet = context.IntFeatureChoices;
                 var decimalFeatureChoicesSet = context.DecimalFeatureChoices;
                 var stringFeatureChoicesSet = context.StringFeatureChoices;
+                var groupFeaturesSet = context.GroupFeatures;
 
                 var existingFeatures = featuresSet
                     .Include(f => f.IntFeatureChoices)
                     .Include(f => f.DecimalFeatureChoices)
                     .Include(f => f.StringFeatureChoices)
+                    .Include(f => f.GroupFeatures)
                     .ToList();
 
                 var newFeatures = settings.Features
                     .Select(f =>
                     {
+                        var feature = new Feature
+                        {
+                            Name = f.Name,
+                            Description = f.Description,
+                            UiPrefix = f.UiPrefix,
+                            UiSuffix = f.UiSuffix
+                        };
+
                         if (f is IFeatureWithValueSettings<bool> fBool)
                         {
-                            return new Feature
+                            feature.ValueType = FeatureValueTypes.Boolean;
+                            feature.Server = f.Type == FeatureTypes.Server
+                                ? new ServerFeatureData { BooleanValue = fBool.Value }
+                                : null;
+
+                            if (f.Configuration is IGroupFeatureConfiguration<bool> gfcBool)
                             {
-                                Name = f.Name,
-                                Description = f.Description,
-                                ValueType = FeatureValueTypes.Boolean,
-                                Server = f.Type == FeatureTypes.Server
-                                    ? new ServerFeatureData { BooleanValue = fBool.Value }
-                                    : null,
-                                UiPrefix = fBool.UiPrefix,
-                                UiSuffix = fBool.UiSuffix
-                            };
-                        }
-                        if (f is IFeatureWithChoicesSettings<int> fIntWithChoices)
-                        {
-                            return new Feature
-                            {
-                                Name = f.Name,
-                                Description = f.Description,
-                                ValueType = FeatureValueTypes.Integer,
-                                Server = f.Type == FeatureTypes.Server
-                                    ? new ServerFeatureData { IntValue = fIntWithChoices.Value }
-                                    : null,
-                                IntFeatureChoices = fIntWithChoices.Choices
-                                    .Select(c => new IntFeatureChoice { Choice = c })
-                                    .ToList(),
-                                UiPrefix = fIntWithChoices.UiPrefix,
-                                UiSuffix = fIntWithChoices.UiSuffix
-                            };
-                        }
-                        if (f is IFeatureWithValueSettings<int> fInt)
-                        {
-                            return new Feature
-                            {
-                                Name = f.Name,
-                                Description = f.Description,
-                                ValueType = FeatureValueTypes.Integer,
-                                Server = f.Type == FeatureTypes.Server
-                                    ? new ServerFeatureData { IntValue = fInt.Value }
-                                    : null,
-                                IntFeatureChoices = new List<IntFeatureChoice>(),
-                                UiPrefix = fInt.UiPrefix,
-                                UiSuffix = fInt.UiSuffix
-                            };
-                        }
-                        if (f is IFeatureWithChoicesSettings<decimal> fDecimalWithChoices)
-                        {
-                            return new Feature
-                            {
-                                Name = f.Name,
-                                Description = f.Description,
-                                ValueType = FeatureValueTypes.Decimal,
-                                Server = f.Type == FeatureTypes.Server
-                                    ? new ServerFeatureData { DecimalValue = fDecimalWithChoices.Value }
-                                    : null,
-                                DecimalFeatureChoices = fDecimalWithChoices.Choices
-                                    .Select(c => new DecimalFeatureChoice { Choice = c })
-                                    .ToList(),
-                                UiPrefix = fDecimalWithChoices.UiPrefix,
-                                UiSuffix = fDecimalWithChoices.UiSuffix
-                            };
-                        }
-                        if (f is IFeatureWithValueSettings<decimal> fDecimal)
-                        {
-                            return new Feature
-                            {
-                                Name = f.Name,
-                                Description = f.Description,
-                                ValueType = FeatureValueTypes.Decimal,
-                                Server = f.Type == FeatureTypes.Server
-                                    ? new ServerFeatureData { DecimalValue = fDecimal.Value }
-                                    : null,
-                                DecimalFeatureChoices = new List<DecimalFeatureChoice>(),
-                                UiPrefix = fDecimal.UiPrefix,
-                                UiSuffix = fDecimal.UiSuffix
-                            };
-                        }
-                        if (f is IFeatureWithChoicesSettings<string> fStringWithChoices)
-                        {
-                            return new Feature
-                            {
-                                Name = f.Name,
-                                Description = f.Description,
-                                ValueType = FeatureValueTypes.String,
-                                Server = f.Type == FeatureTypes.Server
-                                    ? new ServerFeatureData { StringValue = fStringWithChoices.Value }
-                                    : null,
-                                StringFeatureChoices = fStringWithChoices.Choices
-                                    .Select(c => new StringFeatureChoice { Choice = c })
-                                    .ToList(),
-                                UiPrefix = fStringWithChoices.UiPrefix,
-                                UiSuffix = fStringWithChoices.UiSuffix
-                            };
-                        }
-                        if (f is IFeatureWithValueSettings<string> fString)
-                        {
-                            return new Feature
-                            {
-                                Name = f.Name,
-                                Description = f.Description,
-                                ValueType = FeatureValueTypes.String,
-                                Server = f.Type == FeatureTypes.Server
-                                    ? new ServerFeatureData { StringValue = fString.Value }
-                                    : null,
-                                StringFeatureChoices = new List<StringFeatureChoice>(),
-                                UiPrefix = fString.UiPrefix,
-                                UiSuffix = fString.UiSuffix
-                            };
+                                feature.ConfigurationType = ConfigurationTypes.Group;
+                                feature.GroupFeatures = gfcBool.Groups
+                                    .Select(g => new GroupFeature
+                                    {
+                                        Group = g.Group,
+                                        BooleanValue = g.Value
+                                    })
+                                    .Concat(new[] { new GroupFeature { Group = null, BooleanValue = fBool.Value } })
+                                    .ToList();
+                            }
                         }
 
-                        return null;
+                        if (f is IFeatureWithValueSettings<int> fInt)
+                        {
+                            feature.ValueType = FeatureValueTypes.Integer;
+                            feature.Server = f.Type == FeatureTypes.Server
+                                ? new ServerFeatureData { IntValue = fInt.Value }
+                                : null;
+
+                            if (f is IFeatureWithChoicesSettings<int> fIntWithChoices)
+                            {
+                                feature.IntFeatureChoices = fIntWithChoices.Choices
+                                    .Select(c => new IntFeatureChoice { Choice = c })
+                                    .ToList();
+                            }
+                            else
+                            {
+                                feature.IntFeatureChoices = new List<IntFeatureChoice>();
+                            }
+
+                            if (f.Configuration is IGroupFeatureConfiguration<int> gfcInt)
+                            {
+                                feature.ConfigurationType = ConfigurationTypes.Group;
+                                feature.GroupFeatures = gfcInt.Groups
+                                    .Select(g => new GroupFeature
+                                    {
+                                        Group = g.Group,
+                                        IntValue = g.Value
+                                    })
+                                    .Concat(new[] { new GroupFeature { Group = null, IntValue = fInt.Value } })
+                                    .ToList();
+                            }
+                        }
+
+                        if (f is IFeatureWithValueSettings<decimal> fDecimal)
+                        {
+                            feature.ValueType = FeatureValueTypes.Decimal;
+                            feature.Server = f.Type == FeatureTypes.Server
+                                ? new ServerFeatureData { DecimalValue = fDecimal.Value }
+                                : null;
+
+                            if (f is IFeatureWithChoicesSettings<decimal> fDecimalWithChoices)
+                            {
+                                feature.DecimalFeatureChoices = fDecimalWithChoices.Choices
+                                    .Select(c => new DecimalFeatureChoice { Choice = c })
+                                    .ToList();
+                            }
+                            else
+                            {
+                                feature.DecimalFeatureChoices = new List<DecimalFeatureChoice>();
+                            }
+
+                            if (f.Configuration is IGroupFeatureConfiguration<decimal> gfcDecimal)
+                            {
+                                feature.ConfigurationType = ConfigurationTypes.Group;
+                                feature.GroupFeatures = gfcDecimal.Groups
+                                    .Select(g => new GroupFeature
+                                    {
+                                        Group = g.Group,
+                                        DecimalValue = g.Value
+                                    })
+                                    .Concat(new[] { new GroupFeature { Group = null, DecimalValue = fDecimal.Value } })
+                                    .ToList();
+                            }
+                        }
+
+                        if (f is IFeatureWithValueSettings<string> fString)
+                        {
+                            feature.ValueType = FeatureValueTypes.String;
+                            feature.Server = f.Type == FeatureTypes.Server
+                                ? new ServerFeatureData { StringValue = fString.Value }
+                                : null;
+
+                            if (f is IFeatureWithChoicesSettings<string> fStringWithChoices)
+                            {
+                                feature.StringFeatureChoices = fStringWithChoices.Choices
+                                    .Select(c => new StringFeatureChoice { Choice = c })
+                                    .ToList();
+                            }
+                            else
+                            {
+                                feature.StringFeatureChoices = new List<StringFeatureChoice>();
+                            }
+
+                            if (f.Configuration is IGroupFeatureConfiguration<string> gfcString)
+                            {
+                                feature.ConfigurationType = ConfigurationTypes.Group;
+                                feature.GroupFeatures = gfcString.Groups
+                                    .Select(g => new GroupFeature
+                                    {
+                                        Group = g.Group,
+                                        StringValue = g.Value
+                                    })
+                                    .Concat(new[] { new GroupFeature { Group = null, StringValue = fString.Value } })
+                                    .ToList();
+                            }
+                        }
+
+                        return feature;
                     })
                     .ToList();
 
@@ -218,6 +234,32 @@ namespace Microsoft.Extensions.DependencyInjection
                         savedFeature.StringFeatureChoices.AddRange(choicesToAdd);
                         stringFeatureChoicesSet.RemoveRange(choicesToDelete);
                     }
+
+                    var existingGroupFeatures = savedFeature.GroupFeatures;
+
+                    var groupFeaturesToAdd = feature.GroupFeatures
+                        .Where(gf => !existingGroupFeatures
+                            .Any(egf =>
+                                egf.Group == gf.Group &&
+                                egf.BooleanValue == gf.BooleanValue &&
+                                egf.IntValue == gf.IntValue &&
+                                egf.DecimalValue == gf.DecimalValue &&
+                                egf.StringValue == gf.StringValue
+                            )
+                        );
+                    var groupFeaturesToDelete = existingGroupFeatures
+                        .Where(gf => !feature.GroupFeatures
+                            .Any(egf =>
+                                egf.Group == gf.Group &&
+                                egf.BooleanValue == gf.BooleanValue &&
+                                egf.IntValue == gf.IntValue &&
+                                egf.DecimalValue == gf.DecimalValue &&
+                                egf.StringValue == gf.StringValue
+                            )
+                        );
+
+                    savedFeature.GroupFeatures.AddRange(groupFeaturesToAdd);
+                    groupFeaturesSet.RemoveRange(groupFeaturesToDelete);
                 }
 
                 featuresSet.RemoveRange(featuresToDelete);

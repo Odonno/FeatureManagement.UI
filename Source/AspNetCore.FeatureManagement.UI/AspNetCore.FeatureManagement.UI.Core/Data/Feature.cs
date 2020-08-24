@@ -8,6 +8,7 @@ namespace AspNetCore.FeatureManagement.UI.Core.Data
         public string Name { get; set; }
         public string? Description { get; set; }
         public string ValueType { get; set; }
+        public string ConfigurationType { get; set; }
         public string Type => Server != null ? FeatureTypes.Server : FeatureTypes.Client;
         public string? UiPrefix { get; set; }
         public string? UiSuffix { get; set; }
@@ -17,5 +18,6 @@ namespace AspNetCore.FeatureManagement.UI.Core.Data
         public List<IntFeatureChoice> IntFeatureChoices { get; set; }
         public List<DecimalFeatureChoice> DecimalFeatureChoices { get; set; }
         public List<StringFeatureChoice> StringFeatureChoices { get; set; }
+        public List<GroupFeature> GroupFeatures { get; set; }
     }
 }

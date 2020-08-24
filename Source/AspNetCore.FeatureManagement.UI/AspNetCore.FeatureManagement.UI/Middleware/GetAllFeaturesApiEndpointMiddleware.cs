@@ -40,6 +40,7 @@ namespace AspNetCore.FeatureManagement.UI.Middleware
                 var featuresAuthServices = scope.ServiceProvider.GetService<IFeaturesAuthService>();
 
                 string? clientId = featuresAuthServices.GetClientId();
+                var clientGroups = featuresAuthServices.GetClientGroups(clientId);
 
                 var features = await featuresServices.GetAll();
 
@@ -50,8 +51,8 @@ namespace AspNetCore.FeatureManagement.UI.Middleware
 
                 foreach (var feature in readableFeatures)
                 {
-                    bool @readonly = !featuresAuthServices.HandleWriteAuth(feature, clientId);
-                    var outputFeature = await feature.ToOutput(featuresServices, @readonly, clientId);
+                    bool @readonly = !string.IsNullOrWhiteSpace(feature.ConfigurationType) || !featuresAuthServices.HandleWriteAuth(feature, clientId);
+                    var outputFeature = await feature.ToOutput(featuresServices, @readonly, clientId, clientGroups);
 
                     output.Add(outputFeature);
                 }
