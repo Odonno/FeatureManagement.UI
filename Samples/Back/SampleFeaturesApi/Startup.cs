@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SampleFeaturesApi.Constants;
 using SampleFeaturesApi.Services;
 
 namespace SampleFeaturesApi
@@ -32,15 +33,20 @@ namespace SampleFeaturesApi
 
                 string STORAGE_MODE = "SQL_SERVER";
 
-                if (STORAGE_MODE == "IN_MEMORY")
-                    c.AddInMemoryStorage();
-                if (STORAGE_MODE == "SQL_SERVER")
-                    c.AddSqlServerStorage(Configuration.GetConnectionString("DefaultConnection"));
+                switch (STORAGE_MODE)
+                {
+                    case "IN_MEMORY":
+                        c.AddInMemoryStorage();
+                        break;
+                    case "SQL_SERVER":
+                        c.AddSqlServerStorage(Configuration.GetConnectionString("DefaultConnection"));
+                        break;
+                }
 
                 c
-                    .ServerFeature("WelcomeMessage", "Welcome to my Blog")
-                    .ServerFeature("Delay", 1000, "Animation delay", uiSuffix: "ms")
-                    .ClientFeature("Beta", defaultValue: false, configuration: new GroupFeatureConfiguration<bool>
+                    .ServerFeature(FeatureNames.WelcomeMessage, "Welcome to my Blog")
+                    .ServerFeature(FeatureNames.Delay, 1000, "Animation delay", uiSuffix: "ms")
+                    .ClientFeature(FeatureNames.Beta, defaultValue: false, configuration: new GroupFeatureConfiguration<bool>
                     {
                         Groups = new List<GroupFeature<bool>>
                         {
@@ -50,7 +56,7 @@ namespace SampleFeaturesApi
                             new GroupFeature<bool> { Group = "Ring4", Value = false }
                         }
                     })
-                    .ClientFeature("Theme", themes[0], "Choose a theme for the frontend", themes);
+                    .ClientFeature(FeatureNames.Theme, themes[0], "Choose a theme for the frontend", themes);
 
                 c.AuthSchemes.Add(new NoAuthenticationScheme());
                 c.AuthSchemes.Add(new QueryAuthenticationScheme { Key = "Username" });
@@ -70,7 +76,7 @@ namespace SampleFeaturesApi
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseCors(c => 
+            app.UseCors(c =>
             {
                 c.SetIsOriginAllowed(_ => true)
                     .AllowAnyHeader()
