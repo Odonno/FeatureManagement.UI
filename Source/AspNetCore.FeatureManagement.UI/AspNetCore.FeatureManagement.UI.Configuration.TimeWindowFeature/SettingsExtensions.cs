@@ -18,7 +18,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns>The updated <see cref="Settings"/>.</returns>
         public static Settings ServerFeature(this Settings settings, string featureName, TimeWindowFeatureConfiguration<bool> configuration, bool defaultValue = false, string? description = null)
         {
-            // TODO : EnsuresCorrectConfiguration
+            FeatureConfigurationExtensions.EnsuresCorrectConfiguration(configuration);
 
             settings.Features.Add(new BoolFeatureSettings
             {
@@ -43,7 +43,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns>The updated <see cref="Settings"/>.</returns>
         public static Settings ServerFeature(this Settings settings, string featureName, TimeWindowFeatureConfiguration<int> configuration, int defaultValue = 0, string? description = null, IEnumerable<int>? choices = null, string? uiPrefix = null, string? uiSuffix = null)
         {
-            // TODO : EnsuresCorrectConfiguration
+            FeatureConfigurationExtensions.EnsuresCorrectConfiguration(configuration);
 
             if (choices != null)
             {
@@ -87,7 +87,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns>The updated <see cref="Settings"/>.</returns>
         public static Settings ServerFeature(this Settings settings, string featureName, TimeWindowFeatureConfiguration<decimal> configuration, decimal defaultValue = 0, string? description = null, IEnumerable<decimal>? choices = null, string? uiPrefix = null, string? uiSuffix = null)
         {
-            // TODO : EnsuresCorrectConfiguration
+            FeatureConfigurationExtensions.EnsuresCorrectConfiguration(configuration);
 
             if (choices != null)
             {
@@ -131,7 +131,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns>The updated <see cref="Settings"/>.</returns>
         public static Settings ServerFeature(this Settings settings, string featureName, TimeWindowFeatureConfiguration<string> configuration, string defaultValue = "", string? description = null, IEnumerable<string>? choices = null, string? uiPrefix = null, string? uiSuffix = null)
         {
-            // TODO : EnsuresCorrectConfiguration
+            FeatureConfigurationExtensions.EnsuresCorrectConfiguration(configuration);
 
             if (choices != null)
             {
