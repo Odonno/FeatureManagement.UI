@@ -1,4 +1,5 @@
 ﻿using AspNetCore.FeatureManagement.UI.Core.Data;
+using System.Collections.Generic;
 
 namespace AspNetCore.FeatureManagement.UI.Services
 {
@@ -9,6 +10,13 @@ namespace AspNetCore.FeatureManagement.UI.Services
         /// </summary>
         /// <returns></returns>
         string? GetClientId();
+
+        /// <summary>
+        /// Retrieve assigned groups of a user.
+        /// </summary>
+        /// <param name="clientId">The client id of the user.</param>
+        /// <returns></returns>
+        IEnumerable<string> GetClientGroups(string? clientId);
 
         /// <summary>
         /// Indicates if the user can see this feature.
@@ -32,6 +40,11 @@ namespace AspNetCore.FeatureManagement.UI.Services
         public string? GetClientId()
         {
             return null;
+        }
+
+        public IEnumerable<string> GetClientGroups(string? clientId)
+        {
+            return new List<string>();
         }
 
         public bool HandleReadAuth(Feature feature, string? clientId)

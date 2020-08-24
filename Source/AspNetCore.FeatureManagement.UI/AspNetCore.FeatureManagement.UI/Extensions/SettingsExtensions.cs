@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using AspNetCore.FeatureManagement.UI.Configuration;
 using AspNetCore.FeatureManagement.UI.Core.Data;
+using AspNetCore.FeatureManagement.UI.Extensions;
 
 namespace Microsoft.Extensions.DependencyInjection
 {

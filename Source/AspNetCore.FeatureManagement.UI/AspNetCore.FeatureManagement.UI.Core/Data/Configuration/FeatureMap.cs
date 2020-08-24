@@ -33,6 +33,10 @@ namespace AspNetCore.FeatureManagement.UI.Core.Data.Configuration
                 .IsRequired(true)
                 .HasMaxLength(10);
 
+            builder.Property(f => f.ConfigurationType)
+                .IsRequired(false)
+                .HasMaxLength(20);
+
             builder.Property(f => f.UiPrefix)
                 .IsRequired(false)
                 .HasMaxLength(20);

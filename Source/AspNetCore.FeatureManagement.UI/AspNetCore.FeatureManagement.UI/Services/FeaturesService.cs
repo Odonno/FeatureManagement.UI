@@ -31,8 +31,9 @@ namespace AspNetCore.FeatureManagement.UI.Services
         /// <typeparam name="T">Value type of the feature. Only <see cref="bool"/>, <see cref="int"/>, <see cref="decimal"/> and <see cref="string"/> are allowed.</typeparam>
         /// <param name="featureName">The name of the feature.</param>
         /// <param name="clientId">Id of the client.</param>
+        /// <param name="clientGroups">List of groups of the client.</param>
         /// <returns>The value of the feature.</returns>
-        Task<T> GetValue<T>(string featureName, string? clientId = null);
+        Task<T> GetValue<T>(string featureName, string? clientId = null, IEnumerable<string>? clientGroups = null);
 
         /// <summary>
         /// Update the value of a feature.
@@ -100,6 +101,7 @@ namespace AspNetCore.FeatureManagement.UI.Services
                 .Include(f => f.IntFeatureChoices)
                 .Include(f => f.DecimalFeatureChoices)
                 .Include(f => f.StringFeatureChoices)
+                .Include(f => f.GroupFeatures)
                 .ToListAsync();
         }
 
@@ -110,10 +112,11 @@ namespace AspNetCore.FeatureManagement.UI.Services
                 .Include(f => f.IntFeatureChoices)
                 .Include(f => f.DecimalFeatureChoices)
                 .Include(f => f.StringFeatureChoices)
+                .Include(f => f.GroupFeatures)
                 .SingleOrDefaultAsync(f => f.Name == featureName);
         }
 
-        public async Task<T> GetValue<T>(string featureName, string? clientId = null)
+        public async Task<T> GetValue<T>(string featureName, string? clientId = null, IEnumerable<string>? clientGroups = null)
         {
             var existingFeature = await Get(featureName);
 
@@ -141,6 +144,23 @@ namespace AspNetCore.FeatureManagement.UI.Services
                     throw new Exception("A client id is required for client features...");
                 }
 
+                // Group feature
+                if (existingFeature.ConfigurationType == ConfigurationTypes.Group)
+                {
+                    var groupFeature = existingFeature.GroupFeatures
+                        .First(gf =>
+                        {
+                            if (gf.Group == null) // Default group
+                            {
+                                return true;
+                            }
+
+                            return clientGroups != null && clientGroups.Any(cg => cg == gf.Group);
+                        });
+
+                    return (T)(object)groupFeature.BooleanValue.Value;
+                }
+
                 var clientData = await EnsuresClientDataExists(existingFeature, clientId);
                 return (T)(object)clientData.BooleanValue.Value;
             }
@@ -162,6 +182,23 @@ namespace AspNetCore.FeatureManagement.UI.Services
                 if (string.IsNullOrWhiteSpace(clientId))
                 {
                     throw new Exception("A client id is required for client features...");
+                }
+
+                // Group feature
+                if (existingFeature.ConfigurationType == ConfigurationTypes.Group)
+                {
+                    var groupFeature = existingFeature.GroupFeatures
+                        .First(gf =>
+                        {
+                            if (gf.Group == null) // Default group
+                            {
+                                return true;
+                            }
+
+                            return clientGroups != null && clientGroups.Any(cg => cg == gf.Group);
+                        });
+
+                    return (T)(object)groupFeature.IntValue.Value;
                 }
 
                 var clientData = await EnsuresClientDataExists(existingFeature, clientId);
@@ -187,6 +224,23 @@ namespace AspNetCore.FeatureManagement.UI.Services
                     throw new Exception("A client id is required for client features...");
                 }
 
+                // Group feature
+                if (existingFeature.ConfigurationType == ConfigurationTypes.Group)
+                {
+                    var groupFeature = existingFeature.GroupFeatures
+                        .First(gf =>
+                        {
+                            if (gf.Group == null) // Default group
+                            {
+                                return true;
+                            }
+
+                            return clientGroups != null && clientGroups.Any(cg => cg == gf.Group);
+                        });
+
+                    return (T)(object)groupFeature.DecimalValue.Value;
+                }
+
                 var clientData = await EnsuresClientDataExists(existingFeature, clientId);
                 return (T)(object)clientData.DecimalValue.Value;
             }
@@ -202,6 +256,23 @@ namespace AspNetCore.FeatureManagement.UI.Services
                 {
                     // Server feature
                     return (T)(object)existingFeature.Server.StringValue;
+                }
+
+                // Group feature
+                if (existingFeature.ConfigurationType == ConfigurationTypes.Group)
+                {
+                    var groupFeature = existingFeature.GroupFeatures
+                        .First(gf =>
+                        {
+                            if (gf.Group == null) // Default group
+                            {
+                                return true;
+                            }
+
+                            return clientGroups != null && clientGroups.Any(cg => cg == gf.Group);
+                        });
+
+                    return (T)(object)groupFeature.StringValue;
                 }
 
                 // Client feature
@@ -224,6 +295,11 @@ namespace AspNetCore.FeatureManagement.UI.Services
             if (existingFeature == null)
             {
                 throw new Exception($"The feature {featureName} does not exist...");
+            }
+
+            if (!string.IsNullOrWhiteSpace(existingFeature.ConfigurationType))
+            {
+                throw new Exception($"The feature {featureName} cannot be updated manually...");
             }
 
             if (existingFeature.ValueType == FeatureValueTypes.Boolean)
@@ -363,12 +439,12 @@ namespace AspNetCore.FeatureManagement.UI.Services
 
             if (existingFeature.Type == FeatureTypes.Server)
             {
-                var output = await existingFeature.ToOutput(this, false, clientId);
+                var output = await existingFeature.ToOutput(this, false, clientId, null);
                 _settings.OnServerFeatureUpdated?.Invoke(output);
             }
             else
             {
-                var output = await existingFeature.ToOutput(this, false, clientId);
+                var output = await existingFeature.ToOutput(this, false, clientId, null);
                 _settings.OnClientFeatureUpdated?.Invoke(output, clientId);
             }
 

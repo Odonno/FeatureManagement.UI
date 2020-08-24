@@ -48,6 +48,7 @@ namespace AspNetCore.FeatureManagement.UI.Middleware
 
                 string? featureName = context.Request.RouteValues["featureName"] as string;
                 string? clientId = featuresAuthServices.GetClientId();
+                var clientGroups = featuresAuthServices.GetClientGroups(clientId);
 
                 if (string.IsNullOrWhiteSpace(featureName))
                 {
@@ -94,7 +95,7 @@ namespace AspNetCore.FeatureManagement.UI.Middleware
                 }
 
                 bool @readonly = !featuresAuthServices.HandleWriteAuth(feature, clientId);
-                var output = await updatedFeature.ToOutput(featuresServices, @readonly, clientId);
+                var output = await updatedFeature.ToOutput(featuresServices, @readonly, clientId, clientGroups);
 
                 var responseContent = JsonConvert.SerializeObject(output, _jsonSerializationSettings);
                 context.Response.ContentType = "application/json";

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using AspNetCore.FeatureManagement.UI.Configuration.GroupFeature;
 using AspNetCore.FeatureManagement.UI.Core.Models;
 using AspNetCore.FeatureManagement.UI.Services;
 using Microsoft.AspNetCore.Builder;
@@ -37,9 +38,18 @@ namespace SampleFeaturesApi
                     c.AddSqlServerStorage(Configuration.GetConnectionString("DefaultConnection"));
 
                 c
-                    .ServerFeature("Beta", true)
                     .ServerFeature("WelcomeMessage", "Welcome to my Blog")
                     .ServerFeature("Delay", 1000, "Animation delay", uiSuffix: "ms")
+                    .ClientFeature("Beta", defaultValue: false, configuration: new GroupFeatureConfiguration<bool>
+                    {
+                        Groups = new List<GroupFeature<bool>>
+                        {
+                            new GroupFeature<bool> { Group = "Ring1", Value = true },
+                            new GroupFeature<bool> { Group = "Ring2", Value = true },
+                            new GroupFeature<bool> { Group = "Ring3", Value = false },
+                            new GroupFeature<bool> { Group = "Ring4", Value = false }
+                        }
+                    })
                     .ClientFeature("Theme", themes[0], "Choose a theme for the frontend", themes);
 
                 c.AuthSchemes.Add(new NoAuthenticationScheme());

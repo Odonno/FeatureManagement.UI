@@ -3,6 +3,7 @@ using AspNetCore.FeatureManagement.UI.Core.Data;
 using AspNetCore.FeatureManagement.UI.Core.Models;
 using AspNetCore.FeatureManagement.UI.Services;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -22,11 +23,17 @@ namespace AspNetCore.FeatureManagement.UI.Extensions
                 f1.ValueType != f2.ValueType;
         }
 
-        internal static async Task<IFeature> ToOutput(this Feature feature, IFeaturesService featuresService, bool @readonly, string? clientId)
+        internal static async Task<IFeature> ToOutput(
+            this Feature feature,
+            IFeaturesService featuresService,
+            bool @readonly,
+            string? clientId,
+            IEnumerable<string> clientGroups
+        )
         {
             if (feature.ValueType == FeatureValueTypes.Boolean)
             {
-                var value = await featuresService.GetValue<bool>(feature.Name, clientId);
+                var value = await featuresService.GetValue<bool>(feature.Name, clientId, clientGroups);
 
                 return new BoolFeature
                 {
@@ -41,7 +48,7 @@ namespace AspNetCore.FeatureManagement.UI.Extensions
             if (feature.ValueType == FeatureValueTypes.Integer)
             {
                 bool hasChoices = feature.IntFeatureChoices?.Any() ?? false;
-                var value = await featuresService.GetValue<int>(feature.Name, clientId);
+                var value = await featuresService.GetValue<int>(feature.Name, clientId, clientGroups);
 
                 return new IntFeature
                 {
@@ -59,7 +66,7 @@ namespace AspNetCore.FeatureManagement.UI.Extensions
             if (feature.ValueType == FeatureValueTypes.Decimal)
             {
                 bool hasChoices = feature.DecimalFeatureChoices?.Any() ?? false;
-                var value = await featuresService.GetValue<decimal>(feature.Name, clientId);
+                var value = await featuresService.GetValue<decimal>(feature.Name, clientId, clientGroups);
 
                 return new DecimalFeature
                 {
@@ -77,7 +84,7 @@ namespace AspNetCore.FeatureManagement.UI.Extensions
 
             {
                 bool hasChoices = feature.StringFeatureChoices?.Any() ?? false;
-                var value = await featuresService.GetValue<string>(feature.Name, clientId);
+                var value = await featuresService.GetValue<string>(feature.Name, clientId, clientGroups);
 
                 return new StringFeature
                 {
@@ -91,6 +98,14 @@ namespace AspNetCore.FeatureManagement.UI.Extensions
                     UiPrefix = feature.UiPrefix,
                     UiSuffix = feature.UiSuffix
                 };
+            }
+        }
+
+        internal static void ApplyConfiguration(this Feature feature, IFeatureSettings featureSettings)
+        {
+            if (featureSettings.Configuration is BaseFeatureConfiguration baseFeatureConfiguration)
+            {
+                baseFeatureConfiguration?.Apply(featureSettings, feature);
             }
         }
     }
