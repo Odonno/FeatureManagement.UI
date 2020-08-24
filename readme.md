@@ -8,6 +8,7 @@
 | AspNetCore.FeatureManagement.UI.InMemory.Storage | [![NuGet](https://img.shields.io/nuget/v/AspNetCore.FeatureManagement.UI.InMemory.Storage.svg)](https://www.nuget.org/packages/AspNetCore.FeatureManagement.UI.InMemory.Storage/) |
 | AspNetCore.FeatureManagement.UI.SqlServer.Storage | [![NuGet](https://img.shields.io/nuget/v/AspNetCore.FeatureManagement.UI.SqlServer.Storage.svg)](https://www.nuget.org/packages/AspNetCore.FeatureManagement.UI.SqlServer.Storage/) |
 | AspNetCore.FeatureManagement.UI.Configuration.GroupFeature | [![NuGet](https://img.shields.io/nuget/v/AspNetCore.FeatureManagement.UI.Configuration.GroupFeature.svg)](https://www.nuget.org/packages/AspNetCore.FeatureManagement.UI.Configuration.GroupFeature/) |
+| AspNetCore.FeatureManagement.UI.Configuration.TimeWindowFeature | [![NuGet](https://img.shields.io/nuget/v/AspNetCore.FeatureManagement.UI.Configuration.TimeWindowFeature.svg)](https://www.nuget.org/packages/AspNetCore.FeatureManagement.UI.Configuration.TimeWindowFeature/) |
 
 Perfectly designed UI for Feature Flags in ASP.NET Core Web API
 
@@ -28,6 +29,7 @@ This package allows you to configure your application inside your own ASP.NET Co
     * [Server feature](#server-feature)
     * [Client feature](#client-feature)
     * [Group feature](#group-feature)
+    * [Time window feature](#time-window-feature)
   * [User Interface](#user-interface)
   * [Authentication](#authentication)
     * [Authorization](#authorization)
@@ -200,6 +202,35 @@ configuration
                 new GroupFeature<bool> { Group = "Ring2", Value = true },
                 new GroupFeature<bool> { Group = "Ring3", Value = false },
                 new GroupFeature<bool> { Group = "Ring4", Value = false }
+            }
+        }
+    );
+```
+
+###### Time window feature
+
+A time window feature give you the ability to set a value based on a speicifed date range. It can be useful to apply a different value differs based on the current period of time. Some benefits you can get would be:
+
+* apply feature before or after next month/week/year, to roll out a new feature
+* apply feature only during a day/week/month, to experiment a feature or to set a limited time event 
+
+If no time window match, the default value will be applied.
+
+In order to use this type of feature, you need to install the [AspNetCore.FeatureManagement.UI.Configuration.TimeWindow](https://www.nuget.org/packages/AspNetCore.FeatureManagement.UI.Configuration.TimeWindow/) package.
+
+```csharp
+configuration
+    .ServerFeature(
+        "GameSeasons", 
+        defaultValue: "Summer", 
+        configuration: new TimeWindowFeatureConfiguration<string>
+        {
+            TimeWindows = new List<TimeWindowFeature<string>>
+            {
+                new TimeWindowFeature<string> { StartDate = new DateTime(2020, 01, 01), EndDate = new DateTime(2020, 04, 01), Value = "Winter" },
+                new TimeWindowFeature<string> { StartDate = new DateTime(2020, 04, 01), EndDate = new DateTime(2020, 07, 01), Value = "Spring" },
+                new TimeWindowFeature<string> { StartDate = new DateTime(2020, 07, 01), EndDate = new DateTime(2020, 10, 01), Value = "Summer" },
+                new TimeWindowFeature<string> { StartDate = new DateTime(2020, 10, 01), EndDate = new DateTime(2021, 01, 01), Value = "Fall" }
             }
         }
     );
