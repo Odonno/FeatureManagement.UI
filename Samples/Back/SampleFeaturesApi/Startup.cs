@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using AspNetCore.FeatureManagement.UI.Configuration.GroupFeature;
+using AspNetCore.FeatureManagement.UI.Configuration.TimeWindowFeature;
 using AspNetCore.FeatureManagement.UI.Core.Models;
 using AspNetCore.FeatureManagement.UI.Services;
 using Microsoft.AspNetCore.Builder;
@@ -46,6 +48,16 @@ namespace SampleFeaturesApi
                 c
                     .ServerFeature(FeatureNames.WelcomeMessage, "Welcome to my Blog")
                     .ServerFeature(FeatureNames.Delay, 1000, "Animation delay", uiSuffix: "ms")
+                    .ServerFeature(FeatureNames.GameSeasons, defaultValue: "Summer", configuration: new TimeWindowFeatureConfiguration<string>
+                    {
+                        TimeWindows = new List<TimeWindowFeature<string>>
+                        {
+                            new TimeWindowFeature<string> { StartDate = new DateTime(2020, 01, 01), EndDate = new DateTime(2020, 04, 01), Value = "Winter" },
+                            new TimeWindowFeature<string> { StartDate = new DateTime(2020, 04, 01), EndDate = new DateTime(2020, 07, 01), Value = "Spring" },
+                            new TimeWindowFeature<string> { StartDate = new DateTime(2020, 07, 01), EndDate = new DateTime(2020, 10, 01), Value = "Summer" },
+                            new TimeWindowFeature<string> { StartDate = new DateTime(2020, 10, 01), EndDate = new DateTime(2021, 01, 01), Value = "Fall" }
+                        }
+                    })
                     .ClientFeature(FeatureNames.Beta, defaultValue: false, configuration: new GroupFeatureConfiguration<bool>
                     {
                         Groups = new List<GroupFeature<bool>>

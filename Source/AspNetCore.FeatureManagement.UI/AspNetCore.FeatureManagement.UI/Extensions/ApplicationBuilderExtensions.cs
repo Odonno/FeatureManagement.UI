@@ -44,6 +44,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 var decimalFeatureChoicesSet = context.DecimalFeatureChoices;
                 var stringFeatureChoicesSet = context.StringFeatureChoices;
                 var groupFeaturesSet = context.GroupFeatures;
+                var timeWindowFeaturesSet = context.TimeWindowFeatures;
 
                 var existingFeatures = featuresSet
                     .Include(f => f.IntFeatureChoices)
@@ -210,6 +211,34 @@ namespace Microsoft.Extensions.DependencyInjection
 
                     savedFeature.GroupFeatures.AddRange(groupFeaturesToAdd);
                     groupFeaturesSet.RemoveRange(groupFeaturesToDelete);
+
+                    var existingTimeWindowFeatures = savedFeature.TimeWindowFeatures;
+
+                    var timeWindowFeaturesToAdd = feature.TimeWindowFeatures
+                        .Where(gf => !existingTimeWindowFeatures
+                            .Any(egf =>
+                                egf.StartDate == gf.StartDate &&
+                                egf.EndDate == gf.EndDate &&
+                                egf.BooleanValue == gf.BooleanValue &&
+                                egf.IntValue == gf.IntValue &&
+                                egf.DecimalValue == gf.DecimalValue &&
+                                egf.StringValue == gf.StringValue
+                            )
+                        );
+                    var timeWindowFeaturesToDelete = existingTimeWindowFeatures
+                        .Where(gf => !feature.TimeWindowFeatures
+                            .Any(egf =>
+                                egf.StartDate == gf.StartDate &&
+                                egf.EndDate == gf.EndDate &&
+                                egf.BooleanValue == gf.BooleanValue &&
+                                egf.IntValue == gf.IntValue &&
+                                egf.DecimalValue == gf.DecimalValue &&
+                                egf.StringValue == gf.StringValue
+                            )
+                        );
+
+                    savedFeature.TimeWindowFeatures.AddRange(timeWindowFeaturesToAdd);
+                    timeWindowFeaturesSet.RemoveRange(timeWindowFeaturesToDelete);
                 }
 
                 featuresSet.RemoveRange(featuresToDelete);

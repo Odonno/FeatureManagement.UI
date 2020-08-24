@@ -102,6 +102,7 @@ namespace AspNetCore.FeatureManagement.UI.Services
                 .Include(f => f.DecimalFeatureChoices)
                 .Include(f => f.StringFeatureChoices)
                 .Include(f => f.GroupFeatures)
+                .Include(f => f.TimeWindowFeatures)
                 .ToListAsync();
         }
 
@@ -113,6 +114,7 @@ namespace AspNetCore.FeatureManagement.UI.Services
                 .Include(f => f.DecimalFeatureChoices)
                 .Include(f => f.StringFeatureChoices)
                 .Include(f => f.GroupFeatures)
+                .Include(f => f.TimeWindowFeatures)
                 .SingleOrDefaultAsync(f => f.Name == featureName);
         }
 
@@ -130,6 +132,23 @@ namespace AspNetCore.FeatureManagement.UI.Services
                 if (typeof(T) != typeof(bool))
                 {
                     throw new Exception($"The feature {featureName} is a boolean feature...");
+                }
+
+                // Time window feature
+                if (existingFeature.ConfigurationType == ConfigurationTypes.TimeWindow)
+                {
+                    var now = DateTime.Now;
+
+                    var timeWindow = existingFeature.TimeWindowFeatures
+                        .First(twf =>
+                        {
+                            return 
+                                (!twf.StartDate.HasValue || twf.StartDate <= now)
+                                &&
+                                (!twf.EndDate.HasValue || now < twf.EndDate);
+                        });
+
+                    return (T)(object)timeWindow.BooleanValue.Value;
                 }
 
                 if (existingFeature.Type == FeatureTypes.Server)
@@ -172,6 +191,23 @@ namespace AspNetCore.FeatureManagement.UI.Services
                     throw new Exception($"The feature {featureName} is an integer feature...");
                 }
 
+                // Time window feature
+                if (existingFeature.ConfigurationType == ConfigurationTypes.TimeWindow)
+                {
+                    var now = DateTime.Now;
+
+                    var timeWindow = existingFeature.TimeWindowFeatures
+                        .First(twf =>
+                        {
+                            return 
+                                (!twf.StartDate.HasValue || twf.StartDate <= now)
+                                &&
+                                (!twf.EndDate.HasValue || now < twf.EndDate);
+                        });
+
+                    return (T)(object)timeWindow.IntValue.Value;
+                }
+
                 if (existingFeature.Type == FeatureTypes.Server)
                 {
                     // Server feature
@@ -212,6 +248,23 @@ namespace AspNetCore.FeatureManagement.UI.Services
                     throw new Exception($"The feature {featureName} is a decimal feature...");
                 }
 
+                // Time window feature
+                if (existingFeature.ConfigurationType == ConfigurationTypes.TimeWindow)
+                {
+                    var now = DateTime.Now;
+
+                    var timeWindow = existingFeature.TimeWindowFeatures
+                        .First(twf =>
+                        {
+                            return 
+                                (!twf.StartDate.HasValue || twf.StartDate <= now)
+                                &&
+                                (!twf.EndDate.HasValue || now < twf.EndDate);
+                        });
+
+                    return (T)(object)timeWindow.DecimalValue.Value;
+                }
+
                 if (existingFeature.Type == FeatureTypes.Server)
                 {
                     // Server feature
@@ -250,6 +303,23 @@ namespace AspNetCore.FeatureManagement.UI.Services
                 if (typeof(T) != typeof(string))
                 {
                     throw new Exception($"The feature {featureName} is a string feature...");
+                }
+
+                // Time window feature
+                if (existingFeature.ConfigurationType == ConfigurationTypes.TimeWindow)
+                {
+                    var now = DateTime.Now;
+
+                    var timeWindow = existingFeature.TimeWindowFeatures
+                        .First(twf =>
+                        {
+                            return 
+                                (!twf.StartDate.HasValue || twf.StartDate <= now)
+                                &&
+                                (!twf.EndDate.HasValue || now < twf.EndDate);
+                        });
+
+                    return (T)(object)timeWindow.StringValue;
                 }
 
                 if (existingFeature.Type == FeatureTypes.Server)
