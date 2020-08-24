@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using AspNetCore.FeatureManagement.UI.Core.Data;
 
 namespace AspNetCore.FeatureManagement.UI.Configuration
 {
@@ -6,8 +6,8 @@ namespace AspNetCore.FeatureManagement.UI.Configuration
     {
     }
 
-    public interface IGroupFeatureConfiguration<T> : IFeatureConfiguration
+    public abstract class BaseFeatureConfiguration : IFeatureConfiguration
     {
-        List<GroupFeature<T>> Groups { get; }
+        internal abstract void Apply(IFeatureSettings featureSettings, Feature feature);
     }
 }

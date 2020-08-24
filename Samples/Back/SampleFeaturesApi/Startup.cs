@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using AspNetCore.FeatureManagement.UI.Configuration;
+using AspNetCore.FeatureManagement.UI.Configuration.GroupFeature;
 using AspNetCore.FeatureManagement.UI.Core.Models;
 using AspNetCore.FeatureManagement.UI.Services;
 using Microsoft.AspNetCore.Builder;

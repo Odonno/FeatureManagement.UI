@@ -63,25 +63,14 @@ namespace Microsoft.Extensions.DependencyInjection
                             UiSuffix = f.UiSuffix
                         };
 
+                        feature.ApplyConfiguration(f);
+
                         if (f is IFeatureWithValueSettings<bool> fBool)
                         {
                             feature.ValueType = FeatureValueTypes.Boolean;
                             feature.Server = f.Type == FeatureTypes.Server
                                 ? new ServerFeatureData { BooleanValue = fBool.Value }
                                 : null;
-
-                            if (f.Configuration is IGroupFeatureConfiguration<bool> gfcBool)
-                            {
-                                feature.ConfigurationType = ConfigurationTypes.Group;
-                                feature.GroupFeatures = gfcBool.Groups
-                                    .Select(g => new GroupFeature
-                                    {
-                                        Group = g.Group,
-                                        BooleanValue = g.Value
-                                    })
-                                    .Concat(new[] { new GroupFeature { Group = null, BooleanValue = fBool.Value } })
-                                    .ToList();
-                            }
                         }
 
                         if (f is IFeatureWithValueSettings<int> fInt)
@@ -100,19 +89,6 @@ namespace Microsoft.Extensions.DependencyInjection
                             else
                             {
                                 feature.IntFeatureChoices = new List<IntFeatureChoice>();
-                            }
-
-                            if (f.Configuration is IGroupFeatureConfiguration<int> gfcInt)
-                            {
-                                feature.ConfigurationType = ConfigurationTypes.Group;
-                                feature.GroupFeatures = gfcInt.Groups
-                                    .Select(g => new GroupFeature
-                                    {
-                                        Group = g.Group,
-                                        IntValue = g.Value
-                                    })
-                                    .Concat(new[] { new GroupFeature { Group = null, IntValue = fInt.Value } })
-                                    .ToList();
                             }
                         }
 
@@ -133,19 +109,6 @@ namespace Microsoft.Extensions.DependencyInjection
                             {
                                 feature.DecimalFeatureChoices = new List<DecimalFeatureChoice>();
                             }
-
-                            if (f.Configuration is IGroupFeatureConfiguration<decimal> gfcDecimal)
-                            {
-                                feature.ConfigurationType = ConfigurationTypes.Group;
-                                feature.GroupFeatures = gfcDecimal.Groups
-                                    .Select(g => new GroupFeature
-                                    {
-                                        Group = g.Group,
-                                        DecimalValue = g.Value
-                                    })
-                                    .Concat(new[] { new GroupFeature { Group = null, DecimalValue = fDecimal.Value } })
-                                    .ToList();
-                            }
                         }
 
                         if (f is IFeatureWithValueSettings<string> fString)
@@ -164,19 +127,6 @@ namespace Microsoft.Extensions.DependencyInjection
                             else
                             {
                                 feature.StringFeatureChoices = new List<StringFeatureChoice>();
-                            }
-
-                            if (f.Configuration is IGroupFeatureConfiguration<string> gfcString)
-                            {
-                                feature.ConfigurationType = ConfigurationTypes.Group;
-                                feature.GroupFeatures = gfcString.Groups
-                                    .Select(g => new GroupFeature
-                                    {
-                                        Group = g.Group,
-                                        StringValue = g.Value
-                                    })
-                                    .Concat(new[] { new GroupFeature { Group = null, StringValue = fString.Value } })
-                                    .ToList();
                             }
                         }
 

@@ -1,8 +1,7 @@
-﻿using AspNetCore.FeatureManagement.UI.Configuration;
-using System;
+﻿using System;
 using System.Linq;
 
-namespace AspNetCore.FeatureManagement.UI.Extensions
+namespace AspNetCore.FeatureManagement.UI.Configuration.GroupFeature
 {
     internal static class FeatureConfigurationExtensions
     {

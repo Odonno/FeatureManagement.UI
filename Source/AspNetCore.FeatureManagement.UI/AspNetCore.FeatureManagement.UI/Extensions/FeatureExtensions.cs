@@ -1,4 +1,5 @@
-﻿using AspNetCore.FeatureManagement.UI.Core.Data;
+﻿using AspNetCore.FeatureManagement.UI.Configuration;
+using AspNetCore.FeatureManagement.UI.Core.Data;
 using AspNetCore.FeatureManagement.UI.Core.Models;
 using AspNetCore.FeatureManagement.UI.Services;
 using System;
@@ -23,10 +24,10 @@ namespace AspNetCore.FeatureManagement.UI.Extensions
         }
 
         internal static async Task<IFeature> ToOutput(
-            this Feature feature, 
-            IFeaturesService featuresService, 
-            bool @readonly, 
-            string? clientId, 
+            this Feature feature,
+            IFeaturesService featuresService,
+            bool @readonly,
+            string? clientId,
             IEnumerable<string> clientGroups
         )
         {
@@ -97,6 +98,14 @@ namespace AspNetCore.FeatureManagement.UI.Extensions
                     UiPrefix = feature.UiPrefix,
                     UiSuffix = feature.UiSuffix
                 };
+            }
+        }
+
+        internal static void ApplyConfiguration(this Feature feature, IFeatureSettings featureSettings)
+        {
+            if (featureSettings.Configuration is BaseFeatureConfiguration baseFeatureConfiguration)
+            {
+                baseFeatureConfiguration?.Apply(featureSettings, feature);
             }
         }
     }
