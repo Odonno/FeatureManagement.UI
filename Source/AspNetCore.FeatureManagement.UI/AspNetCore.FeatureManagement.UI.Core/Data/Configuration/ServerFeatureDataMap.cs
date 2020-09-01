@@ -35,7 +35,7 @@ namespace AspNetCore.FeatureManagement.UI.Core.Data.Configuration
                 .HasColumnType("NVARCHAR(MAX)");
 
             builder.HasOne(s => s.Feature)
-                .WithOne(f => f.Server)
+                .WithOne(f => f.Server!)
                 .HasForeignKey<ServerFeatureData>(s => s.FeatureId)
                 .IsRequired();
         }

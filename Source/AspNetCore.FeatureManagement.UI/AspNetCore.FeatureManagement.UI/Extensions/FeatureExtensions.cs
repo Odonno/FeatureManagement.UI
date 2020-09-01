@@ -28,7 +28,7 @@ namespace AspNetCore.FeatureManagement.UI.Extensions
             IFeaturesService featuresService,
             bool @readonly,
             string? clientId,
-            IEnumerable<string> clientGroups
+            IEnumerable<string>? clientGroups
         )
         {
             if (feature.ValueType == FeatureValueTypes.Boolean)

@@ -142,19 +142,19 @@ namespace AspNetCore.FeatureManagement.UI.Services
                     var timeWindow = existingFeature.TimeWindowFeatures
                         .First(twf =>
                         {
-                            return 
+                            return
                                 (!twf.StartDate.HasValue || twf.StartDate <= now)
                                 &&
                                 (!twf.EndDate.HasValue || now < twf.EndDate);
                         });
 
-                    return (T)(object)timeWindow.BooleanValue.Value;
+                    return (T)(object)timeWindow.BooleanValue!.Value;
                 }
 
                 if (existingFeature.Type == FeatureTypes.Server)
                 {
                     // Server feature
-                    return (T)(object)existingFeature.Server.BooleanValue.Value;
+                    return (T)(object)existingFeature.Server!.BooleanValue!.Value;
                 }
 
                 // Client feature
@@ -177,11 +177,11 @@ namespace AspNetCore.FeatureManagement.UI.Services
                             return clientGroups != null && clientGroups.Any(cg => cg == gf.Group);
                         });
 
-                    return (T)(object)groupFeature.BooleanValue.Value;
+                    return (T)(object)groupFeature.BooleanValue!.Value;
                 }
 
                 var clientData = await EnsuresClientDataExists(existingFeature, clientId);
-                return (T)(object)clientData.BooleanValue.Value;
+                return (T)(object)clientData.BooleanValue!.Value;
             }
 
             if (existingFeature.ValueType == FeatureValueTypes.Integer)
@@ -199,19 +199,19 @@ namespace AspNetCore.FeatureManagement.UI.Services
                     var timeWindow = existingFeature.TimeWindowFeatures
                         .First(twf =>
                         {
-                            return 
+                            return
                                 (!twf.StartDate.HasValue || twf.StartDate <= now)
                                 &&
                                 (!twf.EndDate.HasValue || now < twf.EndDate);
                         });
 
-                    return (T)(object)timeWindow.IntValue.Value;
+                    return (T)(object)timeWindow.IntValue!.Value;
                 }
 
                 if (existingFeature.Type == FeatureTypes.Server)
                 {
                     // Server feature
-                    return (T)(object)existingFeature.Server.IntValue.Value;
+                    return (T)(object)existingFeature.Server!.IntValue!.Value;
                 }
 
                 // Client feature
@@ -234,11 +234,11 @@ namespace AspNetCore.FeatureManagement.UI.Services
                             return clientGroups != null && clientGroups.Any(cg => cg == gf.Group);
                         });
 
-                    return (T)(object)groupFeature.IntValue.Value;
+                    return (T)(object)groupFeature.IntValue!.Value;
                 }
 
                 var clientData = await EnsuresClientDataExists(existingFeature, clientId);
-                return (T)(object)clientData.IntValue.Value;
+                return (T)(object)clientData.IntValue!.Value;
             }
 
             if (existingFeature.ValueType == FeatureValueTypes.Decimal)
@@ -256,19 +256,19 @@ namespace AspNetCore.FeatureManagement.UI.Services
                     var timeWindow = existingFeature.TimeWindowFeatures
                         .First(twf =>
                         {
-                            return 
+                            return
                                 (!twf.StartDate.HasValue || twf.StartDate <= now)
                                 &&
                                 (!twf.EndDate.HasValue || now < twf.EndDate);
                         });
 
-                    return (T)(object)timeWindow.DecimalValue.Value;
+                    return (T)(object)timeWindow.DecimalValue!.Value;
                 }
 
                 if (existingFeature.Type == FeatureTypes.Server)
                 {
                     // Server feature
-                    return (T)(object)existingFeature.Server.DecimalValue.Value;
+                    return (T)(object)existingFeature.Server!.DecimalValue!.Value;
                 }
 
                 // Client feature
@@ -291,11 +291,11 @@ namespace AspNetCore.FeatureManagement.UI.Services
                             return clientGroups != null && clientGroups.Any(cg => cg == gf.Group);
                         });
 
-                    return (T)(object)groupFeature.DecimalValue.Value;
+                    return (T)(object)groupFeature.DecimalValue!.Value;
                 }
 
                 var clientData = await EnsuresClientDataExists(existingFeature, clientId);
-                return (T)(object)clientData.DecimalValue.Value;
+                return (T)(object)clientData.DecimalValue!.Value;
             }
 
             if (existingFeature.ValueType == FeatureValueTypes.String)
@@ -313,19 +313,19 @@ namespace AspNetCore.FeatureManagement.UI.Services
                     var timeWindow = existingFeature.TimeWindowFeatures
                         .First(twf =>
                         {
-                            return 
+                            return
                                 (!twf.StartDate.HasValue || twf.StartDate <= now)
                                 &&
                                 (!twf.EndDate.HasValue || now < twf.EndDate);
                         });
 
-                    return (T)(object)timeWindow.StringValue;
+                    return (T)(object)timeWindow.StringValue!;
                 }
 
                 if (existingFeature.Type == FeatureTypes.Server)
                 {
                     // Server feature
-                    return (T)(object)existingFeature.Server.StringValue;
+                    return (T)(object)existingFeature.Server!.StringValue!;
                 }
 
                 // Group feature
@@ -342,7 +342,7 @@ namespace AspNetCore.FeatureManagement.UI.Services
                             return clientGroups != null && clientGroups.Any(cg => cg == gf.Group);
                         });
 
-                    return (T)(object)groupFeature.StringValue;
+                    return (T)(object)groupFeature.StringValue!;
                 }
 
                 // Client feature
@@ -352,7 +352,7 @@ namespace AspNetCore.FeatureManagement.UI.Services
                 }
 
                 var clientData = await EnsuresClientDataExists(existingFeature, clientId);
-                return (T)(object)clientData.StringValue;
+                return (T)(object)clientData.StringValue!;
             }
 
             throw new Exception("Only value of types bool, int, decimal and string are allowed...");
@@ -372,6 +372,11 @@ namespace AspNetCore.FeatureManagement.UI.Services
                 throw new Exception($"The feature {featureName} cannot be updated manually...");
             }
 
+            if (existingFeature.Type == FeatureTypes.Client && string.IsNullOrWhiteSpace(clientId))
+            {
+                throw new Exception("A client id is required for client features...");
+            }
+
             if (existingFeature.ValueType == FeatureValueTypes.Boolean)
             {
                 if (value is bool boolValue)
@@ -379,18 +384,13 @@ namespace AspNetCore.FeatureManagement.UI.Services
                     if (existingFeature.Type == FeatureTypes.Server)
                     {
                         // Server feature
-                        existingFeature.Server.BooleanValue = boolValue;
+                        existingFeature.Server!.BooleanValue = boolValue;
                     }
 
                     if (existingFeature.Type == FeatureTypes.Client)
                     {
                         // Client feature
-                        if (string.IsNullOrWhiteSpace(clientId))
-                        {
-                            throw new Exception("A client id is required for client features...");
-                        }
-
-                        var clientData = await EnsuresClientDataExists(existingFeature, clientId);
+                        var clientData = await EnsuresClientDataExists(existingFeature, clientId!);
                         clientData.BooleanValue = boolValue;
                     }
                 }
@@ -409,18 +409,13 @@ namespace AspNetCore.FeatureManagement.UI.Services
                         if (existingFeature.Type == FeatureTypes.Server)
                         {
                             // Server feature
-                            existingFeature.Server.IntValue = intValue;
+                            existingFeature.Server!.IntValue = intValue;
                         }
 
                         if (existingFeature.Type == FeatureTypes.Client)
                         {
                             // Client feature
-                            if (string.IsNullOrWhiteSpace(clientId))
-                            {
-                                throw new Exception("A client id is required for client features...");
-                            }
-
-                            var clientData = await EnsuresClientDataExists(existingFeature, clientId);
+                            var clientData = await EnsuresClientDataExists(existingFeature, clientId!);
                             clientData.IntValue = intValue;
                         }
                     }
@@ -444,18 +439,13 @@ namespace AspNetCore.FeatureManagement.UI.Services
                         if (existingFeature.Type == FeatureTypes.Server)
                         {
                             // Server feature
-                            existingFeature.Server.DecimalValue = decimalValue;
+                            existingFeature.Server!.DecimalValue = decimalValue;
                         }
 
                         if (existingFeature.Type == FeatureTypes.Client)
                         {
                             // Client feature
-                            if (string.IsNullOrWhiteSpace(clientId))
-                            {
-                                throw new Exception("A client id is required for client features...");
-                            }
-
-                            var clientData = await EnsuresClientDataExists(existingFeature, clientId);
+                            var clientData = await EnsuresClientDataExists(existingFeature, clientId!);
                             clientData.DecimalValue = decimalValue;
                         }
                     }
@@ -479,18 +469,13 @@ namespace AspNetCore.FeatureManagement.UI.Services
                         if (existingFeature.Type == FeatureTypes.Server)
                         {
                             // Server feature
-                            existingFeature.Server.StringValue = stringValue;
+                            existingFeature.Server!.StringValue = stringValue;
                         }
 
                         if (existingFeature.Type == FeatureTypes.Client)
                         {
                             // Client feature
-                            if (string.IsNullOrWhiteSpace(clientId))
-                            {
-                                throw new Exception("A client id is required for client features...");
-                            }
-
-                            var clientData = await EnsuresClientDataExists(existingFeature, clientId);
+                            var clientData = await EnsuresClientDataExists(existingFeature, clientId!);
                             clientData.StringValue = stringValue;
                         }
                     }
@@ -515,7 +500,7 @@ namespace AspNetCore.FeatureManagement.UI.Services
             else
             {
                 var output = await existingFeature.ToOutput(this, false, clientId, null);
-                _settings.OnClientFeatureUpdated?.Invoke(output, clientId);
+                _settings.OnClientFeatureUpdated?.Invoke(output, clientId!);
             }
 
             return existingFeature;

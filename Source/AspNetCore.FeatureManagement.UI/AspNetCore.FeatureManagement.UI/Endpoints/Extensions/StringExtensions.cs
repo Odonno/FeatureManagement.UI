@@ -4,7 +4,7 @@ namespace System
     {
         public static string AsRelativeResource(this string resourcePath)
         {
-            return resourcePath.StartsWith("/") ? resourcePath.Substring(1) : resourcePath;
+            return resourcePath.StartsWith("/") ? resourcePath[1..] : resourcePath;
         }
     }
 }

@@ -7,7 +7,7 @@ namespace AspNetCore.FeatureManagement.UI.Core.Configuration
 {
     public class Settings
     {
-        internal IServiceCollection Services { get; }
+        internal IServiceCollection? Services { get; }
         internal List<IFeatureSettings> Features { get; } = new List<IFeatureSettings>();
 
         /// <summary>

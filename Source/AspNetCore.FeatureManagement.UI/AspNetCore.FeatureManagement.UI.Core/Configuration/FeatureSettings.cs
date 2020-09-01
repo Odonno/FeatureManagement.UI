@@ -24,9 +24,13 @@ namespace AspNetCore.FeatureManagement.UI.Core.Configuration
 
     internal class BoolFeatureSettings : IFeatureWithValueSettings<bool>
     {
+#pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         public string Name { get; set; }
+#pragma warning restore CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         public string? Description { get; set; }
+#pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         public string Type { get; set; }
+#pragma warning restore CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         public bool Value { get; set; }
         public string? UiPrefix { get; set; }
         public string? UiSuffix { get; set; }
@@ -34,9 +38,13 @@ namespace AspNetCore.FeatureManagement.UI.Core.Configuration
     }
     internal class IntFeatureSettings : IFeatureWithValueSettings<int>
     {
+#pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         public string Name { get; set; }
+#pragma warning restore CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         public string? Description { get; set; }
+#pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         public string Type { get; set; }
+#pragma warning restore CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         public int Value { get; set; }
         public string? UiPrefix { get; set; }
         public string? UiSuffix { get; set; }
@@ -44,9 +52,13 @@ namespace AspNetCore.FeatureManagement.UI.Core.Configuration
     }
     internal class IntFeatureWithChoicesSettings : IFeatureWithChoicesSettings<int>
     {
+#pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         public string Name { get; set; }
+#pragma warning restore CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         public string? Description { get; set; }
+#pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         public string Type { get; set; }
+#pragma warning restore CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         public int Value { get; set; }
         public IEnumerable<int> Choices { get; set; } = new List<int>();
         public string? UiPrefix { get; set; }
@@ -55,9 +67,13 @@ namespace AspNetCore.FeatureManagement.UI.Core.Configuration
     }
     internal class DecimalFeatureSettings : IFeatureWithValueSettings<decimal>
     {
+#pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         public string Name { get; set; }
+#pragma warning restore CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         public string? Description { get; set; }
+#pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         public string Type { get; set; }
+#pragma warning restore CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         public decimal Value { get; set; }
         public string? UiPrefix { get; set; }
         public string? UiSuffix { get; set; }
@@ -65,9 +81,13 @@ namespace AspNetCore.FeatureManagement.UI.Core.Configuration
     }
     internal class DecimalFeatureWithChoicesSettings : IFeatureWithChoicesSettings<decimal>
     {
+#pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         public string Name { get; set; }
+#pragma warning restore CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         public string? Description { get; set; }
+#pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         public string Type { get; set; }
+#pragma warning restore CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         public decimal Value { get; set; }
         public IEnumerable<decimal> Choices { get; set; } = new List<decimal>();
         public string? UiPrefix { get; set; }
@@ -76,20 +96,32 @@ namespace AspNetCore.FeatureManagement.UI.Core.Configuration
     }
     internal class StringFeatureSettings : IFeatureWithValueSettings<string>
     {
+#pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         public string Name { get; set; }
+#pragma warning restore CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         public string? Description { get; set; }
+#pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         public string Type { get; set; }
+#pragma warning restore CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
+#pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         public string Value { get; set; }
+#pragma warning restore CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         public string? UiPrefix { get; set; }
         public string? UiSuffix { get; set; }
         public IFeatureConfiguration? Configuration { get; set; }
     }
     internal class StringFeatureWithChoicesSettings : IFeatureWithChoicesSettings<string>
     {
+#pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         public string Name { get; set; }
+#pragma warning restore CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         public string? Description { get; set; }
+#pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         public string Type { get; set; }
+#pragma warning restore CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
+#pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         public string Value { get; set; }
+#pragma warning restore CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         public IEnumerable<string> Choices { get; set; } = new List<string>();
         public string? UiPrefix { get; set; }
         public string? UiSuffix { get; set; }

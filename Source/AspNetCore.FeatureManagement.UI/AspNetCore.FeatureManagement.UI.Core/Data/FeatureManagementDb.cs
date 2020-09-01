@@ -14,7 +14,9 @@ namespace AspNetCore.FeatureManagement.UI.Core.Data
         public DbSet<GroupFeature> GroupFeatures { get; set; }
         public DbSet<TimeWindowFeature> TimeWindowFeatures { get; set; }
 
+#pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         public FeatureManagementDb(DbContextOptions<FeatureManagementDb> options) : base(options) { }
+#pragma warning restore CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

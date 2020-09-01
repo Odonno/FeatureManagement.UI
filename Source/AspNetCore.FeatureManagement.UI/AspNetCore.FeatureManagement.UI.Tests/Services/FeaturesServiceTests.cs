@@ -310,10 +310,19 @@ namespace AspNetCore.FeatureManagement.UI.Tests.Services
             var result = await featuresService.SetValue("Beta", false);
 
             // Assert
-            result.Server.BooleanValue.Value.ShouldBeFalse();
-            result.Server.IntValue.ShouldBeNull();
-            result.Server.DecimalValue.ShouldBeNull();
-            result.Server.StringValue.ShouldBeNull();
+            result.Server.ShouldNotBeNull();
+
+            if (result.Server != null)
+            {
+                result.Server.BooleanValue.HasValue.ShouldBeTrue();
+                if (result.Server.BooleanValue.HasValue)
+                {
+                    result.Server.BooleanValue.Value.ShouldBeFalse();
+                }
+                result.Server.IntValue.ShouldBeNull();
+                result.Server.DecimalValue.ShouldBeNull();
+                result.Server.StringValue.ShouldBeNull();
+            }
         }
         [Fact]
         public async Task SetValueShouldFailIfMismatchTypeForBooleanValue()
@@ -342,10 +351,15 @@ namespace AspNetCore.FeatureManagement.UI.Tests.Services
             var result = await featuresService.SetValue("Delay", newValue);
 
             // Assert
-            result.Server.BooleanValue.ShouldBeNull();
-            result.Server.IntValue.ShouldBe(newValue);
-            result.Server.DecimalValue.ShouldBeNull();
-            result.Server.StringValue.ShouldBeNull();
+            result.Server.ShouldNotBeNull();
+
+            if (result.Server != null)
+            {
+                result.Server.BooleanValue.ShouldBeNull();
+                result.Server.IntValue.ShouldBe(newValue);
+                result.Server.DecimalValue.ShouldBeNull();
+                result.Server.StringValue.ShouldBeNull();
+            }
         }
         [Fact]
         public async Task SetValueShouldFailIfMismatchTypeForIntValue()
@@ -390,10 +404,15 @@ namespace AspNetCore.FeatureManagement.UI.Tests.Services
             var result = await featuresService.SetValue("TaxPercent", newValue);
 
             // Assert
-            result.Server.BooleanValue.ShouldBeNull();
-            result.Server.IntValue.ShouldBeNull();
-            result.Server.DecimalValue.ShouldBe(newValue);
-            result.Server.StringValue.ShouldBeNull();
+            result.Server.ShouldNotBeNull();
+
+            if (result.Server != null)
+            {
+                result.Server.BooleanValue.ShouldBeNull();
+                result.Server.IntValue.ShouldBeNull();
+                result.Server.DecimalValue.ShouldBe(newValue);
+                result.Server.StringValue.ShouldBeNull();
+            }
         }
         [Fact]
         public async Task SetValueShouldFailIfMismatchTypeForDecimalValue()
@@ -438,10 +457,15 @@ namespace AspNetCore.FeatureManagement.UI.Tests.Services
             var result = await featuresService.SetValue("Theme", newValue);
 
             // Assert
-            result.Server.BooleanValue.ShouldBeNull();
-            result.Server.IntValue.ShouldBeNull();
-            result.Server.DecimalValue.ShouldBeNull();
-            result.Server.StringValue.ShouldBe(newValue);
+            result.Server.ShouldNotBeNull();
+
+            if (result.Server != null)
+            {
+                result.Server.BooleanValue.ShouldBeNull();
+                result.Server.IntValue.ShouldBeNull();
+                result.Server.DecimalValue.ShouldBeNull();
+                result.Server.StringValue.ShouldBe(newValue);
+            }
         }
         [Fact]
         public async Task SetValueShouldFailIfMismatchTypeForStringValue()

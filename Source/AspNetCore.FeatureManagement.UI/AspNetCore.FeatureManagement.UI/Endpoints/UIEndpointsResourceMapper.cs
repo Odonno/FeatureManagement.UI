@@ -144,30 +144,26 @@ namespace AspNetCore.FeatureManagement.UI.Core
 
                 string fileWithoutFolderPrefix = string.IsNullOrWhiteSpace(relativeFolder?.Path)
                     ? fileWithoutBaseFolderPrefix
-                    : fileWithoutBaseFolderPrefix.Substring(relativeFolder.Path.Length);
+                    : fileWithoutBaseFolderPrefix[relativeFolder.Path.Length..];
 
                 var segments = fileWithoutFolderPrefix.Split(SPLIT_SEPARATOR);
                 string extension = segments.Last();
                 string fileName = fileWithoutFolderPrefix.Substring(0, fileWithoutFolderPrefix.Length - 1 - extension.Length);
 
-                using (var contentStream = assembly.GetManifestResourceStream(file))
+                using var contentStream = assembly.GetManifestResourceStream(file);
+                if (contentStream != null)
                 {
-                    if (contentStream != null)
-                    {
-                        using (var reader = new StreamReader(contentStream))
-                        {
-                            string result = reader.ReadToEnd();
+                    using var reader = new StreamReader(contentStream);
+                    string result = reader.ReadToEnd();
 
-                            resourceList.Add(
-                                new UIResource(
-                                    relativeFolder?.Path,
-                                    $"{fileName}.{extension}",
-                                    result,
-                                    ContentType.FromExtension(extension)
-                                )
-                            );
-                        }
-                    }
+                    resourceList.Add(
+                        new UIResource(
+                            relativeFolder?.Path,
+                            $"{fileName}.{extension}",
+                            result,
+                            ContentType.FromExtension(extension)
+                        )
+                    );
                 }
             }
 
