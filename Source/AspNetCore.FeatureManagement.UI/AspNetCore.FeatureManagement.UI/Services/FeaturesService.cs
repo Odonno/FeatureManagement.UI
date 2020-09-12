@@ -404,7 +404,7 @@ namespace AspNetCore.FeatureManagement.UI.Services
             {
                 if (value is int intValue)
                 {
-                    if (existingFeature.IntFeatureChoices.Any(c => c.Choice == intValue))
+                    if (existingFeature.IntFeatureChoices.Count == 0 || existingFeature.IntFeatureChoices.Any(c => c.Choice == intValue))
                     {
                         if (existingFeature.Type == FeatureTypes.Server)
                         {
@@ -434,7 +434,7 @@ namespace AspNetCore.FeatureManagement.UI.Services
             {
                 if (value is decimal decimalValue)
                 {
-                    if (existingFeature.DecimalFeatureChoices.Any(c => c.Choice == decimalValue))
+                    if (existingFeature.DecimalFeatureChoices.Count == 0 || existingFeature.DecimalFeatureChoices.Any(c => c.Choice == decimalValue))
                     {
                         if (existingFeature.Type == FeatureTypes.Server)
                         {
@@ -464,7 +464,7 @@ namespace AspNetCore.FeatureManagement.UI.Services
             {
                 if (value is string stringValue)
                 {
-                    if (existingFeature.StringFeatureChoices.Any(c => c.Choice == stringValue))
+                    if (existingFeature.StringFeatureChoices.Count == 0 || existingFeature.StringFeatureChoices.Any(c => c.Choice == stringValue))
                     {
                         if (existingFeature.Type == FeatureTypes.Server)
                         {
