@@ -65,22 +65,24 @@ const FeatureNumberInput: FunctionalComponent<Props> = (props) => {
                 prefix={uiPrefix || undefined}
                 suffix={uiSuffix || undefined}
             />
-            {canSave && (
-                <PrimaryButton
-                    text="Save"
-                    onClick={() => onValidateButtonClicked()}
-                    disabled={saveDisabled}
-                    allowDisabledFocus
-                />
-            )}
-            {canCancel && (
-                <DefaultButton
-                    text="Cancel"
-                    onClick={() => onCancelButtonClicked()}
-                    allowDisabledFocus
-                    style={{ marginLeft: 12 }}
-                />
-            )}
+            <p>
+                {canSave && (
+                    <PrimaryButton
+                        text="Save"
+                        onClick={() => onValidateButtonClicked()}
+                        disabled={saveDisabled}
+                        allowDisabledFocus
+                    />
+                )}
+                {canCancel && (
+                    <DefaultButton
+                        text="Cancel"
+                        onClick={() => onCancelButtonClicked()}
+                        allowDisabledFocus
+                        style={{ marginLeft: 12 }}
+                    />
+                )}
+            </p>
         </div>
     );
 };

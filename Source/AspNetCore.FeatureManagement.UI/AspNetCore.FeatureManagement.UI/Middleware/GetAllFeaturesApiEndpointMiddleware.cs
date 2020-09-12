@@ -17,7 +17,7 @@ namespace AspNetCore.FeatureManagement.UI.Middleware
         private readonly JsonSerializerSettings _jsonSerializationSettings;
         private readonly IServiceScopeFactory _serviceScopeFactory;
 
-        public GetAllFeaturesApiEndpointMiddleware(IServiceScopeFactory serviceScopeFactory)
+        public GetAllFeaturesApiEndpointMiddleware(RequestDelegate next, IServiceScopeFactory serviceScopeFactory)
         {
             _serviceScopeFactory = serviceScopeFactory;
             _jsonSerializationSettings = new JsonSerializerSettings()

@@ -1,7 +1,8 @@
 // @ts-nocheck
 import { FunctionalComponent, h } from "preact";
 import { Feature, FeatureValueType } from '../../models';
-import { Text, Toggle } from '@fluentui/react';
+import { Text, Toggle, PrimaryButton, DefaultButton } from '@fluentui/react';
+import { useState } from "preact/hooks";
 
 type Props = {
     feature: Feature,
@@ -22,6 +23,25 @@ const FeatureToggle: FunctionalComponent<Props> = (props) => {
         uiSuffix
     } = feature;
 
+    const [newValue, setNewValue] = useState(checked);
+
+    const hasChanged = checked !== newValue;
+
+    const canSave = hasChanged;
+    const canCancel = hasChanged;
+
+    const onToggle = () => {
+        setNewValue(!newValue);
+    }
+
+    const onValidateButtonClicked = () => {
+        handleFeatureChange(feature, newValue);
+    }
+
+    const onCancelButtonClicked = () => {
+        setNewValue(checked);
+    }
+
     return (
         <div>
             <p>
@@ -35,12 +55,29 @@ const FeatureToggle: FunctionalComponent<Props> = (props) => {
                 }
             </p>
             <Toggle
-                checked={checked}
+                checked={newValue}
                 disabled={readonly}
-                onChange={() => handleFeatureChange(feature, !checked)}
+                onChange={onToggle}
                 prefix={uiPrefix || undefined}
                 suffix={uiSuffix || undefined}
             />
+            <p>
+                {canSave && (
+                    <PrimaryButton
+                        text="Save"
+                        onClick={() => onValidateButtonClicked()}
+                        allowDisabledFocus
+                    />
+                )}
+                {canCancel && (
+                    <DefaultButton
+                        text="Cancel"
+                        onClick={() => onCancelButtonClicked()}
+                        allowDisabledFocus
+                        style={{ marginLeft: 12 }}
+                    />
+                )}
+            </p>
         </div>
     );
 };

@@ -10,13 +10,11 @@ namespace AspNetCore.FeatureManagement.UI.Middleware
 {
     internal class GetAuthSchemesApiEndpointMiddleware
     {
-        private readonly RequestDelegate _next;
         private readonly JsonSerializerSettings _jsonSerializationSettings;
         private readonly IServiceScopeFactory _serviceScopeFactory;
 
         public GetAuthSchemesApiEndpointMiddleware(RequestDelegate next, IServiceScopeFactory serviceScopeFactory)
         {
-            _next = next;
             _serviceScopeFactory = serviceScopeFactory;
             _jsonSerializationSettings = new JsonSerializerSettings()
             {
