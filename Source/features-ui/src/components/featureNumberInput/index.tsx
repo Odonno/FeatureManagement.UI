@@ -59,7 +59,7 @@ const FeatureNumberInput: FunctionalComponent<Props> = (props) => {
                 }
             </p>
             <TextField
-                defaultValue={newValue.toString()}
+                value={newValue.toString()}
                 disabled={readonly}
                 onKeyUp={onTextChanged}
                 prefix={uiPrefix || undefined}

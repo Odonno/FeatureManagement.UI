@@ -56,7 +56,7 @@ const FeatureTextInput: FunctionalComponent<Props> = (props) => {
                 }
             </p>
             <TextField
-                defaultValue={newValue}
+                value={newValue}
                 disabled={readonly}
                 onKeyUp={onTextChanged}
                 prefix={uiPrefix || undefined}
