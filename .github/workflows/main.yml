@@ -2,32 +2,32 @@ name: CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 3.1.301
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 5.0.404
 
-    - name: Yarn install
-      run: yarn install
-      working-directory: ./Source/features-ui
+      - name: Yarn install
+        run: yarn install
+        working-directory: ./Source/features-ui
 
-    - name: Yarn build (features-ui)
-      run: yarn build
-      working-directory: ./Source/features-ui
+      - name: Yarn build (features-ui)
+        run: yarn build
+        working-directory: ./Source/features-ui
 
-    - name: DotNet Build (AspNetCore.FeatureManagement.UI)
-      run: dotnet build --configuration Release
+      - name: DotNet Build (AspNetCore.FeatureManagement.UI)
+        run: dotnet build --configuration Release
 
-    - name: DotNet Test (AspNetCore.FeatureManagement.UI)
-      run: dotnet test --no-restore --verbosity normal
+      - name: DotNet Test (AspNetCore.FeatureManagement.UI)
+        run: dotnet test --no-restore --verbosity normal
