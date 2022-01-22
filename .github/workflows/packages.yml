@@ -51,11 +51,6 @@ jobs:
       - name: dotnet pack [AspNetCore.FeatureManagement.UI.Configuration.TimeWindowFeature]
         run: dotnet pack ./Source/AspNetCore.FeatureManagement.UI/AspNetCore.FeatureManagement.UI.Configuration.TimeWindowFeature/AspNetCore.FeatureManagement.UI.Configuration.TimeWindowFeature.csproj /p:Version=${{github.event.inputs.version}} -c Release --no-build --include-source --include-symbols -o ./artifacts
 
-      - name: setup nuget
-        uses: NuGet/setup-nuget@v1.0.2
-        with:
-          nuget-version: latest
-
       - name: Publish package [AspNetCore.FeatureManagement.UI.Core]
         run: dotnet nuget push ./artifacts/AspNetCore.FeatureManagement.UI.Core.*.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json --skip-duplicate
 
