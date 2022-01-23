@@ -12,6 +12,7 @@
     "format": "prettier --ignore-path .gitignore --write --plugin-search-dir=. ."
   },
   "devDependencies": {
+    "@fluentui/svg-icons": "^1.1.157",
     "@sveltejs/adapter-auto": "next",
     "@sveltejs/kit": "next",
     "@typescript-eslint/eslint-plugin": "^4.31.1",
@@ -19,6 +20,8 @@
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-svelte3": "^3.2.1",
+    "fluent-svelte": "^1.2.0",
+    "node-sass": "^7.0.1",
     "prettier": "^2.4.1",
     "prettier-plugin-svelte": "^2.4.0",
     "svelte": "^3.44.0",
