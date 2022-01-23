@@ -2,43 +2,44 @@
 
 [![CodeFactor](https://www.codefactor.io/repository/github/odonno/aspnetcore.featuremanagement.ui/badge?s=721e064ae93fbd78d8c9ab4304aa513a07889e98)](https://www.codefactor.io/repository/github/odonno/aspnetcore.featuremanagement.ui)
 
-| Package | Versions |
-| ------- | -------- |
-| AspNetCore.FeatureManagement.UI | [![NuGet](https://img.shields.io/nuget/v/AspNetCore.FeatureManagement.UI.svg)](https://www.nuget.org/packages/AspNetCore.FeatureManagement.UI/) |
-| AspNetCore.FeatureManagement.UI.InMemory.Storage | [![NuGet](https://img.shields.io/nuget/v/AspNetCore.FeatureManagement.UI.InMemory.Storage.svg)](https://www.nuget.org/packages/AspNetCore.FeatureManagement.UI.InMemory.Storage/) |
-| AspNetCore.FeatureManagement.UI.SqlServer.Storage | [![NuGet](https://img.shields.io/nuget/v/AspNetCore.FeatureManagement.UI.SqlServer.Storage.svg)](https://www.nuget.org/packages/AspNetCore.FeatureManagement.UI.SqlServer.Storage/) |
-| AspNetCore.FeatureManagement.UI.Configuration.GroupFeature | [![NuGet](https://img.shields.io/nuget/v/AspNetCore.FeatureManagement.UI.Configuration.GroupFeature.svg)](https://www.nuget.org/packages/AspNetCore.FeatureManagement.UI.Configuration.GroupFeature/) |
+| Package                                                         | Versions                                                                                                                                                                                                        |
+| --------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| AspNetCore.FeatureManagement.UI                                 | [![NuGet](https://img.shields.io/nuget/v/AspNetCore.FeatureManagement.UI.svg)](https://www.nuget.org/packages/AspNetCore.FeatureManagement.UI/)                                                                 |
+| AspNetCore.FeatureManagement.UI.InMemory.Storage                | [![NuGet](https://img.shields.io/nuget/v/AspNetCore.FeatureManagement.UI.InMemory.Storage.svg)](https://www.nuget.org/packages/AspNetCore.FeatureManagement.UI.InMemory.Storage/)                               |
+| AspNetCore.FeatureManagement.UI.SqlServer.Storage               | [![NuGet](https://img.shields.io/nuget/v/AspNetCore.FeatureManagement.UI.SqlServer.Storage.svg)](https://www.nuget.org/packages/AspNetCore.FeatureManagement.UI.SqlServer.Storage/)                             |
+| AspNetCore.FeatureManagement.UI.Configuration.GroupFeature      | [![NuGet](https://img.shields.io/nuget/v/AspNetCore.FeatureManagement.UI.Configuration.GroupFeature.svg)](https://www.nuget.org/packages/AspNetCore.FeatureManagement.UI.Configuration.GroupFeature/)           |
 | AspNetCore.FeatureManagement.UI.Configuration.TimeWindowFeature | [![NuGet](https://img.shields.io/nuget/v/AspNetCore.FeatureManagement.UI.Configuration.TimeWindowFeature.svg)](https://www.nuget.org/packages/AspNetCore.FeatureManagement.UI.Configuration.TimeWindowFeature/) |
 
 Perfectly designed UI for Feature Flags in ASP.NET Core Web API
 
-**ASP.NET Core** versions supported: 3.1
+**.NET** versions supported: 5.0\
+**Legacy** versions supported: 3.1
 
 This package allows you to configure your application inside your own ASP.NET Core Web API. You can create and configure a large number of feature toggles.
 
 ### Summary
 
-* [Purpose](#purpose)
-* [Getting started](#getting-started)
-* [Configuration](#configuration)
-  * [Value types](#value-types)
-  * [Storage Providers](#storage-providers)
-    * [In memory](#inmemory)
-    * [SQL Server](#sql-server)
-  * [Feature types](#feature-types)
-    * [Server feature](#server-feature)
-    * [Client feature](#client-feature)
-    * [Group feature](#group-feature)
-    * [Time window feature](#time-window-feature)
-  * [User Interface](#user-interface)
-  * [Authentication](#authentication)
-    * [Authorization](#authorization)
-    * [UI settings](#ui-settings)
-  * [Realtime updates](#realtime-updates)
-    * [Feature updated event handlers](#feature-updated-event-handlers)
-* [Feature consumption](#feature-consumption)
-  * [Self-consumption](#self-consumption)
-  * [API](#api)
+- [Purpose](#purpose)
+- [Getting started](#getting-started)
+- [Configuration](#configuration)
+  - [Value types](#value-types)
+  - [Storage Providers](#storage-providers)
+    - [In memory](#inmemory)
+    - [SQL Server](#sql-server)
+  - [Feature types](#feature-types)
+    - [Server feature](#server-feature)
+    - [Client feature](#client-feature)
+    - [Group feature](#group-feature)
+    - [Time window feature](#time-window-feature)
+  - [User Interface](#user-interface)
+  - [Authentication](#authentication)
+    - [Authorization](#authorization)
+    - [UI settings](#ui-settings)
+  - [Realtime updates](#realtime-updates)
+    - [Feature updated event handlers](#feature-updated-event-handlers)
+- [Feature consumption](#feature-consumption)
+  - [Self-consumption](#self-consumption)
+  - [API](#api)
 
 ### Purpose
 
@@ -51,12 +52,12 @@ This library is meant to create, use and provide something developers are callin
 
 This library has for only purpose to let you create, use and provide Feature Flags inside your ASP.NET Core Web API. It is NOT meant to become a CMS or any storage system (file, SQL or NoSQL). Here are some examples of what you can or cannot do with the library:
 
-* ✅ create features that can be manually deactivated at any time
-* ✅ create a light/dark theme feature
-* ✅ temporarily store a welcome message
-* ❌ store a list of blog articles
-* ❌ store chat messages
-* ❌ store sensitive data (credentials, connection strings, etc...)
+- ✅ create features that can be manually deactivated at any time
+- ✅ create a light/dark theme feature
+- ✅ temporarily store a welcome message
+- ❌ store a list of blog articles
+- ❌ store chat messages
+- ❌ store sensitive data (credentials, connection strings, etc...)
 
 ### Getting started
 
@@ -111,10 +112,10 @@ You will then be able to display the UI at the following url: `/features-ui`.
 
 `AspNetCore.FeatureManagement.UI` works with the following types of value:
 
-* `boolean`
-* `integer`
-* `decimal`
-* `string`
+- `boolean`
+- `integer`
+- `decimal`
+- `string`
 
 ```csharp
 configuration.ServerFeature("Beta", true);
@@ -192,8 +193,8 @@ In order to use this type of feature, you need to install the [AspNetCore.Featur
 ```csharp
 configuration
     .ClientFeature(
-        "Beta", 
-        defaultValue: false, 
+        "Beta",
+        defaultValue: false,
         configuration: new GroupFeatureConfiguration<bool>
         {
             Groups = new List<GroupFeature<bool>>
@@ -211,8 +212,8 @@ configuration
 
 A time window feature give you the ability to set a value based on a speicifed date range. It can be useful to apply a different value differs based on the current period of time. Some benefits you can get would be:
 
-* apply feature before or after next month/week/year, to roll out a new feature
-* apply feature only during a day/week/month, to experiment a feature or to set a limited time event 
+- apply feature before or after next month/week/year, to roll out a new feature
+- apply feature only during a day/week/month, to experiment a feature or to set a limited time event
 
 If no time window match, the default value will be applied.
 
@@ -221,8 +222,8 @@ In order to use this type of feature, you need to install the [AspNetCore.Featur
 ```csharp
 configuration
     .ServerFeature(
-        "GameSeasons", 
-        defaultValue: "Summer", 
+        "GameSeasons",
+        defaultValue: "Summer",
         configuration: new TimeWindowFeatureConfiguration<string>
         {
             TimeWindows = new List<TimeWindowFeature<string>>
@@ -264,18 +265,18 @@ services.AddScoped<IFeaturesAuthService, DefaultFeaturesAuthService>();
 
 There is a default service you can use named `DefaultFeaturesAuthService`. Here is the how it works:
 
-* Everyone can read all features
-* No one can update a *server* feature
-* Each user can update a *client* feature
-* No way to define a client id (returns `null`)
+- Everyone can read all features
+- No one can update a _server_ feature
+- Each user can update a _client_ feature
+- No way to define a client id (returns `null`)
 
 ###### Authorization
 
 There is some authentication schemes you can use to authenticate users and give access to features:
 
-* No authentication (anonymous)
-* Query params authentication
-* Header authentication
+- No authentication (anonymous)
+- Query params authentication
+- Header authentication
 
 For example, you can apply a JWT Bearer authentication using the `Authorization` HTTP header and define a `IFeaturesAuthService` to use the user information stored inside the JWT token.
 
@@ -301,11 +302,11 @@ There are event handlers you can use that are triggered when a feature is update
 ```csharp
 c.OnServerFeatureUpdated = (IFeature feature) =>
 {
-    // Do something when a server feature is updated 
+    // Do something when a server feature is updated
 };
 c.OnClientFeatureUpdated = (IFeature feature, string clientId) =>
 {
-    // Do something when a client feature is updated 
+    // Do something when a client feature is updated
 };
 ```
 
@@ -313,10 +314,10 @@ c.OnClientFeatureUpdated = (IFeature feature, string clientId) =>
 
 Once everything is setup, you can now consume the features in two ways:
 
-* self-consumption = inside your Web API
-* API = other services through API calls
+- self-consumption = inside your Web API
+- API = other services through API calls
 
-##### Self-consumption 
+##### Self-consumption
 
 Inside your ASP.NET Core Web API, you can inject the `IFeaturesService`.
 
