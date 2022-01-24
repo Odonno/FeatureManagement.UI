@@ -66,6 +66,10 @@
 			size: 20px;
 			weight: 600;
 		}
+
+		.preview {
+			margin-left: 12px;
+		}
 	}
 
 	.auth-button {
@@ -76,9 +80,5 @@
 		:global(svg) {
 			margin-right: 8px;
 		}
-	}
-
-	.preview {
-		margin-left: 12px;
 	}
 </style>

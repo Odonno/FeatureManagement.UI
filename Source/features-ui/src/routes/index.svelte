@@ -7,6 +7,7 @@
 	import FeatureNumberInput from '$components/FeatureNumberInput.svelte';
 	import { loadAuthSchemes, loadFeatures } from '$functions/api';
 	import Loading from '$components/Loading.svelte';
+	import AuthSchemeRequired from '$components/AuthSchemeRequired.svelte';
 
 	const { loading, features, authSchemes, selectedAuthScheme } = dashboardStore;
 
@@ -34,14 +35,12 @@
 			loading.set(false);
 		});
 	});
-
-	// TODO : auth scheme required
 </script>
 
 {#if $loading}
 	<Loading />
 {:else if $selectedAuthScheme === undefined}
-	<div>Please select an authentication scheme...</div>
+	<AuthSchemeRequired />
 {:else}
 	<div>
 		{#each $features as feature (feature.name)}
