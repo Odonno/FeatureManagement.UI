@@ -3,6 +3,8 @@
 	import type { Feature, FeatureChoicesType } from '$models';
 	import { dashboardStore } from '$stores/dashboard';
 	import { Button, TextBlock, ComboBox } from 'fluent-svelte';
+	import FeaturePrefix from './FeaturePrefix.svelte';
+	import FeatureSuffix from './FeatureSuffix.svelte';
 
 	const { selectedAuthScheme } = dashboardStore;
 
@@ -39,14 +41,20 @@
 		{/if}
 	</p>
 
-	<ComboBox
-		bind:value={newValue}
-		{items}
-		placeholder="Select an option"
-		disabled={feature.readonly}
-		prefix={feature.uiPrefix}
-		suffix={feature.uiSuffix}
-	/>
+	<div style="display: flex;">
+		{#if feature.uiPrefix}
+			<FeaturePrefix value={feature.uiPrefix} />
+		{/if}
+		<ComboBox
+			bind:value={newValue}
+			{items}
+			placeholder="Select an option"
+			disabled={feature.readonly}
+		/>
+		{#if feature.uiSuffix}
+			<FeatureSuffix value={feature.uiSuffix} />
+		{/if}
+	</div>
 
 	<p>
 		{#if canSave}

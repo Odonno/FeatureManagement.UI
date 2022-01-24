@@ -3,6 +3,8 @@
 	import type { Feature } from '$models';
 	import { dashboardStore } from '$stores/dashboard';
 	import { Button, TextBlock, TextBox } from 'fluent-svelte';
+	import FeaturePrefix from './FeaturePrefix.svelte';
+	import FeatureSuffix from './FeatureSuffix.svelte';
 
 	const { selectedAuthScheme } = dashboardStore;
 
@@ -37,12 +39,15 @@
 		{/if}
 	</p>
 
-	<TextBox
-		bind:value={newValue}
-		disabled={feature.readonly}
-		prefix={feature.uiPrefix}
-		suffix={feature.uiSuffix}
-	/>
+	<div style="display: flex;">
+		{#if feature.uiPrefix}
+			<FeaturePrefix value={feature.uiPrefix} />
+		{/if}
+		<TextBox bind:value={newValue} disabled={feature.readonly} />
+		{#if feature.uiSuffix}
+			<FeatureSuffix value={feature.uiSuffix} />
+		{/if}
+	</div>
 
 	<p>
 		{#if canSave}
