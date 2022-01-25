@@ -25,22 +25,29 @@ namespace AspNetCore.FeatureManagement.UI.Core
                 {
                     new Folder
                     {
-                        Name = "assets",
+                        Name = "_app",
                         Folders = new List<Folder>
                         {
                             new Folder
                             {
-                                Name = "icons"
+                                Name = "assets",
+                                Folders = new List<Folder>
+                                {
+                                    new Folder
+                                    {
+                                        Name = "pages"
+                                    }
+                                }
+                            },
+                            new Folder
+                            {
+                                Name = "chunks"
+                            },
+                            new Folder
+                            {
+                                Name = "pages"
                             }
                         }
-                    },
-                    new Folder
-                    {
-                        Name = "route-home"
-                    },
-                    new Folder
-                    {
-                        Name = "route-notfound"
                     }
                 }
             };
@@ -105,6 +112,7 @@ namespace AspNetCore.FeatureManagement.UI.Core
 
             if (outputFolderStructure.Folders != null)
             {
+                // TODO : Recursive folder flattening
                 foreach (var f1 in outputFolderStructure.Folders)
                 {
                     if (f1.Folders != null)
@@ -116,6 +124,18 @@ namespace AspNetCore.FeatureManagement.UI.Core
                                 Level = 2,
                                 Path = $"{f1.Name}/{f2.Name}/"
                             });
+
+                            if (f2.Folders != null)
+                            {
+                                foreach (var f3 in f2.Folders)
+                                {
+                                    flattenedFolders.Add(new FlattenedFolder
+                                    {
+                                        Level = 3,
+                                        Path = $"{f1.Name}/{f2.Name}/{f3.Name}/"
+                                    });
+                                }
+                            }
                         }
                     }
 

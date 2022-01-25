@@ -2,6 +2,7 @@
 	import LockIcon from '@fluentui/svg-icons/icons/lock_closed_24_regular.svg?raw';
 	import { Button, TextBlock } from 'fluent-svelte';
 	import AuthDialogContent from './AuthDialogContent.svelte';
+	import { base } from '$app/paths';
 
 	let isDialogOpened = false;
 
@@ -11,7 +12,7 @@
 </script>
 
 <header>
-	<a class="logo" href="/">
+	<a class="logo" href={base + '/'}>
 		<!-- TODO : svg logo -->
 		<TextBlock variant="title">Features Management</TextBlock>
 		<TextBlock variant="caption">
