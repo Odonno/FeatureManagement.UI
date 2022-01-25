@@ -51,7 +51,7 @@
 
 	<p>
 		{#if canSave}
-			<Button variant="accent" on:click={onValidateButtonClicked}>Save</Button>
+			<Button variant="accent" on:click={onValidateButtonClicked}>Save changes</Button>
 		{/if}
 		{#if canCancel}
 			<Button on:click={onCancelButtonClicked}>Cancel</Button>

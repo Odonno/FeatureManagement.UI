@@ -37,22 +37,38 @@
 	});
 </script>
 
-{#if $loading}
-	<Loading />
-{:else if $selectedAuthScheme === undefined}
-	<AuthSchemeRequired />
-{:else}
-	<div>
-		{#each $features as feature (feature.name)}
-			{#if typeof feature.value === 'boolean'}
-				<FeatureToggle {feature} checked={feature.value} />
-			{:else if feature.choices}
-				<FeatureCombobox {feature} value={feature.value} />
-			{:else if typeof feature.value === 'string'}
-				<FeatureTextInput {feature} value={feature.value} />
-			{:else if typeof feature.value === 'number'}
-				<FeatureNumberInput {feature} value={feature.value} />
-			{/if}
-		{/each}
-	</div>
-{/if}
+<div class="container">
+	{#if $loading}
+		<Loading />
+	{:else if $selectedAuthScheme === undefined}
+		<AuthSchemeRequired />
+	{:else}
+		<div style="align-self: flex-start;">
+			{#each $features as feature (feature.name)}
+				{#if typeof feature.value === 'boolean'}
+					<FeatureToggle {feature} checked={feature.value} />
+				{:else if feature.choices}
+					<FeatureCombobox {feature} value={feature.value} />
+				{:else if typeof feature.value === 'string'}
+					<FeatureTextInput {feature} value={feature.value} />
+				{:else if typeof feature.value === 'number'}
+					<FeatureNumberInput {feature} value={feature.value} />
+				{/if}
+			{/each}
+		</div>
+	{/if}
+</div>
+
+<style lang="scss">
+	.container {
+		height: 100%;
+		display: flex;
+		align-items: center;
+		align-items: center;
+		justify-content: space-between;
+		inline-size: 100%;
+		max-inline-size: 1440px;
+		padding-inline: 18px 12px;
+		margin: 0 auto;
+	}
+</style>

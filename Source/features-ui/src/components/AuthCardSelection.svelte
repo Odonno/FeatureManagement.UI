@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { AuthenticationScheme } from '$models';
 	import { dashboardStore } from '$stores/dashboard';
-	import { Button, TextBox } from 'fluent-svelte';
+	import { Button, Expander, TextBlock, TextBox } from 'fluent-svelte';
 
 	const { selectedAuthScheme } = dashboardStore;
 
@@ -18,6 +18,8 @@
 	};
 
 	$: selected = isSelected(authScheme, $selectedAuthScheme);
+	
+	let expanded = false;
 
 	const handleSelectClicked = () => {
 		if (authScheme.type === 'None') {
@@ -35,30 +37,46 @@
 </script>
 
 {#if authScheme.type === 'None'}
-	<div {selected}>
+	<Expander {expanded} class="auth-expander">
 		<div>No authentication</div>
 
-		{#if selected === false}
-			<Button variant="accent" on:click={handleSelectClicked}>Select</Button>
-		{/if}
-	</div>
+		<div slot="content">
+			{#if selected === false}
+				<Button variant="accent" on:click={handleSelectClicked}>
+					Select this mode
+				</Button>
+			{/if}
+		</div>
+	</Expander>
 {:else}
-	<div {selected}>
+	<Expander {expanded} class="auth-expander">
 		<div>
-			Type: {authScheme.type}
-		</div>
-		<div>
-			Key: {authScheme.key}
+			Type: {authScheme.type} / Key: {authScheme.key}
 		</div>
 
-		{#if selected}
-			<TextBox value="******" readonly={true} />
-		{:else}
-			<TextBox placeholder="Value" bind:value />
-		{/if}
+		<div slot="content">
+			<TextBlock variant="caption">
+				Value
+			</TextBlock>
+			{#if expanded}
+				<TextBox value="******" readonly={true} />
+			{:else}
+				<TextBox placeholder="Value" bind:value />
+			{/if}
 
-		{#if selected === false}
-			<Button variant="accent" on:click={handleSelectClicked}>Select</Button>
-		{/if}
-	</div>
+			{#if selected === false}
+				<div style="margin-top: 12px;">
+					<Button variant="accent" on:click={handleSelectClicked}>
+						Select this mode
+					</Button>
+				</div>
+			{/if}
+		</div>
+	</Expander>
 {/if}
+
+<style lang="scss">
+	:global(.auth-expander) {
+		margin-bottom: 1rem;
+	}
+</style>

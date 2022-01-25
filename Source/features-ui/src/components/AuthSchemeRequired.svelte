@@ -11,7 +11,7 @@
 </script>
 
 <div
-	style="height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;"
+	style="width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;"
 >
 	<div style="margin-bottom: 12px;">
 		<TextBlock variant="body">Please select an authentication scheme...</TextBlock>

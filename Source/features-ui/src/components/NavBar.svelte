@@ -11,27 +11,29 @@
 	};
 </script>
 
-<header>
-	<a class="logo" href={base + '/'}>
-		<!-- TODO : svg logo -->
-		<TextBlock variant="title">Features Management</TextBlock>
-		<TextBlock variant="caption">
-			<span class="preview">PREVIEW</span>
-		</TextBlock>
-	</a>
-
-	<Button type="button" variant="accent" on:click={handleAuthClicked}>
-		<div class="auth-button">
-			{@html LockIcon}
-			<TextBlock variant="bodyStrong">Auth</TextBlock>
-		</div>
-	</Button>
+<header class="navbar">
+	<div class="navbar-inner">
+		<a class="logo" href={base + '/'}>
+			<!-- TODO : svg logo -->
+			<TextBlock variant="title">Features Management</TextBlock>
+			<TextBlock variant="caption">
+				<span class="preview">PREVIEW</span>
+			</TextBlock>
+		</a>
+	
+		<Button type="button" variant="accent" on:click={handleAuthClicked}>
+			<div class="auth-button">
+				{@html LockIcon}
+				<TextBlock variant="bodyStrong">Auth</TextBlock>
+			</div>
+		</Button>
+	</div>
 </header>
 
 <AuthDialogContent bind:open={isDialogOpened} />
 
 <style lang="scss">
-	header {
+	.navbar {
 		backdrop-filter: blur(60px);
 		background-clip: padding-box;
 		background-color: var(--fds-layer-background-default);
@@ -45,11 +47,18 @@
 		position: fixed;
 		left: 0;
 		right: 0;
-		padding: 12px 26px;
-
 		display: flex;
-		align-items: center;
-		justify-content: space-between;
+
+		&-inner {
+			display: flex;
+			align-items: center;
+			align-items: center;
+			justify-content: space-between;
+			inline-size: 100%;
+			max-inline-size: 1440px;
+			padding-inline: 18px 12px;
+			margin: 0 auto;
+		}
 	}
 
 	.logo {
