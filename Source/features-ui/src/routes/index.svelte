@@ -68,7 +68,6 @@
 		justify-content: space-between;
 		inline-size: 100%;
 		max-inline-size: 1440px;
-		padding-inline: 18px 12px;
 		margin: 0 auto;
 	}
 </style>
