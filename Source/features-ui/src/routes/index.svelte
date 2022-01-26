@@ -1,13 +1,10 @@
 <script lang="ts">
 	import { dashboardStore } from '$stores/dashboard';
 	import { onMount } from 'svelte';
-	import FeatureToggle from '$components/FeatureToggle.svelte';
-	import FeatureTextInput from '$components/FeatureTextInput.svelte';
-	import FeatureCombobox from '$components/FeatureCombobox.svelte';
-	import FeatureNumberInput from '$components/FeatureNumberInput.svelte';
 	import { loadAuthSchemes, loadFeatures } from '$functions/api';
-	import Loading from '$components/Loading.svelte';
+	import Loading from '$components/layout/Loading.svelte';
 	import AuthSchemeRequired from '$components/AuthSchemeRequired.svelte';
+	import FeatureCard from '$components/FeatureCard.svelte';
 
 	const { loading, features, authSchemes, selectedAuthScheme } = dashboardStore;
 
@@ -43,17 +40,11 @@
 	{:else if $selectedAuthScheme === undefined}
 		<AuthSchemeRequired />
 	{:else}
-		<div style="align-self: flex-start;">
+		<div style="width: 100%; align-self: flex-start;">
 			{#each $features as feature (feature.name)}
-				{#if typeof feature.value === 'boolean'}
-					<FeatureToggle {feature} checked={feature.value} />
-				{:else if feature.choices}
-					<FeatureCombobox {feature} value={feature.value} />
-				{:else if typeof feature.value === 'string'}
-					<FeatureTextInput {feature} value={feature.value} />
-				{:else if typeof feature.value === 'number'}
-					<FeatureNumberInput {feature} value={feature.value} />
-				{/if}
+				<div style="margin-bottom: 4px;">
+					<FeatureCard {feature} />
+				</div>
 			{/each}
 		</div>
 	{/if}

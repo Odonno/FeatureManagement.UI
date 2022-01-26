@@ -1,7 +1,7 @@
 <script lang="ts">
 	import LockIcon from '@fluentui/svg-icons/icons/lock_closed_24_regular.svg?raw';
 	import { Button, TextBlock } from 'fluent-svelte';
-	import AuthDialogContent from './AuthDialogContent.svelte';
+	import AuthDialogContent from '../AuthDialogContent.svelte';
 	import { base } from '$app/paths';
 
 	let isDialogOpened = false;
@@ -20,7 +20,7 @@
 				<span class="preview">PREVIEW</span>
 			</TextBlock>
 		</a>
-	
+
 		<Button type="button" variant="accent" on:click={handleAuthClicked}>
 			<div class="auth-button">
 				{@html LockIcon}
@@ -56,7 +56,6 @@
 			justify-content: space-between;
 			inline-size: 100%;
 			max-inline-size: 1440px;
-			padding-inline: 18px 12px;
 			margin: 0 auto;
 		}
 	}

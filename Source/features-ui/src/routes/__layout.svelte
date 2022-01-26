@@ -1,6 +1,6 @@
 <script lang="ts">
 	import 'fluent-svelte/theme.css';
-	import NavBar from '$components/NavBar.svelte';
+	import NavBar from '$components/layout/NavBar.svelte';
 </script>
 
 <div class="background" />

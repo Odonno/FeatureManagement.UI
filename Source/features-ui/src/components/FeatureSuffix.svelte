@@ -5,7 +5,7 @@
 </script>
 
 <div
-	style="display: flex; justify-content: center; align-items: center; padding: 6px    12px; background: #161514; color: #edebe9;"
+	style="display: flex; justify-content: center; align-items: center; padding: 6px 12px; background: #161514; color: #edebe9;"
 >
 	<TextBlock>{value}</TextBlock>
 </div>
