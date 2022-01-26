@@ -100,6 +100,10 @@
 				}
 			}
 		}
+
+		:global(svg) {
+			fill: var(--fds-text-primary);
+		}
 	}
 
 	.background {

@@ -86,8 +86,11 @@
 		align-items: center;
 		justify-content: center;
 
+		color: var(--fds-control-solid-fill-default);
+
 		:global(svg) {
 			margin-right: 8px;
+			fill: var(--fds-control-solid-fill-default);
 		}
 	}
 </style>
