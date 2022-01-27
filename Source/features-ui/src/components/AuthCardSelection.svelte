@@ -18,10 +18,12 @@
 	};
 
 	$: selected = isSelected(authScheme, $selectedAuthScheme);
-	
+
 	let expanded = false;
 
 	const handleSelectClicked = () => {
+		expanded = false;
+
 		if (authScheme.type === 'None') {
 			selectedAuthScheme.set({ type: 'None' });
 			return;
@@ -36,29 +38,27 @@
 	};
 </script>
 
-{#if authScheme.type === 'None'}
-	<Expander {expanded} class="auth-expander">
+<Expander bind:expanded class={`auth-expander ${selected ? 'selected' : ''}`}>
+	{#if authScheme.type === 'None'}
 		<div>No authentication</div>
-
-		<div slot="content">
-			{#if selected === false}
-				<Button variant="accent" on:click={handleSelectClicked}>
-					Select this mode
-				</Button>
-			{/if}
-		</div>
-	</Expander>
-{:else}
-	<Expander {expanded} class="auth-expander">
+	{:else}
 		<div>
-			Type: {authScheme.type} / Key: {authScheme.key}
+			<TextBlock variant="bodyStrong">Type:</TextBlock>
+			<TextBlock>{authScheme.type}</TextBlock>
+			<TextBlock>|</TextBlock>
+			<TextBlock variant="bodyStrong">Key:</TextBlock>
+			<TextBlock>{authScheme.key}</TextBlock>
 		</div>
+	{/if}
 
-		<div slot="content">
-			<TextBlock variant="caption">
-				Value
-			</TextBlock>
-			{#if expanded}
+	<div slot="content">
+		{#if authScheme.type === 'None'}
+			{#if selected === false}
+				<Button variant="accent" on:click={handleSelectClicked}>Select this mode</Button>
+			{/if}
+		{:else}
+			<TextBlock variant="caption">Value</TextBlock>
+			{#if selected}
 				<TextBox value="******" readonly={true} />
 			{:else}
 				<TextBox placeholder="Value" bind:value />
@@ -66,17 +66,21 @@
 
 			{#if selected === false}
 				<div style="margin-top: 12px;">
-					<Button variant="accent" on:click={handleSelectClicked}>
-						Select this mode
-					</Button>
+					<Button variant="accent" on:click={handleSelectClicked}>Select this mode</Button>
 				</div>
 			{/if}
-		</div>
-	</Expander>
-{/if}
+		{/if}
+	</div>
+</Expander>
 
 <style lang="scss">
-	:global(.auth-expander) {
-		margin-bottom: 1rem;
+	:global {
+		.auth-expander {
+			margin-bottom: 8px;
+
+			&.selected {
+				border: 2px solid var(--fds-accent-default);
+			}
+		}
 	}
 </style>
