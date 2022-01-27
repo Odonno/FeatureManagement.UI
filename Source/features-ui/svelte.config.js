@@ -25,10 +25,11 @@ const config = {
 		},
 
 		paths: {
-			base: dev ? '' : '/features-ui'
+			base: dev ? '' : '/#uiResourcePath#'
 		},
 
 		adapter: adapter({
+			fallback: 'index.html',
 			pages: buildOutputPath,
 			assets: buildOutputPath
 		}),

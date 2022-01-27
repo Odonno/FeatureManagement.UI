@@ -1,6 +1,30 @@
 <script lang="ts">
 	import 'fluent-svelte/theme.css';
 	import NavBar from '$components/layout/NavBar.svelte';
+	import { base } from '$app/paths';
+	import { onMount } from 'svelte';
+
+	const applyBackground = (colorScheme: 'dark' | 'light') => {
+		const backgroundElement = document.getElementsByClassName('background')[0] as HTMLDivElement;
+
+		if (colorScheme === 'dark') {
+			backgroundElement.style.backgroundImage = `url('${base}/bloom-mica-dark.png')`;
+		} else {
+			backgroundElement.style.background = `url('${base}/bloom-mica-light.png') center/170% no-repeat fixed`;
+		}
+	};
+
+	onMount(() => {
+		window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function (e) {
+			const colorScheme = e.matches ? 'dark' : 'light';
+			applyBackground(colorScheme);
+		});
+
+		const colorScheme = window.matchMedia('(prefers-color-scheme: dark)').matches
+			? 'dark'
+			: 'light';
+		applyBackground(colorScheme);
+	});
 </script>
 
 <div class="background" />
@@ -113,10 +137,6 @@
 		height: 100vh;
 
 		box-shadow: inset 0 0 0 100vmax var(--fds-card-background-secondary);
-		background: url('/bloom-mica-light.png') center/170% no-repeat fixed;
-		@media (prefers-color-scheme: dark) {
-			background-image: url('/bloom-mica-dark.png');
-		}
 	}
 
 	main {

@@ -52,7 +52,8 @@ namespace AspNetCore.FeatureManagement.UI.Core
                 }
             };
 
-            var resources = ParseEmbeddedResources(embeddedResourcesAssembly, outputFolderStructure, embeddedResources);
+            var resources = ParseEmbeddedResources(embeddedResourcesAssembly, outputFolderStructure, embeddedResources)
+                .ReplaceBasePaths(options);
 
             var endpoints = new List<IEndpointConventionBuilder>();
 
@@ -65,7 +66,7 @@ namespace AspNetCore.FeatureManagement.UI.Core
                 }));
             }
 
-            var ui = resources.GetMainUI(options);
+            var ui = resources.GetMainUI();
 
             endpoints.Add(builder.MapGet($"{options.UIPath}", async context =>
             {
