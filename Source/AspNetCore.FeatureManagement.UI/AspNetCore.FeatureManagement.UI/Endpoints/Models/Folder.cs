@@ -1,10 +1,7 @@
-using System.Collections.Generic;
+namespace AspNetCore.FeatureManagement.UI.Core.Endpoints.Models;
 
-namespace AspNetCore.FeatureManagement.UI.Core.Endpoints.Models
+internal class Folder
 {
-    internal class Folder
-    {
-        public string? Name { get; set; }
-        public List<Folder>? Folders { get; set; }
-    }
+    public string? Name { get; set; }
+    public List<Folder>? Folders { get; set; }
 }

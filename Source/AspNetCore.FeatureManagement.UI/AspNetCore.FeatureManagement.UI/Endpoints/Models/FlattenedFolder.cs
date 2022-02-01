@@ -1,8 +1,7 @@
-namespace AspNetCore.FeatureManagement.UI.Core.Endpoints.Models
+namespace AspNetCore.FeatureManagement.UI.Core.Endpoints.Models;
+
+internal class FlattenedFolder
 {
-    internal class FlattenedFolder
-    {
-        public string? Path { get; set; }
-        public int Level { get; set; }
-    }
+    public string? Path { get; set; }
+    public int Level { get; set; }
 }

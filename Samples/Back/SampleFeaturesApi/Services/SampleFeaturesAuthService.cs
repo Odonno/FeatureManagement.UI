@@ -1,46 +1,39 @@
-﻿using AspNetCore.FeatureManagement.UI.Core.Data;
-using AspNetCore.FeatureManagement.UI.Services;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
+﻿namespace SampleFeaturesApi.Services;
 
-namespace SampleFeaturesApi.Services
+public class SampleFeaturesAuthService : IFeaturesAuthService
 {
-    public class SampleFeaturesAuthService : IFeaturesAuthService
+    private static readonly string _uniqueId = Guid.NewGuid().ToString();
+
+    private readonly IHttpContextAccessor _httpContextAccessor;
+
+    public SampleFeaturesAuthService(IHttpContextAccessor httpContextAccessor)
     {
-        private static readonly string _uniqueId = Guid.NewGuid().ToString();
+        _httpContextAccessor = httpContextAccessor;
+    }
 
-        private readonly IHttpContextAccessor _httpContextAccessor;
+    public string? GetClientId()
+    {
+        return _uniqueId;
+    }
 
-        public SampleFeaturesAuthService(IHttpContextAccessor httpContextAccessor)
-        {
-            _httpContextAccessor = httpContextAccessor;
-        }
+    public IEnumerable<string> GetClientGroups(string? clientId)
+    {
+        return new List<string> { "Ring1" };
+    }
 
-        public string? GetClientId()
-        {
-            return _uniqueId;
-        }
+    public bool HandleReadAuth(Feature feature, string? clientId)
+    {
+        return true;
+    }
 
-        public IEnumerable<string> GetClientGroups(string? clientId)
-        {
-            return new List<string> { "Ring1" };
-        }
-
-        public bool HandleReadAuth(Feature feature, string? clientId)
+    public bool HandleWriteAuth(Feature feature, string? clientId)
+    {
+        if (feature.Type == FeatureTypes.Client)
         {
             return true;
         }
 
-        public bool HandleWriteAuth(Feature feature, string? clientId)
-        {
-            if (feature.Type == FeatureTypes.Client)
-            {
-                return true;
-            }
-
-            _httpContextAccessor.HttpContext.Request.Query.TryGetValue("Username", out var username);
-            return username == "Odonno";
-        }
+        _httpContextAccessor.HttpContext.Request.Query.TryGetValue("Username", out var username);
+        return username == "Odonno";
     }
 }
