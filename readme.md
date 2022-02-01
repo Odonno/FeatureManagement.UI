@@ -12,8 +12,8 @@
 
 Perfectly designed UI for Feature Flags in ASP.NET Core Web API
 
-**.NET** versions supported: 5.0\
-**Legacy** versions supported: 3.1
+**.NET** versions supported: 6.0\
+**Legacy** versions supported: 3.1, 5.0
 
 This package allows you to configure your application inside your own ASP.NET Core Web API. You can create and configure a large number of feature toggles.
 

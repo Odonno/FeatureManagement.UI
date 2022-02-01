@@ -25,7 +25,7 @@ namespace AspNetCore.FeatureManagement.UI.Core.Data.Configuration
                 .IsRequired(true);
             builder.Property(gf => gf.Group)
                 .HasMaxLength(100)
-                .IsRequired(true);
+                .IsRequired(false);
 
             builder.Property(gf => gf.BooleanValue)
                 .IsRequired(false);
