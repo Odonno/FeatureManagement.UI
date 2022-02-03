@@ -11,8 +11,8 @@
 <ContentDialog
 	bind:open
 	title="Authentication"
-	on:backdropclick={() => (open = false)}
 	on:backdropmousedown={() => (open = false)}
+	on:mousedown={(e) => e.stopPropagation()}
 >
 	<div>Select the desired authentication scheme to use to obtain additional rights.</div>
 
