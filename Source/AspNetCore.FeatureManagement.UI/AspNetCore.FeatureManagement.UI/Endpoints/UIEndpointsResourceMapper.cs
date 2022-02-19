@@ -56,6 +56,22 @@ internal class UIEndpointsResourceMapper
 
         foreach (var resource in resources)
         {
+            if (resource.ContentType == ContentType.PNG)
+            {
+                endpoints.Add(builder.MapGet($"{options.ResourcesPath}/{resource.Folder}{resource.FileName}", async context =>
+                {
+                    context.Response.ContentType = resource.ContentType;
+
+                    using var contentStream = embeddedResourcesAssembly.GetManifestResourceStream(resource.Name);
+                    if (contentStream is not null)
+                    {
+                        await contentStream.CopyToAsync(context.Response.Body);
+                    }
+                }));
+
+                continue;
+            }
+
             endpoints.Add(builder.MapGet($"{options.ResourcesPath}/{resource.Folder}{resource.FileName}", async context =>
             {
                 context.Response.ContentType = resource.ContentType;
@@ -162,6 +178,7 @@ internal class UIEndpointsResourceMapper
 
                 resourceList.Add(
                     new UIResource(
+                        file,
                         relativeFolder?.Path,
                         $"{fileName}.{extension}",
                         result,
