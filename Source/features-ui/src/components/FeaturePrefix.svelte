@@ -4,8 +4,19 @@
 	export let value: string;
 </script>
 
-<div
-	style="display: flex; justify-content: center; align-items: center; padding: 6px 12px; background: #161514; color: #edebe9;"
->
+<div class="container">
 	<TextBlock>{value}</TextBlock>
 </div>
+
+<style lang="scss">
+	.container {
+		margin-right: 12px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 6px 12px;
+		background: var(--fds-control-fill-default);
+		color: var(--fds-text-primary);
+		border-radius: var(--fds-control-corner-radius);
+	}
+</style>
