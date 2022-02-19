@@ -1,16 +1,17 @@
 <script lang="ts">
 	import 'fluent-svelte/theme.css';
 	import NavBar from '$components/layout/NavBar.svelte';
-	import { base } from '$app/paths';
 	import { onMount } from 'svelte';
+	import bgLight from '$assets/bloom-mica-light.png';
+	import bgDark from '$assets/bloom-mica-dark.png';
 
 	const applyBackground = (colorScheme: 'dark' | 'light') => {
 		const backgroundElement = document.getElementsByClassName('background')[0] as HTMLDivElement;
 
 		if (colorScheme === 'dark') {
-			backgroundElement.style.backgroundImage = `url('${base}/bloom-mica-dark.png')`;
+			backgroundElement.style.backgroundImage = `url(${bgDark})`;
 		} else {
-			backgroundElement.style.background = `url('${base}/bloom-mica-light.png') center/170% no-repeat fixed`;
+			backgroundElement.style.background = `url(${bgLight}) center/170% no-repeat fixed`;
 		}
 	};
 
