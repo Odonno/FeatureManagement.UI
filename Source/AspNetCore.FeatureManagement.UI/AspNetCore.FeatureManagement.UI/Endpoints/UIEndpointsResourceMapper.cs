@@ -2,7 +2,7 @@ namespace AspNetCore.FeatureManagement.UI.Core;
 
 internal class UIEndpointsResourceMapper
 {
-    public IEnumerable<IEndpointConventionBuilder> Map(IEndpointRouteBuilder builder, Options options)
+    public static IEnumerable<IEndpointConventionBuilder> Map(IEndpointRouteBuilder builder, Options options)
     {
         var embeddedResourcesAssembly = typeof(UIResource).Assembly;
         var embeddedResources = embeddedResourcesAssembly.GetManifestResourceNames();
@@ -13,29 +13,46 @@ internal class UIEndpointsResourceMapper
             {
                 new Folder
                 {
-                    Name = "assets",
+                    Name = "_app",
                     Folders = new List<Folder>
                     {
                         new Folder
                         {
-                            Name = "icons"
+                            Name = "assets",
+                            Folders = new List<Folder>
+                            {
+                                new Folder
+                                {
+                                    Name = "pages"
+                                }
+                            }
+                        },
+                        new Folder
+                        {
+                            Name = "chunks"
+                        },
+                        new Folder
+                        {
+                            Name = "pages"
                         }
                     }
-                },
-                new Folder
-                {
-                    Name = "route-home"
-                },
-                new Folder
-                {
-                    Name = "route-notfound"
                 }
             }
         };
 
-        var resources = ParseEmbeddedResources(embeddedResourcesAssembly, outputFolderStructure, embeddedResources);
+        var flattenedFolders = ExtractFlattenedFolders(outputFolderStructure);
+
+        var resources = ParseEmbeddedResources(embeddedResourcesAssembly, flattenedFolders, embeddedResources)
+            .ReplaceBasePaths(options);
 
         var endpoints = new List<IEndpointConventionBuilder>();
+
+        var ui = resources.GetMainUI();
+
+        if (ui is null)
+        {
+            return endpoints;
+        }
 
         foreach (var resource in resources)
         {
@@ -45,8 +62,6 @@ internal class UIEndpointsResourceMapper
                 await context.Response.WriteAsync(resource.Content);
             }));
         }
-
-        var ui = resources.GetMainUI(options);
 
         endpoints.Add(builder.MapGet($"{options.UIPath}", async context =>
         {
@@ -78,9 +93,36 @@ internal class UIEndpointsResourceMapper
         return endpoints;
     }
 
-    private IEnumerable<UIResource> ParseEmbeddedResources(
+    private static IEnumerable<FlattenedFolder> ExtractFlattenedFolders(Folder folder, int level = 1, string path = "")
+    {
+        var flattenedFolders = new List<FlattenedFolder>();
+
+        if (folder.Folders is null)
+        {
+            return flattenedFolders;
+        }
+
+        foreach (var nestedFolder in folder.Folders)
+        {
+            string nestedFolderPath = $"{path}{nestedFolder.Name}/";
+
+            flattenedFolders.Add(new FlattenedFolder
+            {
+                Level = level,
+                Path = nestedFolderPath
+            });
+
+            flattenedFolders.AddRange(
+                ExtractFlattenedFolders(nestedFolder, level + 1, nestedFolderPath)
+            );
+        }
+
+        return flattenedFolders;
+    }
+
+    private static IEnumerable<UIResource> ParseEmbeddedResources(
         Assembly assembly,
-        Folder outputFolderStructure,
+        IEnumerable<FlattenedFolder> flattenedFolders,
         string[] embeddedFiles
     )
     {
@@ -88,32 +130,6 @@ internal class UIEndpointsResourceMapper
         string prefixEmbeddedResource = assembly.GetName().Name + ".ui.";
 
         var resourceList = new List<UIResource>();
-
-        var flattenedFolders = new List<FlattenedFolder>();
-
-        if (outputFolderStructure.Folders != null)
-        {
-            foreach (var f1 in outputFolderStructure.Folders)
-            {
-                if (f1.Folders != null)
-                {
-                    foreach (var f2 in f1.Folders)
-                    {
-                        flattenedFolders.Add(new FlattenedFolder
-                        {
-                            Level = 2,
-                            Path = $"{f1.Name}/{f2.Name}/"
-                        });
-                    }
-                }
-
-                flattenedFolders.Add(new FlattenedFolder
-                {
-                    Level = 1,
-                    Path = $"{f1.Name}/"
-                });
-            }
-        }
 
         var orderedFlattenedFolders = flattenedFolders
             .OrderByDescending(f => f.Level)
@@ -139,7 +155,7 @@ internal class UIEndpointsResourceMapper
             string fileName = fileWithoutFolderPrefix.Substring(0, fileWithoutFolderPrefix.Length - 1 - extension.Length);
 
             using var contentStream = assembly.GetManifestResourceStream(file);
-            if (contentStream != null)
+            if (contentStream is not null)
             {
                 using var reader = new StreamReader(contentStream);
                 string result = reader.ReadToEnd();
