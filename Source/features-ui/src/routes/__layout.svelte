@@ -1,33 +1,10 @@
 <script lang="ts">
 	import 'fluent-svelte/theme.css';
 	import NavBar from '$components/layout/NavBar.svelte';
-	import { base } from '$app/paths';
-	import { onMount } from 'svelte';
-
-	const applyBackground = (colorScheme: 'dark' | 'light') => {
-		const backgroundElement = document.getElementsByClassName('background')[0] as HTMLDivElement;
-
-		if (colorScheme === 'dark') {
-			backgroundElement.style.backgroundImage = `url('${base}/bloom-mica-dark.png')`;
-		} else {
-			backgroundElement.style.background = `url('${base}/bloom-mica-light.png') center/170% no-repeat fixed`;
-		}
-	};
-
-	onMount(() => {
-		window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function (e) {
-			const colorScheme = e.matches ? 'dark' : 'light';
-			applyBackground(colorScheme);
-		});
-
-		const colorScheme = window.matchMedia('(prefers-color-scheme: dark)').matches
-			? 'dark'
-			: 'light';
-		applyBackground(colorScheme);
-	});
+	import Background from '$components/layout/Background.svelte';
 </script>
 
-<div class="background" />
+<Background />
 
 <NavBar />
 
@@ -128,15 +105,6 @@
 		:global(svg) {
 			fill: var(--fds-text-primary);
 		}
-	}
-
-	.background {
-		position: fixed;
-		z-index: -1;
-		width: 100vw;
-		height: 100vh;
-
-		box-shadow: inset 0 0 0 100vmax var(--fds-card-background-secondary);
 	}
 
 	main {

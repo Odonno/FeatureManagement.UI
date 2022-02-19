@@ -1,50 +1,41 @@
-using System.Collections.Generic;
-using System.Linq;
-using AspNetCore.FeatureManagement.UI;
-using AspNetCore.FeatureManagement.UI.Core;
-using AspNetCore.FeatureManagement.UI.Core.Configuration;
-using AspNetCore.FeatureManagement.UI.Middleware;
-using Microsoft.AspNetCore.Routing;
+namespace Microsoft.AspNetCore.Builder;
 
-namespace Microsoft.AspNetCore.Builder
+public static class EndpointRouteBuilderExtensions
 {
-    public static class EndpointRouteBuilderExtensions
+    /// <summary>
+    /// Adds endpoints for Features actions to the <see cref="IEndpointRouteBuilder"/>. And also display the UI.
+    /// </summary>
+    /// <param name="builder">The <see cref="IEndpointRouteBuilder"/>.</param>
+    /// <returns>An <see cref="IEndpointConventionBuilder"/> for endpoints associated with controller actions.</returns>
+    public static IEndpointConventionBuilder MapFeaturesUI(this IEndpointRouteBuilder builder)
     {
-        /// <summary>
-        /// Adds endpoints for Features actions to the <see cref="IEndpointRouteBuilder"/>. And also display the UI.
-        /// </summary>
-        /// <param name="builder">The <see cref="IEndpointRouteBuilder"/>.</param>
-        /// <returns>An <see cref="IEndpointConventionBuilder"/> for endpoints associated with controller actions.</returns>
-        public static IEndpointConventionBuilder MapFeaturesUI(this IEndpointRouteBuilder builder)
-        {
-            var getAuthSchemesApiDelegate = builder.CreateApplicationBuilder()
-                .UseMiddleware<GetAuthSchemesApiEndpointMiddleware>()
-                .Build();
+        var getAuthSchemesApiDelegate = builder.CreateApplicationBuilder()
+            .UseMiddleware<GetAuthSchemesApiEndpointMiddleware>()
+            .Build();
 
-            var getAllFeaturesApiDelegate = builder.CreateApplicationBuilder()
-                .UseMiddleware<GetAllFeaturesApiEndpointMiddleware>()
-                .Build();
+        var getAllFeaturesApiDelegate = builder.CreateApplicationBuilder()
+            .UseMiddleware<GetAllFeaturesApiEndpointMiddleware>()
+            .Build();
 
-            var setFeatureApiDelegate = builder.CreateApplicationBuilder()
-                .UseMiddleware<SetFeatureApiEndpointMiddleware>()
-                .Build();
+        var setFeatureApiDelegate = builder.CreateApplicationBuilder()
+            .UseMiddleware<SetFeatureApiEndpointMiddleware>()
+            .Build();
 
-            var getAuthSchemesApiEndpoint = builder.MapGet("/features/auth/schemes", getAuthSchemesApiDelegate)
-                                .WithDisplayName("Get Features auth schemes - UI Api");
+        var getAuthSchemesApiEndpoint = builder.MapGet("/features/auth/schemes", getAuthSchemesApiDelegate)
+                            .WithDisplayName("Get Features auth schemes - UI Api");
 
-            var getAllfeaturesApiEndpoint = builder.MapGet("/features", getAllFeaturesApiDelegate)
-                                .WithDisplayName("Get all Features - UI Api");
+        var getAllfeaturesApiEndpoint = builder.MapGet("/features", getAllFeaturesApiDelegate)
+                            .WithDisplayName("Get all Features - UI Api");
 
-            var setFeatureApiEndpoint = builder.MapPost("/features/{featureName}/set", setFeatureApiDelegate)
-                                .WithDisplayName("Set Feature value - UI Api");
+        var setFeatureApiEndpoint = builder.MapPost("/features/{featureName}/set", setFeatureApiDelegate)
+                            .WithDisplayName("Set Feature value - UI Api");
 
-            var apiEndpoints = new[] { getAuthSchemesApiEndpoint, getAllfeaturesApiEndpoint, setFeatureApiEndpoint };
+        var apiEndpoints = new[] { getAuthSchemesApiEndpoint, getAllfeaturesApiEndpoint, setFeatureApiEndpoint };
 
-            var resourcesEndpoints = UIEndpointsResourceMapper.Map(builder, new Options());
-                
-            var endpoints = apiEndpoints.Union(resourcesEndpoints);
+        var resourcesEndpoints = UIEndpointsResourceMapper.Map(builder, new Options());
             
-            return new FeaturesUIConventionBuilder(endpoints);
-        }
+        var endpoints = apiEndpoints.Union(resourcesEndpoints);
+        
+        return new FeaturesUIConventionBuilder(endpoints);
     }
 }

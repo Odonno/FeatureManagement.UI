@@ -1,24 +1,19 @@
-using Microsoft.AspNetCore.Builder;
-using System;
-using System.Collections.Generic;
+namespace AspNetCore.FeatureManagement.UI;
 
-namespace AspNetCore.FeatureManagement.UI
+internal class FeaturesUIConventionBuilder : IEndpointConventionBuilder
 {
-    internal class FeaturesUIConventionBuilder : IEndpointConventionBuilder
+    private readonly IEnumerable<IEndpointConventionBuilder> _endpoints;
+
+    public FeaturesUIConventionBuilder(IEnumerable<IEndpointConventionBuilder> endpoints)
     {
-        private readonly IEnumerable<IEndpointConventionBuilder> _endpoints;
+        _endpoints = endpoints ?? throw new ArgumentNullException(nameof(endpoints));
+    }
 
-        public FeaturesUIConventionBuilder(IEnumerable<IEndpointConventionBuilder> endpoints)
+    public void Add(Action<EndpointBuilder> convention)
+    {
+        foreach (var endpoint in _endpoints)
         {
-            _endpoints = endpoints ?? throw new ArgumentNullException(nameof(endpoints));
-        }
-
-        public void Add(Action<EndpointBuilder> convention)
-        {
-            foreach (var endpoint in _endpoints)
-            {
-                endpoint.Add(convention);
-            }
+            endpoint.Add(convention);
         }
     }
 }
