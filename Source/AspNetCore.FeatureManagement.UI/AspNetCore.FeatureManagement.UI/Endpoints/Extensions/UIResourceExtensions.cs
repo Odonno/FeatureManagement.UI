@@ -8,26 +8,31 @@ namespace AspNetCore.FeatureManagement.UI.Core.Endpoints.Extensions
 {
     internal static class UIResourceExtensions
     {
-        public static UIResource GetMainUI(this IEnumerable<UIResource> resources, Options options)
+        public static IEnumerable<UIResource> ReplaceBasePaths(this IEnumerable<UIResource> resources, Options options)
         {
-            var resource = resources
-                .FirstOrDefault(r => r.ContentType == ContentType.HTML && r.FileName == "index.html");
+            var apiPath = options.UseRelativeApiPath
+              ? options.ApiPath.AsRelativeResource()
+              : options.ApiPath;
 
-            var apiPath = options.UseRelativeApiPath 
-                ? options.ApiPath.AsRelativeResource() 
-                : options.ApiPath;
-
-            resource.Content = resource.Content
-                .Replace("#apiPath#", apiPath);
-
-            var resourcePath = options.UseRelativeResourcesPath 
-                ? options.ResourcesPath.AsRelativeResource() 
+            var resourcePath = options.UseRelativeResourcesPath
+                ? options.ResourcesPath.AsRelativeResource()
                 : options.ResourcesPath;
-            
-            resource.Content = resource.Content
-                .Replace("#uiResourcePath#", resourcePath);
 
-            return resource;
+            return resources
+                .Select(r =>
+                {
+                    r.Content = r.Content
+                        .Replace("#apiPath#", apiPath)
+                        .Replace("#uiResourcePath#", resourcePath);
+                    return r;
+                })
+                .ToList();
+        }
+
+        public static UIResource? GetMainUI(this IEnumerable<UIResource> resources)
+        {
+            return resources
+                .FirstOrDefault(r => r.ContentType == ContentType.HTML && r.FileName == "index.html");
         }
 
         public static ICollection<UIStylesheet> GetCustomStylesheets(this UIResource resource, Options options)

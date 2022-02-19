@@ -1,11 +1,11 @@
-const isProduction = process.env.NODE_ENV === "production";
+import { dev } from '$app/env';
 
-const baseApiUrl = isProduction
-    ? window.location.origin
-    : "https://localhost:5001";
-const apiEndpoint = "/features";
+const baseApiUrl = dev ? 'https://localhost:5001' : window.location.origin;
+const apiEndpoint = dev ? '/features' : '/#apiPath#';
+
+const isProduction = !dev;
 
 export const env = {
-    isProduction,
-    apiEndpoint: `${baseApiUrl}${apiEndpoint}`
+	isProduction,
+	apiEndpoint: `${baseApiUrl}${apiEndpoint}`
 };

@@ -38,14 +38,13 @@ namespace Microsoft.AspNetCore.Builder
             var setFeatureApiEndpoint = builder.MapPost("/features/{featureName}/set", setFeatureApiDelegate)
                                 .WithDisplayName("Set Feature value - UI Api");
 
-            var resourcesEndpoints = new UIEndpointsResourceMapper()
-                .Map(builder, new Options());
+            var apiEndpoints = new[] { getAuthSchemesApiEndpoint, getAllfeaturesApiEndpoint, setFeatureApiEndpoint };
+
+            var resourcesEndpoints = UIEndpointsResourceMapper.Map(builder, new Options());
                 
-            var endpointConventionBuilders = new List<IEndpointConventionBuilder>(
-                new[] { getAuthSchemesApiEndpoint, getAllfeaturesApiEndpoint, setFeatureApiEndpoint }.Union(resourcesEndpoints)
-            );
+            var endpoints = apiEndpoints.Union(resourcesEndpoints);
             
-            return new FeaturesUIConventionBuilder(endpointConventionBuilders);
+            return new FeaturesUIConventionBuilder(endpoints);
         }
     }
 }
