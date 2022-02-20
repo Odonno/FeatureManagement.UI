@@ -1,21 +1,21 @@
-# AspNetCore.FeatureManagement.UI
+# FeatureManagement.UI
 
-[![CodeFactor](https://www.codefactor.io/repository/github/odonno/aspnetcore.featuremanagement.ui/badge?s=721e064ae93fbd78d8c9ab4304aa513a07889e98)](https://www.codefactor.io/repository/github/odonno/aspnetcore.featuremanagement.ui)
+[![CodeFactor](https://www.codefactor.io/repository/github/odonno/featuremanagement.ui/badge?s=721e064ae93fbd78d8c9ab4304aa513a07889e98)](https://www.codefactor.io/repository/github/odonno/featuremanagement.ui)
 
-| Package                                                         | Versions                                                                                                                                                                                                        |
-| --------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| AspNetCore.FeatureManagement.UI                                 | [![NuGet](https://img.shields.io/nuget/v/AspNetCore.FeatureManagement.UI.svg)](https://www.nuget.org/packages/AspNetCore.FeatureManagement.UI/)                                                                 |
-| AspNetCore.FeatureManagement.UI.InMemory.Storage                | [![NuGet](https://img.shields.io/nuget/v/AspNetCore.FeatureManagement.UI.InMemory.Storage.svg)](https://www.nuget.org/packages/AspNetCore.FeatureManagement.UI.InMemory.Storage/)                               |
-| AspNetCore.FeatureManagement.UI.SqlServer.Storage               | [![NuGet](https://img.shields.io/nuget/v/AspNetCore.FeatureManagement.UI.SqlServer.Storage.svg)](https://www.nuget.org/packages/AspNetCore.FeatureManagement.UI.SqlServer.Storage/)                             |
-| AspNetCore.FeatureManagement.UI.Configuration.GroupFeature      | [![NuGet](https://img.shields.io/nuget/v/AspNetCore.FeatureManagement.UI.Configuration.GroupFeature.svg)](https://www.nuget.org/packages/AspNetCore.FeatureManagement.UI.Configuration.GroupFeature/)           |
-| AspNetCore.FeatureManagement.UI.Configuration.TimeWindowFeature | [![NuGet](https://img.shields.io/nuget/v/AspNetCore.FeatureManagement.UI.Configuration.TimeWindowFeature.svg)](https://www.nuget.org/packages/AspNetCore.FeatureManagement.UI.Configuration.TimeWindowFeature/) |
+| Package                                              | Versions                                                                                                                                                                                  |
+| ---------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| FeatureManagement.UI                                 | [![NuGet](https://img.shields.io/nuget/v/FeatureManagement.UI.svg)](https://www.nuget.org/packages/FeatureManagement.UI/)                                                                 |
+| FeatureManagement.UI.InMemory.Storage                | [![NuGet](https://img.shields.io/nuget/v/FeatureManagement.UI.InMemory.Storage.svg)](https://www.nuget.org/packages/FeatureManagement.UI.InMemory.Storage/)                               |
+| FeatureManagement.UI.SqlServer.Storage               | [![NuGet](https://img.shields.io/nuget/v/FeatureManagement.UI.SqlServer.Storage.svg)](https://www.nuget.org/packages/FeatureManagement.UI.SqlServer.Storage/)                             |
+| FeatureManagement.UI.Configuration.GroupFeature      | [![NuGet](https://img.shields.io/nuget/v/FeatureManagement.UI.Configuration.GroupFeature.svg)](https://www.nuget.org/packages/FeatureManagement.UI.Configuration.GroupFeature/)           |
+| FeatureManagement.UI.Configuration.TimeWindowFeature | [![NuGet](https://img.shields.io/nuget/v/FeatureManagement.UI.Configuration.TimeWindowFeature.svg)](https://www.nuget.org/packages/FeatureManagement.UI.Configuration.TimeWindowFeature/) |
 
-Perfectly designed UI for Feature Flags in ASP.NET Core Web API
+Perfectly designed UI for Feature Flags in ASP.NET Web API
 
 **.NET** versions supported: 6.0\
 **Legacy** versions supported: 3.1, 5.0
 
-This package allows you to configure your application inside your own ASP.NET Core Web API. You can create and configure a large number of feature toggles.
+This package allows you to configure your application inside your own ASP.NET Web API. You can create and configure a large number of feature toggles.
 
 ### Summary
 
@@ -50,7 +50,7 @@ This library is meant to create, use and provide something developers are callin
 
 ##### Do's and Don'ts
 
-This library has for only purpose to let you create, use and provide Feature Flags inside your ASP.NET Core Web API. It is NOT meant to become a CMS or any storage system (file, SQL or NoSQL). Here are some examples of what you can or cannot do with the library:
+This library has for only purpose to let you create, use and provide Feature Flags inside your ASP.NET Web API. It is NOT meant to become a CMS or any storage system (file, SQL or NoSQL). Here are some examples of what you can or cannot do with the library:
 
 - ✅ create features that can be manually deactivated at any time
 - ✅ create a light/dark theme feature
@@ -110,7 +110,7 @@ You will then be able to display the UI at the following url: `/features-ui`.
 
 ##### Value types
 
-`AspNetCore.FeatureManagement.UI` works with the following types of value:
+`FeatureManagement.UI` works with the following types of value:
 
 - `boolean`
 - `integer`
@@ -135,7 +135,7 @@ configuration.ClientFeature("Theme", themes[0], "Choose a theme for the frontend
 
 ##### Storage Providers
 
-`AspNetCore.FeatureManagement.UI` offers several storage providers.
+`FeatureManagement.UI` offers several storage providers.
 
 ###### InMemory
 
@@ -184,11 +184,11 @@ configuration.ClientFeature("Theme", themes[0], "Choose a theme for the frontend
 
 ###### Group feature
 
-A group feature give you the ability to set a value based on a user affected group. It can be useful when you give certain rights to users like (Azure AD) roles or when you want to gradually roll out features to some groups of users. If one group matches, the value of the gorup is applied.
+A group feature give you the ability to set a value based on a user affected group. It can be useful when you give certain rights to users like (Azure AD) roles or when you want to gradually roll out features to some groups of users. If one group matches, the value of the group is applied.
 
 If no group match, the default value will be applied.
 
-In order to use this type of feature, you need to install the [AspNetCore.FeatureManagement.UI.Configuration.GroupFeature](https://www.nuget.org/packages/AspNetCore.FeatureManagement.UI.Configuration.GroupFeature/) package.
+In order to use this type of feature, you need to install the [FeatureManagement.UI.Configuration.GroupFeature](https://www.nuget.org/packages/FeatureManagement.UI.Configuration.GroupFeature/) package.
 
 ```csharp
 configuration
@@ -217,7 +217,7 @@ A time window feature give you the ability to set a value based on a speicifed d
 
 If no time window match, the default value will be applied.
 
-In order to use this type of feature, you need to install the [AspNetCore.FeatureManagement.UI.Configuration.TimeWindow](https://www.nuget.org/packages/AspNetCore.FeatureManagement.UI.Configuration.TimeWindow/) package.
+In order to use this type of feature, you need to install the [FeatureManagement.UI.Configuration.TimeWindow](https://www.nuget.org/packages/FeatureManagement.UI.Configuration.TimeWindow/) package.
 
 ```csharp
 configuration
@@ -319,7 +319,7 @@ Once everything is setup, you can now consume the features in two ways:
 
 ##### Self-consumption
 
-Inside your ASP.NET Core Web API, you can inject the `IFeaturesService`.
+Inside your ASP.NET Web API, you can inject the `IFeaturesService`.
 
 ```cs
 public interface IFeaturesService

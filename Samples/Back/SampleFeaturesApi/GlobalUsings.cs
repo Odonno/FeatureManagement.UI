@@ -1,8 +1,8 @@
-﻿global using AspNetCore.FeatureManagement.UI.Configuration.GroupFeature;
-global using AspNetCore.FeatureManagement.UI.Configuration.TimeWindowFeature;
-global using AspNetCore.FeatureManagement.UI.Core.Data;
-global using AspNetCore.FeatureManagement.UI.Core.Models;
-global using AspNetCore.FeatureManagement.UI.Services;
+﻿global using FeatureManagement.UI.Configuration.GroupFeature;
+global using FeatureManagement.UI.Configuration.TimeWindowFeature;
+global using FeatureManagement.UI.Core.Data;
+global using FeatureManagement.UI.Core.Models;
+global using FeatureManagement.UI.Services;
 global using Microsoft.AspNetCore.Builder;
 global using Microsoft.AspNetCore.Hosting;
 global using Microsoft.AspNetCore.Http;

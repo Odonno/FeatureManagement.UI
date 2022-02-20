@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+
+    <Authors>David Bottiau</Authors>
+    <Company />
+    <Product />
+    <Description>Perfectly designed UI for Feature Flags in ASP.NET Core Web API</Description>
+    <PackageProjectUrl>https://github.com/Odonno/FeatureManagement.UI</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Odonno/FeatureManagement.UI</RepositoryUrl>
+    <PackageTags>dotnet-core feature feature-flags feature-toggle api</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FeatureManagement.UI.Core\FeatureManagement.UI.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="ui/**" />
+  </ItemGroup>
+
+</Project>

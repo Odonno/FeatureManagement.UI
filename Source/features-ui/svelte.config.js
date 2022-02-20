@@ -2,7 +2,7 @@ import adapter from '@sveltejs/adapter-static';
 import preprocess from 'svelte-preprocess';
 import path from 'path';
 
-const buildOutputPath = '../AspNetCore.FeatureManagement.UI/AspNetCore.FeatureManagement.UI/ui';
+const buildOutputPath = '../FeatureManagement.UI/FeatureManagement.UI/ui';
 const dev = process.env.NODE_ENV !== 'production';
 
 /** @type {import('@sveltejs/kit').Config} */

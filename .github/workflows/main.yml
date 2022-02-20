@@ -26,8 +26,8 @@ jobs:
         run: yarn build
         working-directory: ./Source/features-ui
 
-      - name: .NET Build (AspNetCore.FeatureManagement.UI)
+      - name: .NET Build (FeatureManagement.UI)
         run: dotnet build --configuration Release
 
-      - name: .NET Test (AspNetCore.FeatureManagement.UI)
+      - name: .NET Test (FeatureManagement.UI)
         run: dotnet test --no-restore --verbosity normal

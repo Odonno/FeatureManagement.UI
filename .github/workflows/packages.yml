@@ -27,44 +27,44 @@ jobs:
         run: yarn build
         working-directory: ./Source/features-ui
 
-      - name: .NET Build (AspNetCore.FeatureManagement.UI)
+      - name: .NET Build (FeatureManagement.UI)
         run: dotnet build --configuration Release
 
-      - name: .NET Test (AspNetCore.FeatureManagement.UI)
+      - name: .NET Test (FeatureManagement.UI)
         run: dotnet test --no-restore --verbosity normal
 
-      - name: dotnet pack [AspNetCore.FeatureManagement.UI.Core]
-        run: dotnet pack ./Source/AspNetCore.FeatureManagement.UI/AspNetCore.FeatureManagement.UI.Core/AspNetCore.FeatureManagement.UI.Core.csproj /p:Version=${{github.event.inputs.version}} -c Release --no-build --include-source --include-symbols -o ./artifacts
+      - name: dotnet pack [FeatureManagement.UI.Core]
+        run: dotnet pack ./Source/FeatureManagement.UI/FeatureManagement.UI.Core/FeatureManagement.UI.Core.csproj /p:Version=${{github.event.inputs.version}} -c Release --no-build --include-source --include-symbols -o ./artifacts
 
-      - name: dotnet pack [AspNetCore.FeatureManagement.UI]
-        run: dotnet pack ./Source/AspNetCore.FeatureManagement.UI/AspNetCore.FeatureManagement.UI/AspNetCore.FeatureManagement.UI.csproj /p:Version=${{github.event.inputs.version}} -c Release --no-build --include-source --include-symbols -o ./artifacts
+      - name: dotnet pack [FeatureManagement.UI]
+        run: dotnet pack ./Source/FeatureManagement.UI/FeatureManagement.UI/FeatureManagement.UI.csproj /p:Version=${{github.event.inputs.version}} -c Release --no-build --include-source --include-symbols -o ./artifacts
 
-      - name: dotnet pack [AspNetCore.FeatureManagement.UI.InMemory.Storage]
-        run: dotnet pack ./Source/AspNetCore.FeatureManagement.UI/AspNetCore.FeatureManagement.UI.InMemory.Storage/AspNetCore.FeatureManagement.UI.InMemory.Storage.csproj /p:Version=${{github.event.inputs.version}} -c Release --no-build --include-source --include-symbols -o ./artifacts
+      - name: dotnet pack [FeatureManagement.UI.InMemory.Storage]
+        run: dotnet pack ./Source/FeatureManagement.UI/FeatureManagement.UI.InMemory.Storage/FeatureManagement.UI.InMemory.Storage.csproj /p:Version=${{github.event.inputs.version}} -c Release --no-build --include-source --include-symbols -o ./artifacts
 
-      - name: dotnet pack [AspNetCore.FeatureManagement.UI.SqlServer.Storage]
-        run: dotnet pack ./Source/AspNetCore.FeatureManagement.UI/AspNetCore.FeatureManagement.UI.SqlServer.Storage/AspNetCore.FeatureManagement.UI.SqlServer.Storage.csproj /p:Version=${{github.event.inputs.version}} -c Release --no-build --include-source --include-symbols -o ./artifacts
+      - name: dotnet pack [FeatureManagement.UI.SqlServer.Storage]
+        run: dotnet pack ./Source/FeatureManagement.UI/FeatureManagement.UI.SqlServer.Storage/FeatureManagement.UI.SqlServer.Storage.csproj /p:Version=${{github.event.inputs.version}} -c Release --no-build --include-source --include-symbols -o ./artifacts
 
-      - name: dotnet pack [AspNetCore.FeatureManagement.UI.Configuration.GroupFeature]
-        run: dotnet pack ./Source/AspNetCore.FeatureManagement.UI/AspNetCore.FeatureManagement.UI.Configuration.GroupFeature/AspNetCore.FeatureManagement.UI.Configuration.GroupFeature.csproj /p:Version=${{github.event.inputs.version}} -c Release --no-build --include-source --include-symbols -o ./artifacts
+      - name: dotnet pack [FeatureManagement.UI.Configuration.GroupFeature]
+        run: dotnet pack ./Source/FeatureManagement.UI/FeatureManagement.UI.Configuration.GroupFeature/FeatureManagement.UI.Configuration.GroupFeature.csproj /p:Version=${{github.event.inputs.version}} -c Release --no-build --include-source --include-symbols -o ./artifacts
 
-      - name: dotnet pack [AspNetCore.FeatureManagement.UI.Configuration.TimeWindowFeature]
-        run: dotnet pack ./Source/AspNetCore.FeatureManagement.UI/AspNetCore.FeatureManagement.UI.Configuration.TimeWindowFeature/AspNetCore.FeatureManagement.UI.Configuration.TimeWindowFeature.csproj /p:Version=${{github.event.inputs.version}} -c Release --no-build --include-source --include-symbols -o ./artifacts
+      - name: dotnet pack [FeatureManagement.UI.Configuration.TimeWindowFeature]
+        run: dotnet pack ./Source/FeatureManagement.UI/FeatureManagement.UI.Configuration.TimeWindowFeature/FeatureManagement.UI.Configuration.TimeWindowFeature.csproj /p:Version=${{github.event.inputs.version}} -c Release --no-build --include-source --include-symbols -o ./artifacts
 
-      - name: Publish package [AspNetCore.FeatureManagement.UI.Core]
-        run: dotnet nuget push ./artifacts/AspNetCore.FeatureManagement.UI.Core.*.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json --skip-duplicate
+      - name: Publish package [FeatureManagement.UI.Core]
+        run: dotnet nuget push ./artifacts/FeatureManagement.UI.Core.*.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json --skip-duplicate
 
-      - name: Publish package [AspNetCore.FeatureManagement.UI]
-        run: dotnet nuget push ./artifacts/AspNetCore.FeatureManagement.UI.*.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json --skip-duplicate
+      - name: Publish package [FeatureManagement.UI]
+        run: dotnet nuget push ./artifacts/FeatureManagement.UI.*.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json --skip-duplicate
 
-      - name: Publish package [AspNetCore.FeatureManagement.UI.InMemory.Storage]
-        run: dotnet nuget push ./artifacts/AspNetCore.FeatureManagement.UI.InMemory.Storage.*.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json --skip-duplicate
+      - name: Publish package [FeatureManagement.UI.InMemory.Storage]
+        run: dotnet nuget push ./artifacts/FeatureManagement.UI.InMemory.Storage.*.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json --skip-duplicate
 
-      - name: Publish package [AspNetCore.FeatureManagement.UI.SqlServer.Storage]
-        run: dotnet nuget push ./artifacts/AspNetCore.FeatureManagement.UI.SqlServer.Storage.*.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json --skip-duplicate
+      - name: Publish package [FeatureManagement.UI.SqlServer.Storage]
+        run: dotnet nuget push ./artifacts/FeatureManagement.UI.SqlServer.Storage.*.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json --skip-duplicate
 
-      - name: Publish package [AspNetCore.FeatureManagement.UI.Configuration.GroupFeature]
-        run: dotnet nuget push ./artifacts/AspNetCore.FeatureManagement.UI.Configuration.GroupFeature.*.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json --skip-duplicate
+      - name: Publish package [FeatureManagement.UI.Configuration.GroupFeature]
+        run: dotnet nuget push ./artifacts/FeatureManagement.UI.Configuration.GroupFeature.*.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json --skip-duplicate
 
-      - name: Publish package [AspNetCore.FeatureManagement.UI.Configuration.TimeWindowFeature]
-        run: dotnet nuget push ./artifacts/AspNetCore.FeatureManagement.UI.Configuration.TimeWindowFeature.*.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json --skip-duplicate
+      - name: Publish package [FeatureManagement.UI.Configuration.TimeWindowFeature]
+        run: dotnet nuget push ./artifacts/FeatureManagement.UI.Configuration.TimeWindowFeature.*.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json --skip-duplicate

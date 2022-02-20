@@ -467,4 +467,4 @@ MigrationBackup/
 # End of https://www.toptal.com/developers/gitignore/api/node,visualstudio
 
 package-lock.json
-Source/AspNetCore.FeatureManagement.UI/AspNetCore.FeatureManagement.UI/ui/
+Source/FeatureManagement.UI/FeatureManagement.UI/ui/

@@ -7,11 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Source\AspNetCore.FeatureManagement.UI\AspNetCore.FeatureManagement.UI.Configuration.GroupFeature\AspNetCore.FeatureManagement.UI.Configuration.GroupFeature.csproj" />
-    <ProjectReference Include="..\..\..\Source\AspNetCore.FeatureManagement.UI\AspNetCore.FeatureManagement.UI.Configuration.TimeWindowFeature\AspNetCore.FeatureManagement.UI.Configuration.TimeWindowFeature.csproj" />
-    <ProjectReference Include="..\..\..\Source\AspNetCore.FeatureManagement.UI\AspNetCore.FeatureManagement.UI.InMemory.Storage\AspNetCore.FeatureManagement.UI.InMemory.Storage.csproj" />
-    <ProjectReference Include="..\..\..\Source\AspNetCore.FeatureManagement.UI\AspNetCore.FeatureManagement.UI.SqlServer.Storage\AspNetCore.FeatureManagement.UI.SqlServer.Storage.csproj" />
-    <ProjectReference Include="..\..\..\Source\AspNetCore.FeatureManagement.UI\AspNetCore.FeatureManagement.UI\AspNetCore.FeatureManagement.UI.csproj" />
+    <ProjectReference Include="..\..\..\Source\FeatureManagement.UI\FeatureManagement.UI.Configuration.GroupFeature\FeatureManagement.UI.Configuration.GroupFeature.csproj" />
+    <ProjectReference Include="..\..\..\Source\FeatureManagement.UI\FeatureManagement.UI.Configuration.TimeWindowFeature\FeatureManagement.UI.Configuration.TimeWindowFeature.csproj" />
+    <ProjectReference Include="..\..\..\Source\FeatureManagement.UI\FeatureManagement.UI.InMemory.Storage\FeatureManagement.UI.InMemory.Storage.csproj" />
+    <ProjectReference Include="..\..\..\Source\FeatureManagement.UI\FeatureManagement.UI.SqlServer.Storage\FeatureManagement.UI.SqlServer.Storage.csproj" />
+    <ProjectReference Include="..\..\..\Source\FeatureManagement.UI\FeatureManagement.UI\FeatureManagement.UI.csproj" />
   </ItemGroup>
 
 </Project>
