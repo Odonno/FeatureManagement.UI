@@ -18,9 +18,9 @@ public static class ApplicationBuilderExtensions
             var logger = scope.ServiceProvider.GetRequiredService<ILogger<FeatureManagementDb>>();
 
             // Apply migrations
-            bool isInMemory = context.Database.IsInMemory();
-            bool hasPendingMigrations = !isInMemory && context.Database.GetPendingMigrations().Any();
-            bool shouldMigrate = !isInMemory && hasPendingMigrations;
+            bool isRelational = context.Database.IsRelational();
+            bool hasPendingMigrations = isRelational && context.Database.GetPendingMigrations().Any();
+            bool shouldMigrate = hasPendingMigrations;
 
             if (shouldMigrate)
             {
