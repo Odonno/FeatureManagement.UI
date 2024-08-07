@@ -9,6 +9,7 @@ export default defineConfig({
       social: {
         github: "https://github.com/Odonno/FeatureManagement.UI",
       },
+      customCss: ["./src/styles/index.css"],
       sidebar: [
         {
           label: "Introduction",

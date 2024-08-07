@@ -1,11 +1,11 @@
 ---
-title: FeatureManagement UI for .NET
-description: Perfectly designed UI for Feature Flags in ASP.NET Web API
+title: Feature Management UI for .NET
+description: Perfectly designed User Interface for Feature Flags in ASP.NET Web API
 template: splash
 hero:
-  tagline: Perfectly designed UI for Feature Flags in ASP.NET Web API!
+  tagline: Perfectly designed User Interface for Feature Flags in ASP.NET Web API.
   image:
-    file: ../../assets/houston.webp
+    file: ../../assets/logo.webp
   actions:
     - text: Get started
       link: /introduction
@@ -16,21 +16,8 @@ hero:
       icon: external
 ---
 
-import { Card, CardGrid } from "@astrojs/starlight/components";
+import { Code } from "@astrojs/starlight/components";
 
-## Next steps
-
-<CardGrid stagger>
-  <Card title="Update content" icon="pencil">
-    Edit `src/content/docs/index.mdx` to see this page change.
-  </Card>
-  <Card title="Add new content" icon="add-document">
-    Add Markdown or MDX files to `src/content/docs` to create new pages.
-  </Card>
-  <Card title="Configure your site" icon="setting">
-    Edit your `sidebar` and other config in `astro.config.mjs`.
-  </Card>
-  <Card title="Read the docs" icon="open-book">
-    Learn more in [the Starlight Docs](https://starlight.astro.build/).
-  </Card>
-</CardGrid>
+<div class="install-code">
+  <Code code="dotnet add package FeatureManagement.UI" lang="bash" />
+</div>
